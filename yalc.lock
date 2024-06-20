@@ -1,0 +1,9 @@
+{
+  "version": "v1",
+  "packages": {
+    "inprodi-design-system": {
+      "signature": "7b7670055e7d27b869b237d7688eecc9",
+      "file": true
+    }
+  }
+}
