@@ -14,7 +14,7 @@
     "@types/lodash.debounce": "^4.0.9",
     "@types/react-input-mask": "^3.0.5",
     "antd": "^5.17.4",
-    "inprodi-design-system": "file:.yalc/inprodi-design-system",
+    "inprodi-design-system": "^0.23.7",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
     "lodash.debounce": "^4.0.8",
