@@ -16,6 +16,7 @@ import { registerFormField } from "./registerFormField";
 import { registerIcon } from "./registerIcon";
 import { registerInput } from "./registerInput";
 import { registerLayout } from "./registerLayout";
+import { registerModal } from "./registerModal";
 import { registerPasswordInput } from "./registerPasswordInput";
 import { registerProgress } from "./registerProgress";
 import { registerRate } from "./registerRate";
@@ -34,6 +35,7 @@ export function registerAll(loader?: Registerable) {
   registerIcon(loader);
   registerRate(loader);
   registerInput(loader);
+  registerModal(loader);
   registerSelect(loader);
   registerDrawer(loader);
   registerAvatar(loader);

@@ -197,6 +197,10 @@ export const inputMeta: CodeComponentMeta<InputProps> = {
             type: "string",
             advanced: true,
         },
+        error : {
+            type: "string",
+            advanced: true,
+        },
         leftIcon: {
             type: "slot",
             defaultValue: [

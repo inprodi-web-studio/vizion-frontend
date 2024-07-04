@@ -193,8 +193,33 @@ span.ant-divider-inner-text {
     padding : 8px 16px 8px 10px !important;
 }
 
-.ant-drawer-title {
+.ant-drawer-title,
+.ant-modal-title {
     font-size: 18px !important;
     font-weight: 600 !important;
     line-height: 1.5 !important;
+}
+
+.confirmation-content {
+    padding : 20px;
+}
+
+.ant-modal-content {
+    padding : 0 !important;
+}
+
+.ant-modal-header {
+    padding: 8px 16px !important;
+    border-bottom: solid 1px var(--antd-colorBorder) !important;
+    margin: 0 !important;
+}
+
+button.ant-modal-close {
+    top: 6px !important;
+}
+
+.ant-modal-footer {
+    margin: 0 !important;
+    padding: 10px 16px !important;
+    border-top: solid 1px var(--antd-colorBorder) !important;
 }

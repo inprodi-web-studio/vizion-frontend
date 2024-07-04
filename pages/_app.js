@@ -7,7 +7,6 @@ import theme from "../theme/themeConfig";
 
 import "../styles/globals.css";
 import "react-loading-skeleton/dist/skeleton.css";
-import { CircleNotch } from "@phosphor-icons/react/dist/ssr";
 
 
 const App = ({ Component, pageProps }) => (

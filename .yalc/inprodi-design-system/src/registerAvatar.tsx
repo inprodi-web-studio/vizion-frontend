@@ -118,7 +118,7 @@ export const Avatar = ({
                     fontWeight : 500,
                     textTransform : "uppercase",
                 }}>
-                    { content.slice(0, 1) }
+                    { content?.slice(0, 1) }
                 </p>
             )}
         </div>

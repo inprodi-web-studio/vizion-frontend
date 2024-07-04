@@ -5,9 +5,15 @@ import parseName from "./helpers/parseName";
 import { AppGlobalContext } from "./components/AppGlobalContext";
 import parsePhoneNumber from "./helpers/parsePhoneNumber";
 import formatCurrency from "./helpers/formatCurrency";
-import addQueryParam from "./helpers/addQueryParam";
 import validateEmail from "./helpers/validateEmail";
 import validatePhone from "./helpers/validatePhone";
+import formatDate from "./helpers/formatDate";
+import updateQueryParam from "./helpers/updateQueryParam";
+import parseQueryParams from "./helpers/parseQueryParams";
+import getQueryParams from "./helpers/getQueryParams";
+import getQueryParamsObject from "./helpers/getQueryParamsObject";
+
+import { registerAll } from "inprodi-design-system";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -18,6 +24,8 @@ export const PLASMIC = initPlasmicLoader({
   ],
   preview: true,
 });
+
+registerAll( PLASMIC );
 
 PLASMIC.registerFunction( showNotification, {
   name : "showNotification",
@@ -90,8 +98,29 @@ PLASMIC.registerFunction( validatePhone, {
   ],
 });
 
-PLASMIC.registerFunction( addQueryParam, {
-  name : "addQueryParam",
+PLASMIC.registerFunction( parseQueryParams, {
+  name : "parseQueryParams",
+  params : [
+    {
+      name        : "params",
+      type        : "object",
+      description : "Object with the query to include to the url",
+    },
+  ],
+});
+
+PLASMIC.registerFunction( getQueryParams, {
+  name : "getQueryParams",
+  params : [],
+});
+
+PLASMIC.registerFunction( getQueryParamsObject, {
+  name : "getQueryParamsObject",
+  params : [],
+});
+
+PLASMIC.registerFunction( updateQueryParam, {
+  name : "updateQueryParam",
   params : [
     {
       name        : "key",
@@ -102,6 +131,22 @@ PLASMIC.registerFunction( addQueryParam, {
       name        : "value",
       type        : "string",
       description : "The value to add",
+    },
+  ],
+});
+
+PLASMIC.registerFunction( formatDate, {
+  name : "formatDate",
+  params : [
+    {
+      name        : "date",
+      type        : "string",
+      description : "The date to format",
+    },
+    {
+      name        : "format",
+      type        : "string",
+      description : "The format to use",
     },
   ],
 });

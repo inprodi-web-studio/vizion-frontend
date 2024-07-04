@@ -39,6 +39,7 @@ export const Card = ({
         styles={{
             body : {
                 padding : "0px",
+                height : "100%",
             },
         }}
         {...props}

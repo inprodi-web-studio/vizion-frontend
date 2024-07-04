@@ -846,6 +846,10 @@ var inputMeta = {
       type: "string",
       advanced: true
     },
+    error: {
+      type: "string",
+      advanced: true
+    },
     leftIcon: {
       type: "slot",
       defaultValue: [{
@@ -1177,7 +1181,7 @@ var Avatar = function Avatar(_ref) {
       fontWeight: 500,
       textTransform: "uppercase"
     }
-  }, content.slice(0, 1))));
+  }, content == null ? void 0 : content.slice(0, 1))));
 };
 var avatarMeta = {
   name: "Avatar",
@@ -1373,7 +1377,8 @@ var Card = function Card(_ref) {
     },
     styles: {
       body: {
-        padding: "0px"
+        padding: "0px",
+        height: "100%"
       }
     }
   }, props), content);
@@ -1430,7 +1435,7 @@ var Confirmation = function Confirmation(_ref) {
   var containerStyle = {
     display: "flex",
     flexDirection: "row",
-    width: "100%",
+    width: "calc( 100% - 40px )",
     gap: "20px"
   };
   var iconStyles = {
@@ -1452,18 +1457,13 @@ var Confirmation = function Confirmation(_ref) {
     closable: false,
     cancelText: "Cancelar",
     confirmLoading: loading,
+    className: "confirmation-modal",
     okButtonProps: {
       danger: type === "danger"
     },
     styles: {
       header: {
         display: "none"
-      },
-      content: {
-        padding: "20px"
-      },
-      footer: {
-        marginTop: "20px"
       }
     }
   }, props), React__default.createElement("div", {
@@ -1978,6 +1978,7 @@ var DropdownItem = function DropdownItem(_ref) {
     rightSection = _ref.rightSection,
     label = _ref.label,
     isSelected = _ref.isSelected,
+    disabled = _ref.disabled,
     selectedPosition = _ref.selectedPosition,
     _onClick = _ref.onClick,
     className = _ref.className;
@@ -1991,18 +1992,19 @@ var DropdownItem = function DropdownItem(_ref) {
     padding: "0px 8px",
     gap: "12px",
     borderRadius: "4px",
-    cursor: "pointer",
+    cursor: disabled ? "default" : "pointer",
     transition: "all 0.3s ease-in-out",
     background: token.colorBgContainer,
     maxHeight: "34px",
     minHeight: "34px",
-    margin: "2px"
+    margin: "2px",
+    backgroundColor: disabled ? token.colorBgLayout : token.colorBgContainer
   };
   var labelStyle = {
     fontSize: "14px",
     fontWeight: isSelected ? "500" : "400",
     lineHeight: "20px",
-    color: token.colorText,
+    color: disabled ? token.colorTextDisabled : token.colorText,
     width: "100%",
     maxWidth: "100%",
     whiteSpace: "pre",
@@ -2013,7 +2015,9 @@ var DropdownItem = function DropdownItem(_ref) {
     className: "dropdown-item " + className,
     style: dropdownItemStyles,
     onClick: function onClick() {
-      return _onClick();
+      if (!disabled) {
+        _onClick();
+      }
     }
   }, isSelected && selectedPosition === "left" && React__default.createElement(Icon, {
     size: 16,
@@ -2055,6 +2059,10 @@ var dropdownItemMeta = {
       options: ["left", "right"],
       defaultValue: "right",
       advanced: true
+    },
+    disabled: {
+      type: "boolean",
+      defaultValue: false
     },
     rightSection: {
       type: "slot",
@@ -2543,7 +2551,131 @@ function registerLayout(loader, customLayoutMeta) {
   doRegisterComponent(Layout, customLayoutMeta != null ? customLayoutMeta : layoutMeta);
 }
 
-var _excluded$6 = ["size", "value", "error", "leftIcon", "onChange", "rightIcon", "onClearError", "name"];
+var _excluded$6 = ["open", "content", "bodyPadding"];
+var Modal = function Modal(_ref) {
+  var open = _ref.open,
+    content = _ref.content,
+    bodyPadding = _ref.bodyPadding,
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$6);
+  var _theme$useToken = antd.theme.useToken(),
+    token = _theme$useToken.token;
+  return React__default.createElement(antd.Modal, Object.assign({
+    centered: true,
+    closable: true,
+    destroyOnClose: true,
+    open: open,
+    closeIcon: React__default.createElement(Icon, {
+      icon: "X",
+      variant: "regular"
+    }),
+    styles: {
+      header: {
+        padding: "8px 16px 8px 10px !important",
+        borderBottom: "solid 1px " + token.colorBorder + " !important",
+        margin: "0 !important"
+      },
+      body: {
+        padding: bodyPadding
+      },
+      content: {
+        padding: "0 !important"
+      },
+      mask: {
+        background: "#0000004D"
+      },
+      footer: {
+        margin: "0 !important",
+        padding: "10px 16px !important",
+        borderTop: "solid 1px " + token.colorBorder + " !important"
+      }
+    }
+  }, props), content);
+};
+var modalMeta = {
+  name: "Modal",
+  displayName: "Modal",
+  states: {
+    open: {
+      type: "writable",
+      variableType: "boolean",
+      valueProp: "open",
+      onChangeProp: "onOpenChange"
+    }
+  },
+  props: {
+    title: {
+      type: "string",
+      defaultValue: "Modal Title"
+    },
+    okText: {
+      type: "string",
+      defaultValue: "Aceptar"
+    },
+    cancelText: {
+      type: "string",
+      defaultValue: "Cancelar"
+    },
+    open: {
+      type: "boolean",
+      defaultValue: false
+    },
+    width: {
+      type: "string",
+      defaultValue: "350px"
+    },
+    bodyPadding: {
+      type: "string",
+      defaultValue: "16px"
+    },
+    confirmLoading: {
+      type: "boolean",
+      defaultValue: false
+    },
+    mask: {
+      type: "boolean",
+      defaultValue: true,
+      advanced: true
+    },
+    maskClosable: {
+      type: "boolean",
+      defaultValue: true,
+      advanced: true
+    },
+    afterOpenChange: {
+      type: "eventHandler",
+      argTypes: []
+    },
+    onOk: {
+      type: "eventHandler",
+      argTypes: []
+    },
+    onCancel: {
+      type: "eventHandler",
+      argTypes: []
+    },
+    onClose: {
+      type: "eventHandler",
+      argTypes: []
+    },
+    onOpenChange: {
+      type: "eventHandler",
+      argTypes: []
+    },
+    content: {
+      type: "slot"
+    }
+  },
+  importPath: "inprodi-design-system",
+  importName: "Modal"
+};
+function registerModal(loader, customModalMeta) {
+  var doRegisterComponent = function doRegisterComponent() {
+    return loader ? loader.registerComponent.apply(loader, arguments) : registerComponent.apply(void 0, arguments);
+  };
+  doRegisterComponent(Modal, customModalMeta != null ? customModalMeta : modalMeta);
+}
+
+var _excluded$7 = ["size", "value", "error", "leftIcon", "onChange", "rightIcon", "onClearError", "name"];
 var PasswordInput = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
   var size = _ref.size,
     error = _ref.error,
@@ -2551,7 +2683,7 @@ var PasswordInput = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
     onChange = _ref.onChange,
     rightIcon = _ref.rightIcon,
     onClearError = _ref.onClearError,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$6);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$7);
   var handleOnChange = function handleOnChange(event) {
     onChange(event.target.value);
     onClearError && onClearError();
@@ -2644,10 +2776,10 @@ function registerPasswordInput(loader, customPasswordInputMeta) {
   doRegisterComponent(PasswordInput, customPasswordInputMeta != null ? customPasswordInputMeta : passwordInputMeta);
 }
 
-var _excluded$7 = ["value"];
+var _excluded$8 = ["value"];
 var Progress = function Progress(_ref) {
   var value = _ref.value,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$7);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$8);
   return React__default.createElement(antd.Progress, Object.assign({
     percent: value
   }, props));
@@ -2717,13 +2849,13 @@ function registerProgress(loader, customProgressMeta) {
   doRegisterComponent(Progress, customProgressMeta != null ? customProgressMeta : progressMeta);
 }
 
-var _excluded$8 = ["value", "onValueChange", "className", "icon"];
+var _excluded$9 = ["value", "onValueChange", "className", "icon"];
 var Rate = function Rate(_ref) {
   var value = _ref.value,
     onValueChange = _ref.onValueChange,
     className = _ref.className,
     icon = _ref.icon,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$8);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$9);
   var handleChange = function handleChange(value) {
     onValueChange(value);
   };
@@ -2795,11 +2927,11 @@ function registerRate(loader, customRateMeta) {
   doRegisterComponent(Rate, customRateMeta != null ? customRateMeta : rateMeta);
 }
 
-var _excluded$9 = ["options", "onChange"];
+var _excluded$a = ["options", "onChange"];
 var Segmented = function Segmented(_ref) {
   var options = _ref.options,
     _onChange = _ref.onChange,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$9);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$a);
   var parsedOptions = [];
   for (var _iterator = _createForOfIteratorHelperLoose(options), _step; !(_step = _iterator()).done;) {
     var option = _step.value;
@@ -3164,11 +3296,11 @@ function registerSlider(loader, customSliderMeta) {
   doRegisterComponent(Slider, customSliderMeta != null ? customSliderMeta : sliderMeta);
 }
 
-var _excluded$a = ["label", "closable"];
+var _excluded$b = ["label", "closable"];
 var Tag = function Tag(_ref) {
   var label = _ref.label,
     closable = _ref.closable,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$a);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$b);
   return React__default.createElement(antd.Tag, Object.assign({
     closeIcon: closable,
     style: {
@@ -3454,6 +3586,7 @@ function registerAll(loader) {
   registerIcon(loader);
   registerRate(loader);
   registerInput(loader);
+  registerModal(loader);
   registerSelect(loader);
   registerDrawer(loader);
   registerAvatar(loader);

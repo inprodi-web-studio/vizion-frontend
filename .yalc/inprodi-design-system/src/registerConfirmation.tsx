@@ -35,7 +35,7 @@ export const Confirmation = ({
     const containerStyle : React.CSSProperties = {
         display : "flex",
         flexDirection : "row",
-        width : "100%",
+        width : "calc( 100% - 40px )",
         gap : "20px",
     };
 
@@ -59,18 +59,13 @@ export const Confirmation = ({
         closable={false}
         cancelText="Cancelar"
         confirmLoading={ loading }
+        className="confirmation-modal"
         okButtonProps={{
             danger : type === "danger",
         }}
         styles={{
             header : {
                 display : "none",
-            },
-            content : {
-                padding : "20px",
-            },
-            footer : {
-                marginTop : "20px",
             },
         }}
         {...props}

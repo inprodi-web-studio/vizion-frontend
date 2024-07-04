@@ -11,6 +11,7 @@ interface DropdownItemProps {
     leftSection : any;
     rightSection : any;
     label : string;
+    disabled? : boolean;
     isSelected : boolean;
     onClick : any;
     onIsSelectedChange : any;
@@ -23,6 +24,7 @@ export const DropdownItem = ({
     rightSection,
     label,
     isSelected,
+    disabled,
     selectedPosition,
     onClick,
     className,
@@ -38,19 +40,20 @@ export const DropdownItem = ({
         padding: "0px 8px",
         gap: "12px",
         borderRadius: "4px",
-        cursor: "pointer",
+        cursor: disabled ? "default" : "pointer",
         transition : "all 0.3s ease-in-out",
         background : token.colorBgContainer,
         maxHeight : "34px",
         minHeight : "34px",
         margin : "2px",
+        backgroundColor : disabled ? token.colorBgLayout : token.colorBgContainer,
     };
 
     const labelStyle : React.CSSProperties = {
         fontSize: "14px",
         fontWeight: isSelected ? "500" : "400",
         lineHeight: "20px",
-        color: token.colorText,
+        color: disabled ? token.colorTextDisabled : token.colorText,
         width: "100%",
         maxWidth: "100%",
         whiteSpace: "pre",
@@ -62,7 +65,11 @@ export const DropdownItem = ({
         <div
             className={`dropdown-item ${className}`}
             style={dropdownItemStyles}
-            onClick={ () => onClick() }
+            onClick={ () => {
+                if (!disabled) {
+                    onClick();
+                }
+            }}
         >
             { (isSelected && selectedPosition === "left") && (
                 <Icon
@@ -112,6 +119,10 @@ export const dropdownItemMeta: CodeComponentMeta<DropdownItemProps> = {
             options : ["left", "right"],
             defaultValue : "right",
             advanced : true,
+        },
+        disabled : {
+            type : "boolean",
+            defaultValue : false,
         },
         rightSection : {
             type : "slot",
