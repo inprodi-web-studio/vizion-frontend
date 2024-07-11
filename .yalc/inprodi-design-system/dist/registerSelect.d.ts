@@ -7,6 +7,7 @@ interface SelectProps {
     searchable: boolean;
     menuContent: any;
     onChange: any;
+    disabled?: boolean;
     onClose: () => void;
     onOpen: () => void;
     onSearch: any;

@@ -96,7 +96,7 @@ export const Avatar = ({
                     style={{
                         objectFit: "cover",
                         verticalAlign: "unset",
-                        borderRadius: isCircular ? "50%" : "6px",
+                        borderRadius: isCircular ? "50%" : bordered ? "3px" : "6px",
                         background: "white",
                     }}
                 />

@@ -69,7 +69,7 @@ export const Layout = ({
         minHeight : "54px",
         maxHeight : "54px",
         padding: "0px 20px",
-        background: "rgba(255,255,255, 0.8)",
+        background: "rgba(255,255,255, 0.70)",
         backdropFilter: "blur(10px)",
         position : "sticky",
         top : 0,
@@ -77,18 +77,27 @@ export const Layout = ({
     };
 
     const parseMenuItems = () => {
-        for (let i = 0; i < menuItems.length; i++) {
-            if (menuItems[i].type !== "group") {
-                menuItems[i].icon = <Icon size={20} icon={menuItems[i].icon} variant="duotone" />;
+        return menuItems.map((menuItem : any) => {
+            if (menuItem.type !== "group") {
+                return {
+                    ...menuItem,
+                    icon: typeof menuItem.icon === 'string' 
+                          ? <Icon size={20} icon={menuItem.icon} variant="duotone" />
+                          : menuItem.icon
+                };
             } else {
-                for ( let j = 0; j < menuItems[i].children.length; j++) {
-                    menuItems[i].children[j].icon = <Icon size={20} icon={menuItems[i].children[j].icon} variant="duotone" />;
-                }
+                return {
+                    ...menuItem,
+                    children: menuItem.children.map((child : any) => ({
+                        ...child,
+                        icon: typeof child.icon === 'string' 
+                              ? <Icon size={20} icon={child.icon} variant="duotone" />
+                              : child.icon
+                    }))
+                };
             }
-        }
-    
-        return menuItems;
-    };
+        });
+    };    
 
     return (
         <AntdLayout hasSider style={{ minHeight : "100vh" }}>

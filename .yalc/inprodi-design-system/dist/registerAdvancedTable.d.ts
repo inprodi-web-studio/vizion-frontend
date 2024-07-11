@@ -3,7 +3,15 @@ import { CodeComponentMeta } from "@plasmicapp/host/registerComponent";
 import { Registerable } from "./registerable";
 interface AdvancedTableProps {
     content: any;
+    onPaginationChange: any;
     name: string;
+    currentPage: number;
+    pagination?: {
+        page: number;
+        pageSize: number;
+        pageCount: number;
+        total: number;
+    };
     className?: string;
 }
 declare const AdvancedTable: React.ForwardRefExoticComponent<AdvancedTableProps & React.RefAttributes<any>>;

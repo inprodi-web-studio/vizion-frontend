@@ -1,11 +1,11 @@
-import React, { useContext, createContext, useState, forwardRef, useEffect, useImperativeHandle, useMemo, useCallback, useRef } from 'react';
+import React, { useContext, createContext, useState, forwardRef, useEffect, useMemo, useCallback, useRef, useImperativeHandle } from 'react';
 import registerComponent from '@plasmicapp/host/registerComponent';
 import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels';
-import { theme, Input as Input$1, Dropdown as Dropdown$1, Image, Button as Button$1, Card as Card$1, Modal as Modal$1, Divider as Divider$1, Drawer as Drawer$1, Layout as Layout$1, Menu, Progress as Progress$1, Rate as Rate$1, Segmented as Segmented$1, Slider as Slider$1, Tag as Tag$1 } from 'antd';
+import { Button as Button$1, theme, Pagination, Input as Input$1, Dropdown as Dropdown$1, Image, Card as Card$1, Modal as Modal$1, Divider as Divider$1, Drawer as Drawer$1, Layout as Layout$1, Menu, Progress as Progress$1, Rate as Rate$1, Segmented as Segmented$1, Slider as Slider$1, Tag as Tag$1, Switch as Switch$1 } from 'antd';
+import * as Icons from '@phosphor-icons/react/dist/ssr';
 import AntdSkeleton from 'react-loading-skeleton';
 import _debounce from 'lodash-es/debounce';
 import InputMask from 'react-input-mask';
-import * as Icons from '@phosphor-icons/react/dist/ssr';
 import { WarningDiamond, CaretRight, CaretLeft } from '@phosphor-icons/react';
 import CountUp from 'react-countup';
 
@@ -28,67 +28,6 @@ var HoverProvider = function HoverProvider(_ref) {
 var useHover = function useHover() {
   return useContext(HoverContext);
 };
-
-var AdvancedTable = /*#__PURE__*/forwardRef(function (_ref, ref) {
-  var name = _ref.name,
-    content = _ref.content,
-    className = _ref.className;
-  var _useState = useState(0),
-    refreshKey = _useState[0],
-    setRefreshKey = _useState[1];
-  useEffect(function () {}, [refreshKey]);
-  useImperativeHandle(ref, function () {
-    return {
-      refresh: function refresh() {
-        setRefreshKey(function (prevKey) {
-          return prevKey + 1;
-        });
-      }
-    };
-  });
-  return React.createElement(HoverProvider, null, React.createElement("div", {
-    className: "wrapper",
-    style: {
-      width: "100%",
-      maxWidth: "100%",
-      overflowX: "auto"
-    }
-  }, React.createElement(PanelGroup, {
-    className: className,
-    autoSaveId: name,
-    direction: "horizontal",
-    style: {
-      minWidth: "fit-content"
-    }
-  }, content)));
-});
-var advancedTableMeta = {
-  name: "AdvancedTable",
-  displayName: "Advanced Table",
-  props: {
-    name: {
-      type: "string"
-    },
-    content: {
-      type: "slot",
-      allowedComponents: ["AdvancedTableColumn"]
-    }
-  },
-  importPath: "inprodi-design-system",
-  importName: "AdvancedTable",
-  refActions: {
-    refresh: {
-      description: "Force a re-render of the component",
-      argTypes: []
-    }
-  }
-};
-function registerAdvancedTable(loader, customAdvancedTableMeta) {
-  var doRegisterComponent = function doRegisterComponent() {
-    return loader ? loader.registerComponent.apply(loader, arguments) : registerComponent.apply(void 0, arguments);
-  };
-  doRegisterComponent(AdvancedTable, customAdvancedTableMeta != null ? customAdvancedTableMeta : advancedTableMeta);
-}
 
 function _arrayLikeToArray(r, a) {
   (null == a || a > r.length) && (a = r.length);
@@ -467,6 +406,296 @@ function _unsupportedIterableToArray(r, a) {
   }
 }
 
+var _excluded = ["label", "loading", "isSubmit"];
+var Button = function Button(_ref) {
+  var label = _ref.label,
+    loading = _ref.loading,
+    isSubmit = _ref.isSubmit,
+    props = _objectWithoutPropertiesLoose(_ref, _excluded);
+  return React.createElement(Button$1, Object.assign({
+    loading: loading,
+    className: "inprodi-button",
+    htmlType: isSubmit ? "submit" : "button",
+    style: {
+      gap: "10px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
+    },
+    // @ts-ignore
+    styles: {
+      icon: {
+        marginInlineEnd: "0px",
+        marginInlineStart: "0px"
+      }
+    }
+  }, props), label);
+};
+var buttonMeta = {
+  name: "Button",
+  displayName: "Button",
+  props: {
+    label: {
+      type: "string",
+      description: "Label of the button",
+      defaultValue: "Button Label"
+    },
+    type: {
+      type: "choice",
+      options: ["default", "primary", "ghost", "dashed", "link", "text"],
+      description: "Can be set to primary, ghost, dashed, link, text, default",
+      defaultValue: "primary"
+    },
+    size: {
+      type: "choice",
+      options: ["small", "medium", "large"],
+      description: "Set the size of button",
+      defaultValue: "medium"
+    },
+    iconPosition: {
+      type: "choice",
+      options: ["start", "end"],
+      description: "Set the position of icon",
+      defaultValue: "start"
+    },
+    block: {
+      type: "boolean",
+      description: "Option to fit button width to its parent width",
+      defaultValue: false
+    },
+    href: {
+      type: "href",
+      description: "Redirect url of link button"
+    },
+    target: {
+      type: "choice",
+      options: ["_blank", "_self", "_parent", "_top"],
+      description: "Same as target attribute of a, works when href is specified",
+      hidden: function hidden(props) {
+        return !props.href;
+      },
+      defaultValue: "_self"
+    },
+    loading: {
+      type: "boolean",
+      description: "Set the loading status of button",
+      defaultValue: false
+    },
+    isSubmit: {
+      type: "boolean",
+      description: "Set if the button can submit forms.",
+      defaultValue: false,
+      advanced: true
+    },
+    disabled: {
+      type: "boolean",
+      description: "Disabled state of button",
+      defaultValue: false,
+      advanced: true
+    },
+    ghost: {
+      type: "boolean",
+      description: "Make background transparent and invert text and border colors",
+      defaultValue: false,
+      advanced: true
+    },
+    danger: {
+      type: "boolean",
+      description: "Set the danger status of button",
+      defaultValue: false,
+      advanced: true
+    },
+    icon: {
+      type: "slot",
+      defaultValue: [{
+        type: "component",
+        name: "Icon"
+      }],
+      allowedComponents: ["Icon"],
+      hidePlaceholder: true
+    },
+    onClick: {
+      type: "eventHandler",
+      argTypes: []
+    }
+  },
+  importPath: "inprodi-design-system",
+  importName: "Button"
+};
+function registerButton(loader, customButtonMeta) {
+  var doRegisterComponent = function doRegisterComponent() {
+    return loader ? loader.registerComponent.apply(loader, arguments) : registerComponent.apply(void 0, arguments);
+  };
+  doRegisterComponent(Button, customButtonMeta != null ? customButtonMeta : buttonMeta);
+}
+
+var Icon = function Icon(_ref) {
+  var icon = _ref.icon,
+    size = _ref.size,
+    color = _ref.color,
+    variant = _ref.variant;
+  var IconComponent = Icons[icon];
+  if (!IconComponent) {
+    throw new Error("Invalid icon: " + icon);
+  }
+  return React.createElement(IconComponent, {
+    size: size,
+    color: color,
+    weight: variant,
+    style: {
+      flexShrink: 0
+    }
+  });
+};
+var iconMeta = {
+  name: "Icon",
+  displayName: "Icon",
+  props: {
+    icon: {
+      type: "string",
+      defaultValue: "Smiley"
+    },
+    color: {
+      type: "color"
+    },
+    size: {
+      type: "number",
+      defaultValue: 16,
+      control: "slider",
+      min: 8,
+      max: 100,
+      step: 1
+    },
+    variant: {
+      type: "choice",
+      options: ["thin", "light", "regular", "bold", "fill", "duotone"],
+      defaultValue: "regular"
+    }
+  },
+  importPath: "inprodi-design-system",
+  importName: "Icon"
+};
+function registerIcon(loader, customIconMeta) {
+  var doRegisterComponent = function doRegisterComponent() {
+    return loader ? loader.registerComponent.apply(loader, arguments) : registerComponent.apply(void 0, arguments);
+  };
+  doRegisterComponent(Icon, customIconMeta != null ? customIconMeta : iconMeta);
+}
+
+var AdvancedTable = /*#__PURE__*/forwardRef(function (_ref, ref) {
+  var name = _ref.name,
+    content = _ref.content,
+    className = _ref.className,
+    pagination = _ref.pagination,
+    currentPage = _ref.currentPage,
+    onPaginationChange = _ref.onPaginationChange;
+  var _theme$useToken = theme.useToken(),
+    token = _theme$useToken.token;
+  var footerStyles = {
+    display: "flex",
+    position: "absolute",
+    alignItems: "center",
+    padding: "0 20px",
+    justifyContent: "space-between",
+    width: "100%",
+    height: "42px",
+    borderBottom: "solid 1px " + token.colorBorder,
+    background: token.colorBgLayout
+  };
+  return React.createElement(HoverProvider, null, React.createElement("div", {
+    ref: ref,
+    className: "wrapper",
+    style: {
+      width: "100%",
+      maxWidth: "100%",
+      overflowX: "auto"
+    }
+  }, React.createElement(PanelGroup, {
+    className: className,
+    autoSaveId: name,
+    direction: "horizontal",
+    style: {
+      minWidth: "fit-content"
+    }
+  }, content), pagination && React.createElement("div", {
+    className: "footer",
+    style: footerStyles
+  }, React.createElement(Button, {
+    size: "small",
+    type: "default",
+    onClick: function onClick() {
+      return onPaginationChange(currentPage - 1);
+    },
+    icon: React.createElement(Icon, {
+      size: 16,
+      icon: "CaretLeft",
+      variant: "regular"
+    }),
+    disabled: currentPage === 1
+  }), React.createElement(Pagination, {
+    size: "small",
+    current: currentPage,
+    total: pagination.total,
+    pageSize: pagination.pageSize,
+    onChange: function onChange(page) {
+      return onPaginationChange(page);
+    }
+  }), React.createElement(Button, {
+    size: "small",
+    type: "default",
+    onClick: function onClick() {
+      return onPaginationChange(currentPage + 1);
+    },
+    icon: React.createElement(Icon, {
+      size: 16,
+      icon: "CaretRight",
+      variant: "regular"
+    }),
+    disabled: currentPage === pagination.pageCount
+  }))));
+});
+var advancedTableMeta = {
+  name: "AdvancedTable",
+  displayName: "Advanced Table",
+  states: {
+    currentPage: {
+      type: "writable",
+      variableType: "number",
+      valueProp: "currentPage",
+      onChangeProp: "onPaginationChange"
+    }
+  },
+  props: {
+    name: {
+      type: "string"
+    },
+    pagination: {
+      type: "object",
+      description: "Pagination object"
+    },
+    currentPage: {
+      type: "number",
+      defaultValue: 1
+    },
+    content: {
+      type: "slot",
+      allowedComponents: ["AdvancedTableColumn"]
+    },
+    onPaginationChange: {
+      type: "eventHandler",
+      argTypes: []
+    }
+  },
+  importPath: "inprodi-design-system",
+  importName: "AdvancedTable"
+};
+function registerAdvancedTable(loader, customAdvancedTableMeta) {
+  var doRegisterComponent = function doRegisterComponent() {
+    return loader ? loader.registerComponent.apply(loader, arguments) : registerComponent.apply(void 0, arguments);
+  };
+  doRegisterComponent(AdvancedTable, customAdvancedTableMeta != null ? customAdvancedTableMeta : advancedTableMeta);
+}
+
 var Skeleton = function Skeleton(_ref) {
   var props = _extends({}, (_objectDestructuringEmpty(_ref), _ref));
   return React.createElement(AntdSkeleton, Object.assign({
@@ -507,7 +736,7 @@ var AdvancedTableCell = function AdvancedTableCell(_ref) {
   var size = _ref.size,
     align = _ref.align,
     index = _ref.index,
-    onClick = _ref.onClick,
+    _onClick = _ref.onClick,
     className = _ref.className,
     cellContent = _ref.cellContent,
     _ref$loading = _ref.loading,
@@ -533,8 +762,10 @@ var AdvancedTableCell = function AdvancedTableCell(_ref) {
   };
   return React.createElement("div", {
     style: cellStyle,
-    onClick: onClick,
     className: "cell " + className,
+    onClick: function onClick() {
+      return !loading && _onClick && _onClick();
+    },
     onMouseLeave: function onMouseLeave() {
       return setHoveredId(null);
     },
@@ -677,7 +908,7 @@ function registerAdvancedTableColumn(loader, customAdvancedTableColumnMeta) {
   doRegisterComponent(AdvancedTableColumn, customAdvancedTableColumnMeta != null ? customAdvancedTableColumnMeta : advancedTableColumnMeta);
 }
 
-var _excluded = ["size", "mask", "value", "error", "variant", "leftIcon", "onChange", "rightIcon", "name", "debounce", "onClearError", "disabled", "onBlur"];
+var _excluded$1 = ["size", "mask", "value", "error", "variant", "leftIcon", "onChange", "rightIcon", "name", "debounce", "onClearError", "disabled", "onBlur"];
 var Input = /*#__PURE__*/forwardRef(function (_ref, ref) {
   var size = _ref.size,
     mask = _ref.mask,
@@ -692,7 +923,7 @@ var Input = /*#__PURE__*/forwardRef(function (_ref, ref) {
     onClearError = _ref.onClearError,
     disabled = _ref.disabled,
     _onBlur = _ref.onBlur,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$1);
   var _useState = useState(value),
     inputValue = _useState[0],
     setInputValue = _useState[1];
@@ -1033,59 +1264,6 @@ function registerAutoComplete(loader, customAutocompleteMeta) {
   doRegisterComponent(AutoComplete, customAutocompleteMeta != null ? customAutocompleteMeta : autoCompleteMeta);
 }
 
-var Icon = function Icon(_ref) {
-  var icon = _ref.icon,
-    size = _ref.size,
-    color = _ref.color,
-    variant = _ref.variant;
-  var IconComponent = Icons[icon];
-  if (!IconComponent) {
-    throw new Error("Invalid icon: " + icon);
-  }
-  return React.createElement(IconComponent, {
-    size: size,
-    color: color,
-    weight: variant,
-    style: {
-      flexShrink: 0
-    }
-  });
-};
-var iconMeta = {
-  name: "Icon",
-  displayName: "Icon",
-  props: {
-    icon: {
-      type: "string",
-      defaultValue: "Smiley"
-    },
-    color: {
-      type: "color"
-    },
-    size: {
-      type: "number",
-      defaultValue: 16,
-      control: "slider",
-      min: 8,
-      max: 100,
-      step: 1
-    },
-    variant: {
-      type: "choice",
-      options: ["thin", "light", "regular", "bold", "fill", "duotone"],
-      defaultValue: "regular"
-    }
-  },
-  importPath: "inprodi-design-system",
-  importName: "Icon"
-};
-function registerIcon(loader, customIconMeta) {
-  var doRegisterComponent = function doRegisterComponent() {
-    return loader ? loader.registerComponent.apply(loader, arguments) : registerComponent.apply(void 0, arguments);
-  };
-  doRegisterComponent(Icon, customIconMeta != null ? customIconMeta : iconMeta);
-}
-
 var sizeDictionary$1 = {
   xxs: "20px",
   xs: "24px",
@@ -1159,7 +1337,7 @@ var Avatar = function Avatar(_ref) {
     style: {
       objectFit: "cover",
       verticalAlign: "unset",
-      borderRadius: isCircular ? "50%" : "6px",
+      borderRadius: isCircular ? "50%" : bordered ? "3px" : "6px",
       background: "white"
     }
   }), type === "icon" && React.createElement(Icon, {
@@ -1221,129 +1399,6 @@ function registerAvatar(loader, customAvatarMeta) {
     return loader ? loader.registerComponent.apply(loader, arguments) : registerComponent.apply(void 0, arguments);
   };
   doRegisterComponent(Avatar, customAvatarMeta != null ? customAvatarMeta : avatarMeta);
-}
-
-var _excluded$1 = ["isSubmit", "label", "loading"];
-var Button = function Button(_ref) {
-  var isSubmit = _ref.isSubmit,
-    label = _ref.label,
-    loading = _ref.loading,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$1);
-  return React.createElement(Button$1, Object.assign({
-    loading: loading,
-    className: "inprodi-button",
-    htmlType: isSubmit ? "submit" : "button",
-    style: {
-      gap: "10px",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center"
-    },
-    // @ts-ignore
-    styles: {
-      icon: {
-        marginInlineEnd: "0px",
-        marginInlineStart: "0px"
-      }
-    }
-  }, props), label);
-};
-var buttonMeta = {
-  name: "Button",
-  displayName: "Button",
-  props: {
-    label: {
-      type: "string",
-      description: "Label of the button",
-      defaultValue: "Button Label"
-    },
-    type: {
-      type: "choice",
-      options: ["default", "primary", "ghost", "dashed", "link", "text"],
-      description: "Can be set to primary, ghost, dashed, link, text, default",
-      defaultValue: "primary"
-    },
-    size: {
-      type: "choice",
-      options: ["small", "medium", "large"],
-      description: "Set the size of button",
-      defaultValue: "medium"
-    },
-    iconPosition: {
-      type: "choice",
-      options: ["start", "end"],
-      description: "Set the position of icon",
-      defaultValue: "start"
-    },
-    block: {
-      type: "boolean",
-      description: "Option to fit button width to its parent width",
-      defaultValue: false
-    },
-    href: {
-      type: "href",
-      description: "Redirect url of link button"
-    },
-    target: {
-      type: "choice",
-      options: ["_blank", "_self", "_parent", "_top"],
-      description: "Same as target attribute of a, works when href is specified",
-      hidden: function hidden(props) {
-        return !props.href;
-      },
-      defaultValue: "_self"
-    },
-    loading: {
-      type: "boolean",
-      description: "Set the loading status of button",
-      defaultValue: false
-    },
-    isSubmit: {
-      type: "boolean",
-      description: "Set if the button can submit forms.",
-      defaultValue: false,
-      advanced: true
-    },
-    disabled: {
-      type: "boolean",
-      description: "Disabled state of button",
-      defaultValue: false,
-      advanced: true
-    },
-    ghost: {
-      type: "boolean",
-      description: "Make background transparent and invert text and border colors",
-      defaultValue: false,
-      advanced: true
-    },
-    danger: {
-      type: "boolean",
-      description: "Set the danger status of button",
-      defaultValue: false,
-      advanced: true
-    },
-    icon: {
-      type: "slot",
-      defaultValue: [{
-        type: "component",
-        name: "Icon"
-      }],
-      allowedComponents: ["Icon"],
-      hidePlaceholder: true
-    },
-    onClick: {
-      type: "eventHandler",
-      argTypes: []
-    }
-  },
-  importPath: "inprodi-design-system",
-  importName: "Button"
-};
-function registerButton(loader, customButtonMeta) {
-  var doRegisterComponent = function doRegisterComponent() {
-    return loader ? loader.registerComponent.apply(loader, arguments) : registerComponent.apply(void 0, arguments);
-  };
-  doRegisterComponent(Button, customButtonMeta != null ? customButtonMeta : buttonMeta);
 }
 
 var _excluded$2 = ["shadow", "content", "padding", "isLoading"];
@@ -1606,10 +1661,11 @@ function registerDivider(loader, customDividerMeta) {
   doRegisterComponent(Divider, customDividerMeta != null ? customDividerMeta : dividerMeta);
 }
 
-var _excluded$5 = ["open", "content", "bodyPadding"];
+var _excluded$5 = ["open", "content", "maskColor", "bodyPadding"];
 var Drawer = function Drawer(_ref) {
   var open = _ref.open,
     content = _ref.content,
+    maskColor = _ref.maskColor,
     bodyPadding = _ref.bodyPadding,
     props = _objectWithoutPropertiesLoose(_ref, _excluded$5);
   var _theme$useToken = theme.useToken(),
@@ -1630,7 +1686,7 @@ var Drawer = function Drawer(_ref) {
         padding: bodyPadding
       },
       mask: {
-        background: "#0000004D"
+        background: maskColor ? maskColor : "#0000004D"
       }
     }
   }, props), content);
@@ -1680,6 +1736,10 @@ var drawerMeta = {
       type: "boolean",
       defaultValue: true,
       advanced: true
+    },
+    maskColor: {
+      type: "color",
+      defaultValue: "#0000004D"
     },
     afterOpenChange: {
       type: "eventHandler",
@@ -2336,31 +2396,36 @@ var Layout = function Layout(_ref) {
     minHeight: "54px",
     maxHeight: "54px",
     padding: "0px 20px",
-    background: "rgba(255,255,255, 0.8)",
+    background: "rgba(255,255,255, 0.70)",
     backdropFilter: "blur(10px)",
     position: "sticky",
     top: 0,
     zIndex: 1
   };
   var parseMenuItems = function parseMenuItems() {
-    for (var i = 0; i < menuItems.length; i++) {
-      if (menuItems[i].type !== "group") {
-        menuItems[i].icon = React.createElement(Icon, {
-          size: 20,
-          icon: menuItems[i].icon,
-          variant: "duotone"
+    return menuItems.map(function (menuItem) {
+      if (menuItem.type !== "group") {
+        return _extends({}, menuItem, {
+          icon: typeof menuItem.icon === 'string' ? React.createElement(Icon, {
+            size: 20,
+            icon: menuItem.icon,
+            variant: "duotone"
+          }) : menuItem.icon
         });
       } else {
-        for (var j = 0; j < menuItems[i].children.length; j++) {
-          menuItems[i].children[j].icon = React.createElement(Icon, {
-            size: 20,
-            icon: menuItems[i].children[j].icon,
-            variant: "duotone"
-          });
-        }
+        return _extends({}, menuItem, {
+          children: menuItem.children.map(function (child) {
+            return _extends({}, child, {
+              icon: typeof child.icon === 'string' ? React.createElement(Icon, {
+                size: 20,
+                icon: child.icon,
+                variant: "duotone"
+              }) : child.icon
+            });
+          })
+        });
       }
-    }
-    return menuItems;
+    });
   };
   return React.createElement(Layout$1, {
     hasSider: true,
@@ -3023,6 +3088,7 @@ var Select = /*#__PURE__*/forwardRef(function (_ref, ref) {
     value = _ref.value,
     isEmpty = _ref.isEmpty,
     loading = _ref.loading,
+    disabled = _ref.disabled,
     _onOpen = _ref.onOpen,
     _onClose = _ref.onClose,
     onChange = _ref.onChange,
@@ -3061,23 +3127,23 @@ var Select = /*#__PURE__*/forwardRef(function (_ref, ref) {
     borderRadius: "6px",
     border: "solid 1px " + (isHovered ? token.colorPrimaryBorderHover : isOpened ? token.colorPrimary : token.colorBorder),
     gap: "10px",
-    cursor: "pointer",
+    cursor: disabled ? "default" : "pointer",
     height: heightDictionary[size],
     padding: paddingDictionary[size],
-    background: token.colorBgContainer,
+    background: disabled ? token.colorBgContainerDisabled : token.colorBgContainer,
     boxShadow: "rgba(0, 0, 0, 0.04) 0px 1px 3px 0px, rgba(0, 0, 0, 0.02) 0px 1px 2px 0px"
   };
   var labelStyles = {
     width: "100%",
     fontSize: "14px",
     fontWeight: "400",
-    color: internalValue != null && internalValue.label ? token.colorText : token.colorTextDisabled
+    color: internalValue != null && internalValue.label && !disabled ? token.colorText : token.colorTextDisabled
   };
   return React.createElement(Dropdown, {
     maxHeight: "200px",
     isEmpty: isEmpty,
     loading: loading,
-    trigger: ["click"],
+    trigger: disabled ? [] : ["click"],
     closeOnSelect: true,
     className: className,
     searchable: searchable,
@@ -3153,6 +3219,10 @@ var selectMeta = {
       defaultValue: false
     },
     loading: {
+      type: "boolean",
+      defaultValue: false
+    },
+    disabled: {
       type: "boolean",
       defaultValue: false
     },
@@ -3571,6 +3641,72 @@ function registerStat(loader, customRegisterMeta) {
   doRegisterComponent(Stat, customRegisterMeta != null ? customRegisterMeta : statMeta);
 }
 
+var _excluded$c = ["checkedIcon", "unCheckedIcon"];
+var Switch = function Switch(_ref) {
+  var checkedIcon = _ref.checkedIcon,
+    unCheckedIcon = _ref.unCheckedIcon,
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$c);
+  return React.createElement(Switch$1, Object.assign({
+    checkedChildren: checkedIcon && React.createElement(Icon, {
+      icon: checkedIcon,
+      variant: "regular"
+    }),
+    unCheckedChildren: unCheckedIcon && React.createElement(Icon, {
+      icon: unCheckedIcon,
+      variant: "regular"
+    })
+  }, props));
+};
+var switchMeta = {
+  name: "Switch",
+  displayName: "Switch",
+  states: {
+    value: {
+      type: "writable",
+      variableType: "boolean",
+      valueProp: "value",
+      onChangeProp: "onChange"
+    }
+  },
+  props: {
+    size: {
+      type: "choice",
+      options: ["default", "small"],
+      defaultValue: "default"
+    },
+    value: {
+      type: "boolean",
+      defaultValue: false
+    },
+    disabled: {
+      type: "boolean",
+      defaultValue: false
+    },
+    loading: {
+      type: "boolean",
+      defaultValue: false
+    },
+    checkedIcon: {
+      type: "string"
+    },
+    unCheckedIcon: {
+      type: "string"
+    },
+    onChange: {
+      type: "eventHandler",
+      argTypes: []
+    }
+  },
+  importPath: "inprodi-design-system",
+  importName: "Switch"
+};
+function registerSwitch(loader, customSwitchMeta) {
+  var doRegisterComponent = function doRegisterComponent() {
+    return loader ? loader.registerComponent.apply(loader, arguments) : registerComponent.apply(void 0, arguments);
+  };
+  doRegisterComponent(Switch, customSwitchMeta != null ? customSwitchMeta : switchMeta);
+}
+
 function registerAll(loader) {
   registerTag(loader);
   registerStat(loader);
@@ -3586,6 +3722,7 @@ function registerAll(loader) {
   registerButton(loader);
   registerLayout(loader);
   registerSlider(loader);
+  registerSwitch(loader);
   registerDivider(loader);
   registerDropdown(loader);
   registerSkeleton(loader);

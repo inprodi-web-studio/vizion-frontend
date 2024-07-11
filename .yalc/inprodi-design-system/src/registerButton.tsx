@@ -12,9 +12,9 @@ interface ButtonProps extends AntdButtonProps {
 }
 
 export const Button = ({
-    isSubmit,
     label,
     loading,
+    isSubmit,
     ...props
 } : ButtonProps ) => {
 

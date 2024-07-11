@@ -42,6 +42,10 @@ p {
     margin: 0;
 }
 
+main {
+    background: transparent !important;
+}
+
 .ant-message {
     display: none;
 }
@@ -222,4 +226,23 @@ button.ant-modal-close {
     margin: 0 !important;
     padding: 10px 16px !important;
     border-top: solid 1px var(--antd-colorBorder) !important;
+}
+
+.ant-pagination-prev,
+.ant-pagination-next {
+    display: none !important;
+}
+
+ul.ant-pagination.ant-pagination-mini {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+li.ant-pagination-item a {
+    color: var(--plasmic-token-secondary-text) !important;
+}
+
+li.ant-pagination-item.ant-pagination-item-active a {
+    color: black !important;
 }

@@ -2055,7 +2055,7 @@ inherits@2:
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
 
 "inprodi-design-system@file:.yalc/inprodi-design-system":
-  version "0.24.7"
+  version "0.25.1"
   dependencies:
     "@hookform/resolvers" "^3.4.2"
     "@phosphor-icons/react" "^2.1.5"

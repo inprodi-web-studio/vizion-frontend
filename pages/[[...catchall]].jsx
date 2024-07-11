@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   PlasmicComponent,
   extractPlasmicQueryData,
@@ -41,6 +40,7 @@ export const getStaticProps = async (context) => {
     // non-Plasmic catch-all
     return { props: {} };
   }
+
   const pageMeta = plasmicData.entryCompMetas[0];
   // Cache the necessary data fetched for the page
   const queryCache = await extractPlasmicQueryData(

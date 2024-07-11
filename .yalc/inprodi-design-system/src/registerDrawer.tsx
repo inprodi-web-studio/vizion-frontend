@@ -11,12 +11,14 @@ import { Icon } from "./registerIcon";
 interface DrawerProps extends AntdDrawerProps {
     content: any;
     onOpenChange: any;
-    bodyPadding : string,
+    maskColor?: string;
+    bodyPadding : string;
 }
 
 export const Drawer = ({
     open,
     content,
+    maskColor,
     bodyPadding,
     ...props
 } : DrawerProps ) => {
@@ -36,7 +38,7 @@ export const Drawer = ({
                 padding : bodyPadding,
             },
             mask : {
-                background : "#0000004D",
+                background : maskColor ? maskColor : "#0000004D",
             },
         }}
         {...props}
@@ -90,6 +92,10 @@ export const drawerMeta: CodeComponentMeta<DrawerProps> = {
             type : "boolean",
             defaultValue : true,
             advanced : true,
+        },
+        maskColor : {
+            type : "color",
+            defaultValue : "#0000004D",
         },
         afterOpenChange : {
             type : "eventHandler",

@@ -53,8 +53,8 @@ export const AdvancedTableCell = ({
     return (
         <div
             style={cellStyle}
-            onClick={onClick}
             className={`cell ${className}`}
+            onClick={ () => (!loading && onClick) && onClick() }
             onMouseLeave={() => setHoveredId(null)}
             onMouseEnter={() => setHoveredId(index ?? -1)}
         >

@@ -1,12 +1,23 @@
-import React, { useState, useImperativeHandle, forwardRef, useEffect } from "react";
+import React, { forwardRef } from "react";
 import registerComponent, { CodeComponentMeta } from "@plasmicapp/host/registerComponent";
 import { Registerable } from "./registerable";
 import { PanelGroup } from "react-resizable-panels";
 import { HoverProvider } from "./contexts/hoveredCell";
+import { Pagination, theme } from "antd";
+import { Button } from "./registerButton";
+import { Icon } from "./registerIcon";
 
 interface AdvancedTableProps {
     content: any;
+    onPaginationChange : any;
     name: string;
+    currentPage: number;
+    pagination?: {
+        page : number;
+        pageSize : number;
+        pageCount : number;
+        total : number;
+    };
     className?: string;
 }
 
@@ -14,22 +25,28 @@ const AdvancedTable = forwardRef<any, AdvancedTableProps>(({
     name,
     content,
     className,
-}, ref) => {
-    const [refreshKey, setRefreshKey] = useState(0);
+    pagination,
+    currentPage,
+    onPaginationChange,
+}, ref ) => {
 
-    useEffect(() => {
+    const { token } = theme.useToken();
 
-    }, [refreshKey]);
-
-    useImperativeHandle(ref, () => ({
-        refresh: () => {
-            setRefreshKey(prevKey => prevKey + 1);
-        },
-    }));
+    const footerStyles : React.CSSProperties = {
+        display: "flex",
+        position: "absolute",
+        alignItems : "center",
+        padding : "0 20px",
+        justifyContent: "space-between",
+        width: "100%",
+        height: "42px",
+        borderBottom : `solid 1px ${ token.colorBorder }`,
+        background : token.colorBgLayout,
+    };
 
     return (
         <HoverProvider>
-            <div className="wrapper" style={{ width: "100%", maxWidth: "100%", overflowX: "auto" }}>
+            <div ref={ref} className="wrapper" style={{ width: "100%", maxWidth: "100%", overflowX: "auto" }}>
                 <PanelGroup
                     className={className}
                     autoSaveId={name}
@@ -38,6 +55,46 @@ const AdvancedTable = forwardRef<any, AdvancedTableProps>(({
                 >
                     {content}
                 </PanelGroup>
+
+                { pagination && (
+                    <div className="footer" style={footerStyles}>
+                        <Button
+                            size="small"
+                            type="default"
+                            onClick={ () => onPaginationChange( currentPage - 1 ) }
+                            icon={
+                                <Icon
+                                    size={16}
+                                    icon="CaretLeft"
+                                    variant="regular"
+                                />
+                            }
+                            disabled={ currentPage === 1 }
+                        />
+
+                        <Pagination
+                            size="small"
+                            current={ currentPage }
+                            total={ pagination.total }
+                            pageSize={ pagination.pageSize }
+                            onChange={ page => onPaginationChange(page) }
+                        />
+
+                        <Button
+                            size="small"
+                            type="default"
+                            onClick={ () => onPaginationChange( currentPage + 1 ) }
+                            icon={
+                                <Icon
+                                    size={16}
+                                    icon="CaretRight"
+                                    variant="regular"
+                                />
+                            }
+                            disabled={ currentPage === pagination.pageCount }
+                        />
+                    </div>
+                )}
             </div>
         </HoverProvider>
     );
@@ -46,23 +103,37 @@ const AdvancedTable = forwardRef<any, AdvancedTableProps>(({
 export const advancedTableMeta: CodeComponentMeta<AdvancedTableProps> = {
     name: "AdvancedTable",
     displayName: "Advanced Table",
+    states : {
+        currentPage : {
+            type : "writable",
+            variableType : "number",
+            valueProp : "currentPage",
+            onChangeProp : "onPaginationChange",
+        },
+    },
     props: {
         name: {
             type: "string",
+        },
+        pagination : {
+            type : "object",
+            description : "Pagination object",
+        },
+        currentPage : {
+            type : "number",
+            defaultValue : 1,
         },
         content: {
             type: "slot",
             allowedComponents: ["AdvancedTableColumn"],
         },
+        onPaginationChange : {
+            type : "eventHandler",
+            argTypes : [],
+        },
     },
     importPath: "inprodi-design-system",
     importName: "AdvancedTable",
-    refActions: {
-        refresh: {
-            description: "Force a re-render of the component",
-            argTypes: [],
-        },
-    },
 };
 
 export function registerAdvancedTable(

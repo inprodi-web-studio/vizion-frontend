@@ -25,6 +25,7 @@ import { registerSelect } from "./registerSelect";
 import { registerSkeleton } from "./registerSkeleton";
 import { registerSlider } from "./registerSlider";
 import { registerStat } from "./registerStat";
+import { registerSwitch } from "./registerSwitch";
 import { registerTag } from "./registerTag";
 
 export function registerAll(loader?: Registerable) {
@@ -42,6 +43,7 @@ export function registerAll(loader?: Registerable) {
   registerButton(loader);
   registerLayout(loader);
   registerSlider(loader);
+  registerSwitch(loader);
   registerDivider(loader);
   registerDropdown(loader);
   registerSkeleton(loader);

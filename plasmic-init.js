@@ -8,12 +8,15 @@ import formatCurrency from "./helpers/formatCurrency";
 import validateEmail from "./helpers/validateEmail";
 import validatePhone from "./helpers/validatePhone";
 import formatDate from "./helpers/formatDate";
+import validateUrl from "./helpers/validateUrl";
 import updateQueryParam from "./helpers/updateQueryParam";
 import parseQueryParams from "./helpers/parseQueryParams";
 import getQueryParams from "./helpers/getQueryParams";
 import getQueryParamsObject from "./helpers/getQueryParamsObject";
 
 import { registerAll } from "inprodi-design-system";
+import removeQueryParam from "./helpers/removeQueryParam";
+import { FieldsGlobalContext } from "./components/FieldsGlobalContext";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -87,6 +90,17 @@ PLASMIC.registerFunction( validateEmail, {
   ],
 });
 
+PLASMIC.registerFunction( validateUrl, {
+  name : "validateUrl",
+  params : [
+    {
+      name        : "url",
+      type        : "string",
+      description : "The url to validate",
+    },
+  ],
+});
+
 PLASMIC.registerFunction( validatePhone, {
   name : "validatePhone",
   params : [
@@ -106,6 +120,11 @@ PLASMIC.registerFunction( parseQueryParams, {
       type        : "object",
       description : "Object with the query to include to the url",
     },
+    {
+      name : "addToUrl",
+      type : "boolean",
+      description : "Whether to add the query to the url or not",
+    },
   ],
 });
 
@@ -117,6 +136,17 @@ PLASMIC.registerFunction( getQueryParams, {
 PLASMIC.registerFunction( getQueryParamsObject, {
   name : "getQueryParamsObject",
   params : [],
+});
+
+PLASMIC.registerFunction( removeQueryParam, {
+  name : "removeQueryParam",
+  params : [
+    {
+      name        : "key",
+      type        : "string",
+      description : "The key to add",
+    },
+  ],
 });
 
 PLASMIC.registerFunction( updateQueryParam, {
@@ -181,6 +211,21 @@ PLASMIC.registerGlobalContext( AppGlobalContext, {
     setApp : {
       parameters : [
         { name : "selection", type : "string" },
+      ],
+    },
+  },
+});
+
+PLASMIC.registerGlobalContext( FieldsGlobalContext, {
+  name : "FieldsGlobalContext",
+  props : {},
+  providesData : true,
+  globalActions : {
+    setFields : {
+      parameters : [
+        { name : "app", type : "string" },
+        { name : "module", type : "string" },
+        { name : "newFields", type : "object" },
       ],
     },
   },

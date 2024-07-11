@@ -11,6 +11,7 @@ interface SelectProps {
     searchable: boolean;
     menuContent: any;
     onChange: any;
+    disabled?: boolean;
     onClose: () => void;
     onOpen: () => void;
     onSearch: any;
@@ -41,6 +42,7 @@ export const Select = forwardRef<any, SelectProps>(({
     value,
     isEmpty,
     loading,
+    disabled,
     onOpen,
     onClose,
     onChange,
@@ -76,10 +78,10 @@ export const Select = forwardRef<any, SelectProps>(({
         borderRadius : "6px",
         border : `solid 1px ${ isHovered ? token.colorPrimaryBorderHover : isOpened ? token.colorPrimary : token.colorBorder }`,
         gap : "10px",
-        cursor : "pointer",
+        cursor : disabled ? "default" : "pointer",
         height : heightDictionary[size],
         padding : paddingDictionary[size],
-        background : token.colorBgContainer,
+        background : disabled ? token.colorBgContainerDisabled : token.colorBgContainer,
         boxShadow : "rgba(0, 0, 0, 0.04) 0px 1px 3px 0px, rgba(0, 0, 0, 0.02) 0px 1px 2px 0px",
     };
 
@@ -87,7 +89,7 @@ export const Select = forwardRef<any, SelectProps>(({
         width : "100%",
         fontSize : "14px",
         fontWeight : "400",
-        color : internalValue?.label ? token.colorText : token.colorTextDisabled,
+        color : (internalValue?.label && !disabled) ? token.colorText : token.colorTextDisabled,
     };
 
     return (
@@ -95,7 +97,7 @@ export const Select = forwardRef<any, SelectProps>(({
             maxHeight="200px"
             isEmpty={isEmpty}
             loading={loading}
-            trigger={["click"]}
+            trigger={ disabled ? [] : ["click"]}
             closeOnSelect={true}
             className={className}
             searchable={searchable}
@@ -170,6 +172,10 @@ export const selectMeta: CodeComponentMeta<SelectProps> = {
         loading: {
             type: "boolean",
             defaultValue: false,
+        },
+        disabled : {
+            type : "boolean",
+            defaultValue : false,
         },
         searchValue: {
             type: "string",
