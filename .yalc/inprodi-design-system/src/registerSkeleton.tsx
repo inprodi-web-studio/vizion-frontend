@@ -23,9 +23,6 @@ export const Skeleton = ({
         enableAnimation
         borderRadius="6px"
         containerClassName="inprodi-skeleton"
-        style={{
-            width : "fit-content",
-        }}
         {...props}
     />;
 };

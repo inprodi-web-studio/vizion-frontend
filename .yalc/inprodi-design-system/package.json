@@ -1,5 +1,5 @@
 {
-  "version": "0.27.79",
+  "version": "0.27.80",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -68,5 +68,5 @@
     "vaul": "^0.9.1",
     "zod": "^3.23.8"
   },
-  "yalcSig": "ac3b2d1459cb499c278a1e622fc914d1"
+  "yalcSig": "6ea244587c1e993d150854940c6fb316"
 }

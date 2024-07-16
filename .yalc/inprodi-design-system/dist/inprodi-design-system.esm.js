@@ -705,10 +705,7 @@ var Skeleton = function Skeleton(_ref) {
   return React.createElement(AntdSkeleton, Object.assign({
     enableAnimation: true,
     borderRadius: "6px",
-    containerClassName: "inprodi-skeleton",
-    style: {
-      width: "fit-content"
-    }
+    containerClassName: "inprodi-skeleton"
   }, props));
 };
 var skeletonMeta = {
