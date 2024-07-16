@@ -1,8 +1,9 @@
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
 import { AuthGlobalContext } from "./components/AuthGlobalContext";
-import { showNotification } from "./helpers/showNotification";
-import parseName from "./helpers/parseName";
+import { FieldsGlobalContext } from "./components/FieldsGlobalContext";
 import { AppGlobalContext } from "./components/AppGlobalContext";
+import parseName from "./helpers/parseName";
+import { showNotification } from "./helpers/showNotification";
 import parsePhoneNumber from "./helpers/parsePhoneNumber";
 import formatCurrency from "./helpers/formatCurrency";
 import validateEmail from "./helpers/validateEmail";
@@ -13,10 +14,10 @@ import updateQueryParam from "./helpers/updateQueryParam";
 import parseQueryParams from "./helpers/parseQueryParams";
 import getQueryParams from "./helpers/getQueryParams";
 import getQueryParamsObject from "./helpers/getQueryParamsObject";
+import getConstants from "./helpers/getConstants";
+import removeQueryParam from "./helpers/removeQueryParam";
 
 import { registerAll } from "inprodi-design-system";
-import removeQueryParam from "./helpers/removeQueryParam";
-import { FieldsGlobalContext } from "./components/FieldsGlobalContext";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -29,6 +30,11 @@ export const PLASMIC = initPlasmicLoader({
 });
 
 registerAll( PLASMIC );
+
+PLASMIC.registerFunction( getConstants, {
+  name : "getConstants",
+  params : [],
+});
 
 PLASMIC.registerFunction( showNotification, {
   name : "showNotification",

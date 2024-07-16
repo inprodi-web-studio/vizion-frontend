@@ -246,3 +246,26 @@ li.ant-pagination-item a {
 li.ant-pagination-item.ant-pagination-item-active a {
     color: black !important;
 }
+
+.ant-input-number-input-wrap,
+.ant-input-number-input {
+    height: 100%;
+}
+
+.filepond--root.image-uploader {
+    margin: 0 !important;
+    font-family: Geist sans;
+    cursor: pointer;
+}
+
+.image-uploader .filepond--panel-root {
+    background: var(--antd-colorBgLayout);
+    border-radius: 6px;
+    border: dashed 1px var(--antd-colorBorder);
+}
+
+.image-uploader .filepond--drop-label label {
+    cursor: pointer !important;
+    font-size: 12px;
+    color: var(--plasmic-token-secondary-text);
+}

@@ -74,6 +74,7 @@ const AdvancedTable = forwardRef<any, AdvancedTableProps>(({
 
                         <Pagination
                             size="small"
+                            showSizeChanger={false}
                             current={ currentPage }
                             total={ pagination.total }
                             pageSize={ pagination.pageSize }

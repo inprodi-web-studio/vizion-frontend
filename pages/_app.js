@@ -6,6 +6,9 @@ import theme from "../theme/themeConfig";
 
 import "../styles/globals.css";
 import "react-loading-skeleton/dist/skeleton.css";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+import "filepond/dist/filepond.min.css";
+
 import { useRouter } from "next/router";
 
 const App = ({ Component, pageProps }) => {

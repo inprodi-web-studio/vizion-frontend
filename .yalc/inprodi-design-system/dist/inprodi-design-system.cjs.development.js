@@ -14,6 +14,9 @@ var AntdSkeleton = _interopDefault(require('react-loading-skeleton'));
 var _debounce = _interopDefault(require('lodash/debounce'));
 var InputMask = _interopDefault(require('react-input-mask'));
 var react = require('@phosphor-icons/react');
+var reactFilepond = require('react-filepond');
+var FilePondPluginImagePreview = _interopDefault(require('filepond-plugin-image-preview'));
+var FilePondPluginFileValidateType = _interopDefault(require('filepond-plugin-file-validate-type'));
 var CountUp = _interopDefault(require('react-countup'));
 
 var HoverContext = /*#__PURE__*/React.createContext({
@@ -641,6 +644,7 @@ var AdvancedTable = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
     disabled: currentPage === 1
   }), React__default.createElement(antd.Pagination, {
     size: "small",
+    showSizeChanger: false,
     current: currentPage,
     total: pagination.total,
     pageSize: pagination.pageSize,
@@ -708,7 +712,10 @@ var Skeleton = function Skeleton(_ref) {
   return React__default.createElement(AntdSkeleton, Object.assign({
     enableAnimation: true,
     borderRadius: "6px",
-    containerClassName: "inprodi-skeleton"
+    containerClassName: "inprodi-skeleton",
+    style: {
+      width: "fit-content"
+    }
   }, props));
 };
 var skeletonMeta = {
@@ -2369,6 +2376,147 @@ function registerFormField(loader, customFormFieldMeta) {
   doRegisterComponent(FormField, customFormFieldMeta != null ? customFormFieldMeta : formFieldMeta);
 }
 
+reactFilepond.registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType);
+var ImageUploader = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
+  var _ref$value = _ref.value,
+    value = _ref$value === void 0 ? [] : _ref$value,
+    disabled = _ref.disabled,
+    multiple = _ref.multiple,
+    maxFiles = _ref.maxFiles,
+    dropOnPage = _ref.dropOnPage;
+  var _useState = React.useState(value),
+    files = _useState[0],
+    setFiles = _useState[1];
+  var pondRef = React.useRef(null);
+  React.useEffect(function () {
+    if (files.length === 0) {
+      setFiles(value);
+    }
+  }, [value]);
+  React.useImperativeHandle(ref, function () {
+    return {
+      getFiles: function getFiles() {
+        var result = pondRef.current.getFiles();
+        var fileList = [];
+        result.map(function (file) {
+          fileList.push(file.file);
+        });
+        return fileList;
+      }
+    };
+  });
+  return React__default.createElement(reactFilepond.FilePond, {
+    ref: function ref(_ref2) {
+      return pondRef.current = _ref2;
+    },
+    files: files,
+    onaddfile: function onaddfile(error, file) {
+      console.log(error);
+      var index = files.findIndex(function (i) {
+        return i === file.source;
+      });
+      if (index === -1) {
+        setFiles(function (prevFiles) {
+          return [].concat(prevFiles, [file.source]);
+        });
+      }
+    },
+    onremovefile: function onremovefile(error, file) {
+      console.log(error);
+      setFiles(function (prevFiles) {
+        return prevFiles.filter(function (prevFile) {
+          return prevFile !== file.source;
+        });
+      });
+    },
+    credits: false,
+    maxFiles: maxFiles,
+    disabled: disabled,
+    allowReorder: true,
+    maxParallelUploads: 3,
+    dropOnPage: dropOnPage,
+    allowMultiple: multiple,
+    className: "image-uploader",
+    itemInsertLocation: "after",
+    labelDecimalSeparator: ".",
+    labelThousandsSeparator: ",",
+    acceptedFileTypes: ["image/*"],
+    labelIdle: "Arrastra y suelta im\xE1genes o haz click para buscar",
+    labelInvalidField: "Hay archivos inv\xE1lidos",
+    labelFileWaitingForSize: "Esperando tama\xF1o...",
+    labelFileSizeNotAvailable: "Tama\xF1o no disponible",
+    labelFileLoading: "Cargando...",
+    labelFileLoadError: "Error al cargar el archivo",
+    labelFileProcessing: "Subiendo...",
+    labelFileProcessingComplete: "Completado",
+    labelFileProcessingAborted: "Cancelado",
+    labelTapToCancel: "click para cancelar",
+    labelTapToRetry: "click para reintentar",
+    labelTapToUndo: "click para deshacer",
+    labelButtonRemoveItem: "Eliminar",
+    labelButtonAbortItemLoad: "Cancelar",
+    labelButtonRetryItemLoad: "Reintentar",
+    labelButtonAbortItemProcessing: "Cancelar",
+    labelButtonUndoItemProcessing: "Deshacer",
+    labelButtonRetryItemProcessing: "Reintentar",
+    labelButtonProcessItem: "Subir"
+  });
+});
+var imageUploaderMeta = {
+  name: "ImageUploader",
+  displayName: "Image Uploader",
+  props: {
+    value: {
+      type: "array",
+      defaultValue: []
+    },
+    authToken: {
+      type: "string"
+    },
+    uploadUrl: {
+      type: "string"
+    },
+    deleteUrl: {
+      type: "string"
+    },
+    disabled: {
+      type: "boolean",
+      defaultValue: false
+    },
+    multiple: {
+      type: "boolean",
+      defaultValue: true
+    },
+    maxFiles: {
+      type: "number",
+      defaultValue: 1
+    },
+    dropOnPage: {
+      type: "boolean",
+      defaultValue: false,
+      advanced: true
+    },
+    onChange: {
+      type: "eventHandler",
+      argTypes: []
+    }
+  },
+  refActions: {
+    getFiles: {
+      description: "Get files uploaded into the instance",
+      argTypes: []
+    }
+  },
+  importPath: "inprodi-design-system",
+  importName: "ImageUploader"
+};
+function registerImageUploader(loader, customImageUploaderMeta) {
+  var doRegisterComponent = function doRegisterComponent() {
+    return loader ? loader.registerComponent.apply(loader, arguments) : registerComponent.apply(void 0, arguments);
+  };
+  doRegisterComponent(ImageUploader, customImageUploaderMeta != null ? customImageUploaderMeta : imageUploaderMeta);
+}
+
 var Layout = function Layout(_ref) {
   var content = _ref.content,
     _onSelect = _ref.onSelect,
@@ -2740,7 +2888,162 @@ function registerModal(loader, customModalMeta) {
   doRegisterComponent(Modal, customModalMeta != null ? customModalMeta : modalMeta);
 }
 
-var _excluded$7 = ["size", "value", "error", "leftIcon", "onChange", "rightIcon", "onClearError", "name"];
+var _excluded$7 = ["size", "value", "error", "variant", "leftIcon", "onChange", "rightIcon", "name", "debounce", "onClearError", "disabled", "onBlur"];
+var NumberInput = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
+  var size = _ref.size,
+    value = _ref.value,
+    error = _ref.error,
+    variant = _ref.variant,
+    leftIcon = _ref.leftIcon,
+    onChange = _ref.onChange,
+    rightIcon = _ref.rightIcon,
+    _ref$debounce = _ref.debounce,
+    debounce = _ref$debounce === void 0 ? 0 : _ref$debounce,
+    onClearError = _ref.onClearError,
+    disabled = _ref.disabled,
+    _onBlur = _ref.onBlur,
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$7);
+  var _useState = React.useState(value),
+    inputValue = _useState[0],
+    setInputValue = _useState[1];
+  var _useState2 = React.useState(error),
+    inputError = _useState2[0],
+    setInputError = _useState2[1];
+  React.useEffect(function () {
+    setInputError(error);
+  }, [error]);
+  React.useEffect(function () {
+    setInputValue(value);
+  }, [value]);
+  var debouncedOnChange = React.useMemo(function () {
+    if (debounce > 0) {
+      return _debounce(function (val) {
+        return onChange(val);
+      }, debounce);
+    } else {
+      return onChange;
+    }
+  }, [onChange, debounce]);
+  var handleChange = React.useCallback(function (value) {
+    var newValue = value;
+    setInputValue(newValue);
+    setInputError(null);
+    debouncedOnChange(newValue);
+    onClearError && onClearError();
+  }, [debouncedOnChange]);
+  return React__default.createElement(antd.InputNumber, Object.assign({
+    keyboard: true,
+    ref: ref,
+    decimalSeparator: ".",
+    variant: variant,
+    prefix: leftIcon,
+    suffix: rightIcon,
+    disabled: disabled,
+    onChange: handleChange,
+    value: inputValue != null ? inputValue : value,
+    onBlur: function onBlur(e) {
+      return _onBlur && _onBlur(e);
+    },
+    status: inputError ? "error" : undefined,
+    parser: function parser(value) {
+      return value ? value.replace(/\$\s?|(,*)/g, '') : '';
+    },
+    formatter: function formatter(value) {
+      return value ? value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '';
+    },
+    style: _extends({
+      height: size === "small" ? "30px" : size === "middle" ? "38px" : "46px"
+    }, variant === "borderless" && {
+      padding: 0
+    })
+  }, props));
+});
+var numberInputMeta = {
+  name: "Number Input",
+  displayName: "Number Input",
+  providesData: true,
+  states: {
+    value: {
+      type: "writable",
+      variableType: "text",
+      valueProp: "value",
+      onChangeProp: "onChange"
+    }
+  },
+  props: {
+    value: {
+      type: "string"
+    },
+    min: {
+      type: "number"
+    },
+    max: {
+      type: "number"
+    },
+    step: {
+      type: "number",
+      defaultValue: 1
+    },
+    precision: {
+      type: "number",
+      defaultValue: 0
+    },
+    placeholder: {
+      type: "string",
+      defaultValue: "Input Placeholder"
+    },
+    size: {
+      type: "choice",
+      options: ["small", "middle", "large"],
+      defaultValue: "middle"
+    },
+    variant: {
+      type: "choice",
+      options: ["outlined", "borderless", "filled"],
+      defaultValue: "outlined"
+    },
+    disabled: {
+      type: "boolean",
+      defaultValue: false
+    },
+    debounce: {
+      type: "number",
+      defaultValue: 0,
+      advanced: true
+    },
+    error: {
+      type: "string",
+      advanced: true
+    },
+    leftIcon: {
+      type: "slot",
+      allowedComponents: ["Icon"],
+      hidePlaceholder: true
+    },
+    rightIcon: {
+      type: "slot",
+      allowedComponents: ["Icon"],
+      hidePlaceholder: true
+    },
+    onChange: {
+      type: "eventHandler",
+      argTypes: [{
+        name: "value",
+        type: "string"
+      }]
+    }
+  },
+  importPath: "inprodi-design-system",
+  importName: "Input"
+};
+function registerNumberInput(loader, customNumberInputMeta) {
+  var doRegisterComponent = function doRegisterComponent() {
+    return loader ? loader.registerComponent.apply(loader, arguments) : registerComponent.apply(void 0, arguments);
+  };
+  doRegisterComponent(NumberInput, customNumberInputMeta != null ? customNumberInputMeta : numberInputMeta);
+}
+
+var _excluded$8 = ["size", "value", "error", "leftIcon", "onChange", "rightIcon", "onClearError", "name"];
 var PasswordInput = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
   var size = _ref.size,
     error = _ref.error,
@@ -2748,7 +3051,7 @@ var PasswordInput = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
     onChange = _ref.onChange,
     rightIcon = _ref.rightIcon,
     onClearError = _ref.onClearError,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$7);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$8);
   var handleOnChange = function handleOnChange(event) {
     onChange(event.target.value);
     onClearError && onClearError();
@@ -2841,10 +3144,10 @@ function registerPasswordInput(loader, customPasswordInputMeta) {
   doRegisterComponent(PasswordInput, customPasswordInputMeta != null ? customPasswordInputMeta : passwordInputMeta);
 }
 
-var _excluded$8 = ["value"];
+var _excluded$9 = ["value"];
 var Progress = function Progress(_ref) {
   var value = _ref.value,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$8);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$9);
   return React__default.createElement(antd.Progress, Object.assign({
     percent: value
   }, props));
@@ -2914,13 +3217,13 @@ function registerProgress(loader, customProgressMeta) {
   doRegisterComponent(Progress, customProgressMeta != null ? customProgressMeta : progressMeta);
 }
 
-var _excluded$9 = ["value", "onValueChange", "className", "icon"];
+var _excluded$a = ["value", "onValueChange", "className", "icon"];
 var Rate = function Rate(_ref) {
   var value = _ref.value,
     onValueChange = _ref.onValueChange,
     className = _ref.className,
     icon = _ref.icon,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$9);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$a);
   var handleChange = function handleChange(value) {
     onValueChange(value);
   };
@@ -2992,11 +3295,11 @@ function registerRate(loader, customRateMeta) {
   doRegisterComponent(Rate, customRateMeta != null ? customRateMeta : rateMeta);
 }
 
-var _excluded$a = ["options", "onChange"];
+var _excluded$b = ["options", "onChange"];
 var Segmented = function Segmented(_ref) {
   var options = _ref.options,
     _onChange = _ref.onChange,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$a);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$b);
   var parsedOptions = [];
   for (var _iterator = _createForOfIteratorHelperLoose(options), _step; !(_step = _iterator()).done;) {
     var option = _step.value;
@@ -3366,11 +3669,11 @@ function registerSlider(loader, customSliderMeta) {
   doRegisterComponent(Slider, customSliderMeta != null ? customSliderMeta : sliderMeta);
 }
 
-var _excluded$b = ["label", "closable"];
+var _excluded$c = ["label", "closable"];
 var Tag = function Tag(_ref) {
   var label = _ref.label,
     closable = _ref.closable,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$b);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$c);
   return React__default.createElement(antd.Tag, Object.assign({
     closeIcon: closable,
     style: {
@@ -3648,12 +3951,19 @@ function registerStat(loader, customRegisterMeta) {
   doRegisterComponent(Stat, customRegisterMeta != null ? customRegisterMeta : statMeta);
 }
 
-var _excluded$c = ["checkedIcon", "unCheckedIcon"];
+var _excluded$d = ["checkedIcon", "unCheckedIcon"];
 var Switch = function Switch(_ref) {
   var checkedIcon = _ref.checkedIcon,
     unCheckedIcon = _ref.unCheckedIcon,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$c);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$d);
   return React__default.createElement(antd.Switch, Object.assign({
+    onClick: function onClick(checked, event) {
+      if (checked) {
+        event.stopPropagation();
+      } else {
+        event.stopPropagation();
+      }
+    },
     checkedChildren: checkedIcon && React__default.createElement(Icon, {
       icon: checkedIcon,
       variant: "regular"
@@ -3736,11 +4046,13 @@ function registerAll(loader) {
   registerProgress(loader);
   registerSegmented(loader);
   registerFormField(loader);
+  registerNumberInput(loader);
   registerConfirmation(loader);
   registerAutoComplete(loader);
   registerDropdownItem(loader);
   registerPasswordInput(loader);
   registerAdvancedTable(loader);
+  registerImageUploader(loader);
   registerAdvancedTableCell(loader);
   registerAdvancedTableColumn(loader);
 }

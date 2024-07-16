@@ -20,6 +20,13 @@ export const Switch = ({
 } : SwitchProps ) => {
 
     return <AntdSwitch
+        onClick={ (checked, event) => {
+            if ( checked ) {
+                event.stopPropagation();
+            } else {
+                event.stopPropagation();
+            }
+        } }
         checkedChildren={ checkedIcon && <Icon icon={ checkedIcon } variant="regular" />}
         unCheckedChildren={ unCheckedIcon && <Icon icon={ unCheckedIcon } variant="regular" />}
         {...props}

@@ -2,7 +2,7 @@
   "version": "v1",
   "packages": {
     "inprodi-design-system": {
-      "signature": "11766004f82063442f2d10c13a2cef5a",
+      "signature": "ac3b2d1459cb499c278a1e622fc914d1",
       "file": true,
       "replaced": "^0.23.8"
     }
