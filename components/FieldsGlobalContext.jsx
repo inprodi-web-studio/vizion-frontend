@@ -14,6 +14,7 @@ export const FieldsGlobalContext = ({ children }) => {
                 crm : {
                     leads : ["email", "phones", "responsible", "rating", "group", "source", "potential", "value", "tags"],
                     customers : ["email", "phones", "responsible", "rating", "group", "source", "balance", "value", "lastSale", "tags"],
+                    products : ["type", "price", "category", "unity", "status", "tags"],
                 },
             }));
         }

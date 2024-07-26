@@ -9,12 +9,14 @@ interface SelectProps {
     isEmpty: boolean;
     loading: boolean;
     searchable: boolean;
+    error: string | null | undefined;
     menuContent: any;
     onChange: any;
     disabled?: boolean;
     onClose: () => void;
     onOpen: () => void;
     onSearch: any;
+    onClearError?: any;
     value?: {
         label: string;
         value: string;
@@ -26,7 +28,7 @@ interface SelectProps {
 }
 
 const heightDictionary = {
-    small: "28px",
+    small: "30px",
     middle: "36px",
     large: "44px",
 };
@@ -45,7 +47,9 @@ export const Select = forwardRef<any, SelectProps>(({
     disabled,
     onOpen,
     onClose,
+    error,
     onChange,
+    onClearError,
     onSearch,
     className,
     searchable,
@@ -59,6 +63,11 @@ export const Select = forwardRef<any, SelectProps>(({
     const [isHovered, setIsHovered] = useState(false);
     const [isOpened, setIsOpened] = useState(false);
     const [internalValue, setInternalValue] = useState(value);
+    const [inputError, setInputError] = useState<string | null | undefined>(error);
+
+    useEffect(() => {
+        setInputError(error);
+    }, [error]);
 
     useEffect(() => {
         setInternalValue(value);
@@ -68,6 +77,7 @@ export const Select = forwardRef<any, SelectProps>(({
         setValue: (newValue: { label: string; value: string }) => {
             setInternalValue(newValue);
             onChange(newValue);
+            onClearError && onClearError();
         },
     }), [onChange]);
 
@@ -76,7 +86,7 @@ export const Select = forwardRef<any, SelectProps>(({
         alignItems: "center",
         justifyContent: "space-between",
         borderRadius : "6px",
-        border : `solid 1px ${ isHovered ? token.colorPrimaryBorderHover : isOpened ? token.colorPrimary : token.colorBorder }`,
+        border : `solid 1px ${ inputError ? token.colorError : isHovered ? token.colorPrimaryBorderHover : isOpened ? token.colorPrimary : token.colorBorder }`,
         gap : "10px",
         cursor : disabled ? "default" : "pointer",
         height : heightDictionary[size],

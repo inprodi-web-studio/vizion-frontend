@@ -2109,10 +2109,8 @@ inherits@2:
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
 
-inprodi-design-system@^0.27.80:
-  version "0.27.80"
-  resolved "https://registry.yarnpkg.com/inprodi-design-system/-/inprodi-design-system-0.27.80.tgz#8ad113f406ce32b0d43e27c3d73c7828898feef2"
-  integrity sha512-8E4neDYfDkUvnIemJhJjYrSWwsoF/0I/rImg3SaWhpicnlMlN4yhbT5VEvA9rtXfyS/yeXy8BtV28Tcd8pKLLg==
+"inprodi-design-system@file:.yalc/inprodi-design-system":
+  version "1.0.36"
   dependencies:
     "@hookform/resolvers" "^3.4.2"
     "@phosphor-icons/react" "^2.1.5"

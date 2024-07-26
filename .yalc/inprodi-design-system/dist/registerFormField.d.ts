@@ -5,7 +5,9 @@ interface FormFieldProps {
     error: string;
     label: string;
     name: string;
+    required?: boolean;
     className: string;
+    showErrorMessage?: boolean;
     content: any;
     onErrorChange: any;
 }

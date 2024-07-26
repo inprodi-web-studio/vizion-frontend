@@ -13,6 +13,14 @@ var Icons = require('@phosphor-icons/react/dist/ssr');
 var AntdSkeleton = _interopDefault(require('react-loading-skeleton'));
 var _debounce = _interopDefault(require('lodash/debounce'));
 var InputMask = _interopDefault(require('react-input-mask'));
+var dayjs = _interopDefault(require('dayjs'));
+var advancedFormat = _interopDefault(require('dayjs/plugin/advancedFormat'));
+var customParseFormat = _interopDefault(require('dayjs/plugin/customParseFormat'));
+var localeData = _interopDefault(require('dayjs/plugin/localeData'));
+var weekday = _interopDefault(require('dayjs/plugin/weekday'));
+var weekOfYear = _interopDefault(require('dayjs/plugin/weekOfYear'));
+var weekYear = _interopDefault(require('dayjs/plugin/weekYear'));
+require('dayjs/locale/es-mx');
 var react = require('@phosphor-icons/react');
 var reactFilepond = require('react-filepond');
 var FilePondPluginImagePreview = _interopDefault(require('filepond-plugin-image-preview'));
@@ -1615,11 +1623,107 @@ function registerConfirmation(loader, customConfirmationMeta) {
   doRegisterComponent(Confirmation, customConfirmationMeta != null ? customConfirmationMeta : confirmationMeta);
 }
 
-var _excluded$4 = ["text", "margin"];
+var _excluded$4 = ["error", "value", "minDate", "maxDate", "onChange"];
+dayjs.extend(customParseFormat);
+dayjs.extend(advancedFormat);
+dayjs.extend(weekday);
+dayjs.extend(localeData);
+dayjs.extend(weekOfYear);
+dayjs.extend(weekYear);
+dayjs.locale("es-mx");
+var DatePicker = function DatePicker(_ref) {
+  var error = _ref.error,
+    value = _ref.value,
+    minDate = _ref.minDate,
+    maxDate = _ref.maxDate,
+    _onChange = _ref.onChange,
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$4);
+  return React__default.createElement(antd.DatePicker, Object.assign({}, props, {
+    showNow: false,
+    format: "MMMM D, YYYY",
+    minDate: minDate ? dayjs(minDate) : undefined,
+    maxDate: maxDate ? dayjs(maxDate) : undefined,
+    value: value ? dayjs(value) : undefined,
+    status: error ? "error" : undefined,
+    onChange: function onChange(date) {
+      console.log({
+        date: date
+      });
+      _onChange(date.format("YYYY-MM-DD"));
+    }
+  }));
+};
+var datePickerMeta = {
+  name: "DatePicker",
+  displayName: "Date Picker",
+  states: {
+    value: {
+      type: "writable",
+      variableType: "text",
+      valueProp: "value",
+      onChangeProp: "onChange"
+    }
+  },
+  props: {
+    value: {
+      type: "string"
+    },
+    disabled: {
+      type: "boolean",
+      defaultValue: false
+    },
+    minDate: {
+      type: "string"
+    },
+    maxDate: {
+      type: "string"
+    },
+    picker: {
+      type: "choice",
+      options: ["date", "week", "month", "quarter", "year"],
+      defaultValue: "date"
+    },
+    placeholder: {
+      type: "string",
+      defaultValue: "Seleccionar..."
+    },
+    size: {
+      type: "choice",
+      options: ["small", "middle", "large"],
+      defaultValue: "middle"
+    },
+    error: {
+      type: "string"
+    },
+    showTime: {
+      type: "boolean",
+      defaultValue: false
+    },
+    variant: {
+      type: "choice",
+      options: ["outlined", "borderless", "filled"],
+      defaultValue: "outlined"
+    },
+    onChange: {
+      type: "eventHandler",
+      argTypes: []
+    }
+  },
+  importPath: "inprodi-design-system",
+  importName: "DatePicker"
+};
+function registerDatePicker(loader, customDatePickerMeta) {
+  var doRegisterComponent = function doRegisterComponent() {
+    return loader ? loader.registerComponent.apply(loader, arguments) : registerComponent.apply(void 0, arguments);
+  };
+  doRegisterComponent(DatePicker, customDatePickerMeta != null ? customDatePickerMeta : datePickerMeta);
+}
+
+var _excluded$5 = ["text", "margin"];
 var Divider = function Divider(_ref) {
   var text = _ref.text,
     margin = _ref.margin,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$4);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$5);
   return React__default.createElement(antd.Divider, Object.assign({
     style: {
       margin: margin
@@ -1672,13 +1776,13 @@ function registerDivider(loader, customDividerMeta) {
   doRegisterComponent(Divider, customDividerMeta != null ? customDividerMeta : dividerMeta);
 }
 
-var _excluded$5 = ["open", "content", "maskColor", "bodyPadding"];
+var _excluded$6 = ["open", "content", "maskColor", "bodyPadding"];
 var Drawer = function Drawer(_ref) {
   var open = _ref.open,
     content = _ref.content,
     maskColor = _ref.maskColor,
     bodyPadding = _ref.bodyPadding,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$5);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$6);
   var _theme$useToken = antd.theme.useToken(),
     token = _theme$useToken.token;
   return React__default.createElement(antd.Drawer, Object.assign({
@@ -2261,7 +2365,9 @@ var FormField = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
     label = _ref.label,
     error = _ref.error,
     content = _ref.content,
+    required = _ref.required,
     className = _ref.className,
+    showErrorMessage = _ref.showErrorMessage,
     onErrorChange = _ref.onErrorChange;
   React.useImperativeHandle(ref, function () {
     return {
@@ -2285,6 +2391,10 @@ var FormField = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
     fontWeight: "500",
     lineHeight: "20px"
   };
+  var requiredStyle = {
+    color: antd.theme.useToken().token.colorError,
+    fontWeight: "600"
+  };
   var errorContainerStyles = {
     display: "flex",
     flexDirection: "row",
@@ -2299,16 +2409,18 @@ var FormField = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
   return React__default.createElement("div", {
     className: "form_field-inprodi " + className,
     ref: ref
-  }, React__default.createElement("div", null, React__default.createElement("div", {
+  }, React__default.createElement("div", null, label && React__default.createElement("div", {
     className: "label-container",
     style: labelContainerStyles
   }, React__default.createElement("label", {
     htmlFor: name,
     style: labelStyles
-  }, label)), React__default.cloneElement(content, {
+  }, label, required && React__default.createElement("span", {
+    style: requiredStyle
+  }, "*"))), React__default.cloneElement(content, {
     error: error,
     onClearError: handleClearError
-  }), error && React__default.createElement("div", {
+  }), error && showErrorMessage && React__default.createElement("div", {
     className: "error-container",
     style: errorContainerStyles
   }, React__default.createElement(react.WarningDiamond, {
@@ -2340,6 +2452,11 @@ var formFieldMeta = {
       defaultValue: "Input Label",
       description: "The label of the form field"
     },
+    required: {
+      type: "boolean",
+      defaultValue: false,
+      description: "Whether the form field is required"
+    },
     content: {
       type: "slot",
       description: "The content of the form field"
@@ -2348,6 +2465,11 @@ var formFieldMeta = {
       type: "string",
       description: "The error of the form field",
       defaultValue: ""
+    },
+    showErrorMessage: {
+      type: "boolean",
+      defaultValue: true,
+      description: "Whether to show the error message"
     },
     onErrorChange: {
       type: "eventHandler",
@@ -2761,12 +2883,12 @@ function registerLayout(loader, customLayoutMeta) {
   doRegisterComponent(Layout, customLayoutMeta != null ? customLayoutMeta : layoutMeta);
 }
 
-var _excluded$6 = ["open", "content", "bodyPadding"];
+var _excluded$7 = ["open", "content", "bodyPadding"];
 var Modal = function Modal(_ref) {
   var open = _ref.open,
     content = _ref.content,
     bodyPadding = _ref.bodyPadding,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$6);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$7);
   var _theme$useToken = antd.theme.useToken(),
     token = _theme$useToken.token;
   return React__default.createElement(antd.Modal, Object.assign({
@@ -2885,7 +3007,7 @@ function registerModal(loader, customModalMeta) {
   doRegisterComponent(Modal, customModalMeta != null ? customModalMeta : modalMeta);
 }
 
-var _excluded$7 = ["size", "value", "error", "variant", "leftIcon", "onChange", "rightIcon", "name", "debounce", "onClearError", "disabled", "onBlur"];
+var _excluded$8 = ["size", "value", "error", "variant", "leftIcon", "onChange", "rightIcon", "name", "debounce", "onClearError", "disabled", "onBlur"];
 var NumberInput = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
   var size = _ref.size,
     value = _ref.value,
@@ -2899,7 +3021,7 @@ var NumberInput = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
     onClearError = _ref.onClearError,
     disabled = _ref.disabled,
     _onBlur = _ref.onBlur,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$7);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$8);
   var _useState = React.useState(value),
     inputValue = _useState[0],
     setInputValue = _useState[1];
@@ -2940,6 +3062,9 @@ var NumberInput = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
     value: inputValue != null ? inputValue : value,
     onBlur: function onBlur(e) {
       return _onBlur && _onBlur(e);
+    },
+    onClick: function onClick(e) {
+      return e.stopPropagation();
     },
     status: inputError ? "error" : undefined,
     parser: function parser(value) {
@@ -3040,7 +3165,7 @@ function registerNumberInput(loader, customNumberInputMeta) {
   doRegisterComponent(NumberInput, customNumberInputMeta != null ? customNumberInputMeta : numberInputMeta);
 }
 
-var _excluded$8 = ["size", "value", "error", "leftIcon", "onChange", "rightIcon", "onClearError", "name"];
+var _excluded$9 = ["size", "value", "error", "leftIcon", "onChange", "rightIcon", "onClearError", "name"];
 var PasswordInput = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
   var size = _ref.size,
     error = _ref.error,
@@ -3048,7 +3173,7 @@ var PasswordInput = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
     onChange = _ref.onChange,
     rightIcon = _ref.rightIcon,
     onClearError = _ref.onClearError,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$8);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$9);
   var handleOnChange = function handleOnChange(event) {
     onChange(event.target.value);
     onClearError && onClearError();
@@ -3141,10 +3266,10 @@ function registerPasswordInput(loader, customPasswordInputMeta) {
   doRegisterComponent(PasswordInput, customPasswordInputMeta != null ? customPasswordInputMeta : passwordInputMeta);
 }
 
-var _excluded$9 = ["value"];
+var _excluded$a = ["value"];
 var Progress = function Progress(_ref) {
   var value = _ref.value,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$9);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$a);
   return React__default.createElement(antd.Progress, Object.assign({
     percent: value
   }, props));
@@ -3214,13 +3339,13 @@ function registerProgress(loader, customProgressMeta) {
   doRegisterComponent(Progress, customProgressMeta != null ? customProgressMeta : progressMeta);
 }
 
-var _excluded$a = ["value", "onValueChange", "className", "icon"];
+var _excluded$b = ["value", "onValueChange", "className", "icon"];
 var Rate = function Rate(_ref) {
   var value = _ref.value,
     onValueChange = _ref.onValueChange,
     className = _ref.className,
     icon = _ref.icon,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$a);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$b);
   var handleChange = function handleChange(value) {
     onValueChange(value);
   };
@@ -3292,11 +3417,11 @@ function registerRate(loader, customRateMeta) {
   doRegisterComponent(Rate, customRateMeta != null ? customRateMeta : rateMeta);
 }
 
-var _excluded$b = ["options", "onChange"];
+var _excluded$c = ["options", "onChange"];
 var Segmented = function Segmented(_ref) {
   var options = _ref.options,
     _onChange = _ref.onChange,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$b);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$c);
   var parsedOptions = [];
   for (var _iterator = _createForOfIteratorHelperLoose(options), _step; !(_step = _iterator()).done;) {
     var option = _step.value;
@@ -3379,7 +3504,7 @@ function registerSegmented(loader, customSegmentedMeta) {
 }
 
 var heightDictionary = {
-  small: "28px",
+  small: "30px",
   middle: "36px",
   large: "44px"
 };
@@ -3398,7 +3523,9 @@ var Select = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
     disabled = _ref.disabled,
     _onOpen = _ref.onOpen,
     _onClose = _ref.onClose,
+    error = _ref.error,
     onChange = _ref.onChange,
+    onClearError = _ref.onClearError,
     _onSearch = _ref.onSearch,
     className = _ref.className,
     searchable = _ref.searchable,
@@ -3416,6 +3543,12 @@ var Select = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
   var _useState3 = React.useState(value),
     internalValue = _useState3[0],
     setInternalValue = _useState3[1];
+  var _useState4 = React.useState(error),
+    inputError = _useState4[0],
+    setInputError = _useState4[1];
+  React.useEffect(function () {
+    setInputError(error);
+  }, [error]);
   React.useEffect(function () {
     setInternalValue(value);
   }, [value]);
@@ -3424,6 +3557,7 @@ var Select = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
       setValue: function setValue(newValue) {
         setInternalValue(newValue);
         onChange(newValue);
+        onClearError && onClearError();
       }
     };
   }, [onChange]);
@@ -3432,7 +3566,7 @@ var Select = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
     alignItems: "center",
     justifyContent: "space-between",
     borderRadius: "6px",
-    border: "solid 1px " + (isHovered ? token.colorPrimaryBorderHover : isOpened ? token.colorPrimary : token.colorBorder),
+    border: "solid 1px " + (inputError ? token.colorError : isHovered ? token.colorPrimaryBorderHover : isOpened ? token.colorPrimary : token.colorBorder),
     gap: "10px",
     cursor: disabled ? "default" : "pointer",
     height: heightDictionary[size],
@@ -3666,11 +3800,11 @@ function registerSlider(loader, customSliderMeta) {
   doRegisterComponent(Slider, customSliderMeta != null ? customSliderMeta : sliderMeta);
 }
 
-var _excluded$c = ["label", "closable"];
+var _excluded$d = ["label", "closable"];
 var Tag = function Tag(_ref) {
   var label = _ref.label,
     closable = _ref.closable,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$c);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$d);
   return React__default.createElement(antd.Tag, Object.assign({
     closeIcon: closable,
     style: {
@@ -3948,11 +4082,11 @@ function registerStat(loader, customRegisterMeta) {
   doRegisterComponent(Stat, customRegisterMeta != null ? customRegisterMeta : statMeta);
 }
 
-var _excluded$d = ["checkedIcon", "unCheckedIcon"];
+var _excluded$e = ["checkedIcon", "unCheckedIcon"];
 var Switch = function Switch(_ref) {
   var checkedIcon = _ref.checkedIcon,
     unCheckedIcon = _ref.unCheckedIcon,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$d);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$e);
   return React__default.createElement(antd.Switch, Object.assign({
     onClick: function onClick(checked, event) {
       if (checked) {
@@ -4043,6 +4177,7 @@ function registerAll(loader) {
   registerProgress(loader);
   registerSegmented(loader);
   registerFormField(loader);
+  registerDatePicker(loader);
   registerNumberInput(loader);
   registerConfirmation(loader);
   registerAutoComplete(loader);

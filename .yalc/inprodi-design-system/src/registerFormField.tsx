@@ -9,7 +9,9 @@ interface FormFieldProps {
     error: string;
     label: string;
     name: string;
+    required?: boolean;
     className: string;
+    showErrorMessage?: boolean;
     content: any;
     onErrorChange: any;
 }
@@ -19,7 +21,9 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(({
     label,
     error,
     content,
+    required,
     className,
+    showErrorMessage,
     onErrorChange,
 }, ref) => {
     useImperativeHandle(ref, () => ({
@@ -46,6 +50,11 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(({
         lineHeight: "20px",
     };
 
+    const requiredStyle: CSSProperties = {
+        color: theme.useToken().token.colorError,
+        fontWeight: "600",
+    };
+
     const errorContainerStyles: CSSProperties = {
         display: "flex",
         flexDirection: "row",
@@ -61,15 +70,18 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(({
     return (
         <div className={`form_field-inprodi ${className}`} ref={ref}>
             <div>
-                <div className="label-container" style={labelContainerStyles}>
-                    <label htmlFor={name} style={labelStyles}>
-                        {label}
-                    </label>
-                </div>
+                { label && (
+                    <div className="label-container" style={labelContainerStyles}>
+                        <label htmlFor={name} style={labelStyles}>
+                            {label}
+                            { required && <span style={ requiredStyle }>*</span> }
+                        </label>
+                    </div>
+                )}
 
                 { React.cloneElement( content, { error, onClearError : handleClearError } )}
 
-                { error && (
+                { (error && showErrorMessage) && (
                     <div className="error-container" style={errorContainerStyles}>
                         <WarningDiamond size={12} weight="bold" />
                         <p className="field_error">{error}</p>
@@ -102,6 +114,11 @@ export const formFieldMeta: CodeComponentMeta<FormFieldProps> = {
             defaultValue: "Input Label",
             description: "The label of the form field",
         },
+        required : {
+            type : "boolean",
+            defaultValue : false,
+            description : "Whether the form field is required",
+        },
         content: {
             type: "slot",
             description: "The content of the form field",
@@ -110,6 +127,11 @@ export const formFieldMeta: CodeComponentMeta<FormFieldProps> = {
             type: "string",
             description: "The error of the form field",
             defaultValue: "",
+        },
+        showErrorMessage : {
+            type : "boolean",
+            defaultValue : true,
+            description : "Whether to show the error message",
         },
         onErrorChange : {
             type : "eventHandler",

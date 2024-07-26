@@ -74,6 +74,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(({
             onChange={handleChange}
             value={inputValue ?? value}
             onBlur={(e) => onBlur && onBlur(e)}
+            onClick={ e => e.stopPropagation() }
             status={inputError ? "error" : undefined}
             parser={value => value ? value.replace(/\$\s?|(,*)/g, '') : ''}
             formatter={value => value ? value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}

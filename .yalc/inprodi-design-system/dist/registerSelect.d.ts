@@ -5,12 +5,14 @@ interface SelectProps {
     isEmpty: boolean;
     loading: boolean;
     searchable: boolean;
+    error: string | null | undefined;
     menuContent: any;
     onChange: any;
     disabled?: boolean;
     onClose: () => void;
     onOpen: () => void;
     onSearch: any;
+    onClearError?: any;
     value?: {
         label: string;
         value: string;

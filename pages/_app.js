@@ -1,6 +1,11 @@
 import React, { useEffect } from "react";
 import { ConfigProvider } from "antd";
 import { Toaster } from "sonner";
+import locale from "antd/locale/es_ES";
+import dayjs from "dayjs";
+import "dayjs/locale/es-mx";
+
+dayjs.locale("es-mx");
 
 import theme from "../theme/themeConfig";
 
@@ -28,7 +33,7 @@ const App = ({ Component, pageProps }) => {
   }
 
   return (
-    <ConfigProvider theme={theme}>
+    <ConfigProvider theme={theme} locale={locale}>
       <Toaster
         richColors
         position="bottom-right"

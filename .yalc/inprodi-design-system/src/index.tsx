@@ -7,6 +7,7 @@ import { registerAvatar } from "./registerAvatar";
 import { registerButton } from "./registerButton";
 import { registerCard } from "./registerCard";
 import { registerConfirmation } from "./registerConfirmation";
+import { registerDatePicker } from "./registerDatePicker";
 import { registerDivider } from "./registerDivider";
 import { registerDrawer } from "./registerDrawer";
 import { registerDropdown } from "./registerDropdown";
@@ -52,6 +53,7 @@ export function registerAll(loader?: Registerable) {
   registerProgress(loader);
   registerSegmented(loader);
   registerFormField(loader);
+  registerDatePicker(loader);
   registerNumberInput(loader);
   registerConfirmation(loader);
   registerAutoComplete(loader);
