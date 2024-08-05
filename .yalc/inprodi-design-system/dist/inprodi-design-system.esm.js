@@ -1642,7 +1642,7 @@ var DatePicker = function DatePicker(_ref) {
       console.log({
         date: date
       });
-      _onChange(date.format("YYYY-MM-DD"));
+      _onChange(date == null ? void 0 : date.format("YYYY-MM-DD"));
     }
   }));
 };
@@ -1667,6 +1667,10 @@ var datePickerMeta = {
     },
     minDate: {
       type: "string"
+    },
+    allowClear: {
+      type: "boolean",
+      defaultValue: false
     },
     maxDate: {
       type: "string"
@@ -2170,7 +2174,8 @@ var DropdownItem = function DropdownItem(_ref) {
     maxWidth: "100%",
     whiteSpace: "pre",
     textOverflow: "ellipsis",
-    overflow: "hidden"
+    overflow: "hidden",
+    minWidth: "max-content"
   };
   return React.createElement("div", {
     className: "dropdown-item " + className,
@@ -2217,7 +2222,7 @@ var dropdownItemMeta = {
     },
     selectedPosition: {
       type: "choice",
-      options: ["left", "right"],
+      options: ["none", "left", "right"],
       defaultValue: "right",
       advanced: true
     },
@@ -2386,7 +2391,8 @@ var FormField = /*#__PURE__*/forwardRef(function (_ref, ref) {
   };
   var requiredStyle = {
     color: theme.useToken().token.colorError,
-    fontWeight: "600"
+    fontWeight: "600",
+    marginLeft: "5px"
   };
   var errorContainerStyles = {
     display: "flex",

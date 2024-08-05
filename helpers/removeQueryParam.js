@@ -6,4 +6,4 @@ const removeQueryParam = (key) => {
     }
   };
   
-export default removeQueryParam;  
+export default removeQueryParam;

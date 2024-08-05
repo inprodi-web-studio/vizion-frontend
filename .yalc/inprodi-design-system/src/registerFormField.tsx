@@ -53,6 +53,7 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(({
     const requiredStyle: CSSProperties = {
         color: theme.useToken().token.colorError,
         fontWeight: "600",
+        marginLeft : "5px",
     };
 
     const errorContainerStyles: CSSProperties = {

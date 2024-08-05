@@ -51,7 +51,7 @@ export const DatePicker = ({
             status={error ? "error" : undefined}
             onChange={(date) => {
                 console.log( {date} );
-                onChange( date.format("YYYY-MM-DD") );
+                onChange( date?.format("YYYY-MM-DD") );
             }}
         />
     );
@@ -78,6 +78,10 @@ export const datePickerMeta: CodeComponentMeta<DatePickerProps> = {
         },
         minDate: {
             type: "string",
+        },
+        allowClear: {
+            type: "boolean",
+            defaultValue: false,
         },
         maxDate: {
             type: "string",

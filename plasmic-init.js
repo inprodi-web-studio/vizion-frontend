@@ -16,8 +16,11 @@ import getQueryParams from "./helpers/getQueryParams";
 import getQueryParamsObject from "./helpers/getQueryParamsObject";
 import getConstants from "./helpers/getConstants";
 import removeQueryParam from "./helpers/removeQueryParam";
+import toNow from "./helpers/toNow";
+import fromNow from "./helpers/fromNow";
 
 import { registerAll } from "inprodi-design-system";
+import downloadPdf from "./helpers/downloadPdf";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -26,7 +29,7 @@ export const PLASMIC = initPlasmicLoader({
       token: "hY46OXUh6iHzbLKlv52kmZzhnnfz31uR3Nq99ByJK5EwcQsUoLqJ5vCVPunhtsWcmGHvgATxhxqI564GaYpqg",
     },
   ],
-  preview: true,
+  preview: process.env.NODE_ENV === "development" ? true : false,
 });
 
 registerAll( PLASMIC );
@@ -144,6 +147,20 @@ PLASMIC.registerFunction( getQueryParamsObject, {
   params : [],
 });
 
+PLASMIC.registerFunction( downloadPdf, {
+  name : "downloadPdf",
+  params : [
+    {
+      name        : "response",
+      type        : "string",
+    },
+    {
+      name        : "name",
+      type        : "string",
+    },
+  ],
+});
+
 PLASMIC.registerFunction( removeQueryParam, {
   name : "removeQueryParam",
   params : [
@@ -183,6 +200,28 @@ PLASMIC.registerFunction( formatDate, {
       name        : "format",
       type        : "string",
       description : "The format to use",
+    },
+  ],
+});
+
+PLASMIC.registerFunction( toNow, {
+  name : "toNow",
+  params : [
+    {
+      name        : "date",
+      type        : "string",
+      description : "The date to format",
+    },
+  ],
+});
+
+PLASMIC.registerFunction( fromNow, {
+  name : "fromNow",
+  params : [
+    {
+      name        : "date",
+      type        : "string",
+      description : "The date to format",
     },
   ],
 });

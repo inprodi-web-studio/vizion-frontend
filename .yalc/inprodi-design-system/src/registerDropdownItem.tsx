@@ -59,6 +59,7 @@ export const DropdownItem = ({
         whiteSpace: "pre",
         textOverflow : "ellipsis",
         overflow : "hidden",
+        minWidth : "max-content",
     };
 
     return (
@@ -116,7 +117,7 @@ export const dropdownItemMeta: CodeComponentMeta<DropdownItemProps> = {
         },
         selectedPosition : {
             type : "choice",
-            options : ["left", "right"],
+            options : ["none", "left", "right"],
             defaultValue : "right",
             advanced : true,
         },
