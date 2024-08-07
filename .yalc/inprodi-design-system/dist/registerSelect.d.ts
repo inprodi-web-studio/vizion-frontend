@@ -2,16 +2,16 @@ import React from "react";
 import { CodeComponentMeta } from "@plasmicapp/host/registerComponent";
 import { Registerable } from "./registerable";
 interface SelectProps {
-    isEmpty: boolean;
-    loading: boolean;
-    searchable: boolean;
-    error: string | null | undefined;
+    isEmpty?: boolean;
+    loading?: boolean;
+    searchable?: boolean;
+    error?: string | null | undefined;
     menuContent: any;
-    onChange: any;
+    onChange?: any;
     disabled?: boolean;
-    onClose: () => void;
-    onOpen: () => void;
-    onSearch: any;
+    onClose?: () => void;
+    onOpen?: () => void;
+    onSearch?: any;
     onClearError?: any;
     value?: {
         label: string;

@@ -13,9 +13,10 @@ interface StatProps {
     comparison?: number;
     comparisonLabel?: string;
     loading?: boolean;
+    isComparisonCurrency?: boolean;
     precision?: number;
 }
-export declare const Stat: ({ icon, title, value, delay, prefix, suffix, loading, duration, className, precision, comparison, comparisonLabel, }: StatProps) => React.JSX.Element;
+export declare const Stat: ({ icon, title, value, delay, prefix, suffix, loading, duration, className, precision, comparison, comparisonLabel, isComparisonCurrency, }: StatProps) => React.JSX.Element;
 export declare const statMeta: CodeComponentMeta<StatProps>;
 export declare function registerStat(loader?: Registerable, customRegisterMeta?: CodeComponentMeta<StatProps>): void;
 export {};

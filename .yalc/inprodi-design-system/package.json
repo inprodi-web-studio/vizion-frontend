@@ -1,5 +1,5 @@
 {
-  "version": "1.0.39",
+  "version": "1.1.29",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -51,6 +51,12 @@
     "@phosphor-icons/react": "^2.1.5",
     "@plasmicapp/loader-nextjs": "^1.0.390",
     "@plasmicapp/loader-react": "^1.0.354",
+    "@tiptap/extension-placeholder": "^2.5.9",
+    "@tiptap/extension-text-align": "^2.5.9",
+    "@tiptap/extension-underline": "^2.5.9",
+    "@tiptap/pm": "^2.5.8",
+    "@tiptap/react": "^2.5.8",
+    "@tiptap/starter-kit": "^2.5.8",
     "@types/lodash.debounce": "^4.0.9",
     "@types/react-input-mask": "^3.0.5",
     "axios": "^1.7.2",
@@ -68,5 +74,5 @@
     "vaul": "^0.9.1",
     "zod": "^3.23.8"
   },
-  "yalcSig": "57ecc7deb4f63c0c02309e30b7e57165"
+  "yalcSig": "0589269c21af6c602a7355905fc005c3"
 }

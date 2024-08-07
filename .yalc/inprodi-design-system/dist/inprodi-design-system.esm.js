@@ -19,6 +19,11 @@ import { registerPlugin, FilePond } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import CountUp from 'react-countup';
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import Underline from '@tiptap/extension-underline';
+import TextAlign from '@tiptap/extension-text-align';
+import Placeholder from '@tiptap/extension-placeholder';
 
 var HoverContext = /*#__PURE__*/createContext({
   hoveredId: null,
@@ -1639,9 +1644,6 @@ var DatePicker = function DatePicker(_ref) {
     value: value ? dayjs(value) : undefined,
     status: error ? "error" : undefined,
     onChange: function onChange(date) {
-      console.log({
-        date: date
-      });
       _onChange(date == null ? void 0 : date.format("YYYY-MM-DD"));
     }
   }));
@@ -3867,7 +3869,8 @@ var Stat = function Stat(_ref) {
     className = _ref.className,
     precision = _ref.precision,
     comparison = _ref.comparison,
-    comparisonLabel = _ref.comparisonLabel;
+    comparisonLabel = _ref.comparisonLabel,
+    isComparisonCurrency = _ref.isComparisonCurrency;
   var _theme$useToken = theme.useToken(),
     token = _theme$useToken.token;
   var containerStyles = {
@@ -3928,6 +3931,12 @@ var Stat = function Stat(_ref) {
     gap: "6px",
     marginTop: "4px"
   };
+  var formatCurrency = function formatCurrency(value) {
+    return new Intl.NumberFormat("es-MX", {
+      style: "currency",
+      currency: "MXN"
+    }).format(Number(value));
+  };
   return React.createElement("div", {
     className: "stat-inprodi " + className,
     style: containerStyles
@@ -3982,7 +3991,7 @@ var Stat = function Stat(_ref) {
       fontSize: "10px"
     },
     bordered: false,
-    label: comparison === 0 ? "0" : comparison.toString(),
+    label: comparison === 0 ? "0" : isComparisonCurrency ? formatCurrency(comparison.toString()) : comparison.toString(),
     color: comparison > 0 ? "green" : comparison < 0 ? "red" : "cyan",
     icon: comparison > 0 ? React.createElement(Icon, {
       icon: "TrendUp",
@@ -4040,6 +4049,14 @@ var statMeta = {
     comparisonLabel: {
       type: "string",
       description: "The comparison label of the stat",
+      hidden: function hidden(props) {
+        return !props.comparison && props.comparison !== 0;
+      }
+    },
+    isComparisonCurrency: {
+      type: "boolean",
+      defaultValue: false,
+      description: "The comparison label of the stat is currency",
       hidden: function hidden(props) {
         return !props.comparison && props.comparison !== 0;
       }
@@ -4154,6 +4171,276 @@ function registerSwitch(loader, customSwitchMeta) {
   doRegisterComponent(Switch, customSwitchMeta != null ? customSwitchMeta : switchMeta);
 }
 
+var TextEditor = function TextEditor(_ref) {
+  var value = _ref.value,
+    placeholder = _ref.placeholder,
+    onChange = _ref.onChange,
+    disabled = _ref.disabled;
+  var editor = useEditor({
+    extensions: [StarterKit, Underline, TextAlign.configure({
+      types: ["heading", "paragraph"]
+    }), Placeholder.configure({
+      placeholder: placeholder
+    })],
+    onUpdate: function onUpdate(_ref2) {
+      var editor = _ref2.editor;
+      onChange(editor.getHTML());
+    }
+  });
+  useEffect(function () {
+    if (value) {
+      var _editor$commands;
+      editor == null || (_editor$commands = editor.commands) == null || _editor$commands.setContent(value, false, {
+        preserveWhitespace: "full"
+      });
+    }
+  }, [value, editor]);
+  useEffect(function () {
+    editor == null || editor.setEditable(!disabled);
+  }, [disabled, editor]);
+  if (!editor) {
+    return null;
+  }
+  var mainContainerStyles = {
+    background: disabled ? "var(--antd-colorBgContainerDisabled)" : "white"
+  };
+  var actionContainerStyles = {
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "center",
+    gap: "10px",
+    padding: "6px 0 12px 0",
+    opacity: disabled ? 0.5 : 1,
+    pointerEvents: disabled ? "none" : "auto"
+  };
+  var sectionStyles = {
+    display: "flex",
+    flexDirection: "row",
+    gap: "10px"
+  };
+  return React.createElement("div", {
+    className: "text-editor_container",
+    style: mainContainerStyles
+  }, React.createElement("div", {
+    style: actionContainerStyles
+  }, React.createElement("div", {
+    style: sectionStyles
+  }, React.createElement(Button, {
+    label: "",
+    type: editor.isActive("bold") ? "primary" : "text",
+    size: "small",
+    disabled: !editor.can().chain().focus().toggleBold().run(),
+    icon: React.createElement(Icon, {
+      variant: "bold",
+      icon: "TextB",
+      color: editor.isActive("bold") ? "white" : "var(--token-YFIqRc19SnuM)"
+    }),
+    onClick: function onClick() {
+      return editor.chain().focus().toggleBold().run();
+    }
+  }), React.createElement(Button, {
+    label: "",
+    type: editor.isActive("italic") ? "primary" : "text",
+    size: "small",
+    disabled: !editor.can().chain().focus().toggleItalic().run(),
+    icon: React.createElement(Icon, {
+      variant: "regular",
+      icon: "TextItalic",
+      color: editor.isActive("italic") ? "white" : "var(--token-YFIqRc19SnuM)"
+    }),
+    onClick: function onClick() {
+      return editor.chain().focus().toggleItalic().run();
+    }
+  }), React.createElement(Button, {
+    label: "",
+    type: editor.isActive("underline") ? "primary" : "text",
+    size: "small",
+    icon: React.createElement(Icon, {
+      variant: "regular",
+      icon: "TextUnderline",
+      color: editor.isActive("underline") ? "white" : "var(--token-YFIqRc19SnuM)"
+    }),
+    onClick: function onClick() {
+      return editor.chain().focus().toggleUnderline().run();
+    }
+  }), React.createElement(Button, {
+    label: "",
+    type: editor.isActive("strike") ? "primary" : "text",
+    size: "small",
+    disabled: !editor.can().chain().focus().toggleStrike().run(),
+    icon: React.createElement(Icon, {
+      variant: "regular",
+      icon: "TextStrikethrough",
+      color: editor.isActive("strike") ? "white" : "var(--token-YFIqRc19SnuM)"
+    }),
+    onClick: function onClick() {
+      return editor.chain().focus().toggleStrike().run();
+    }
+  })), React.createElement(Divider, {
+    type: "vertical"
+  }), React.createElement("div", {
+    style: sectionStyles
+  }, React.createElement(Button, {
+    label: "",
+    type: editor.isActive({
+      textAlign: "left"
+    }) ? "primary" : "text",
+    size: "small",
+    icon: React.createElement(Icon, {
+      variant: "regular",
+      icon: "TextAlignLeft",
+      color: editor.isActive({
+        textAlign: "left"
+      }) ? "white" : "var(--token-YFIqRc19SnuM)"
+    }),
+    onClick: function onClick() {
+      return editor.chain().focus().setTextAlign("left").run();
+    }
+  }), React.createElement(Button, {
+    label: "",
+    type: editor.isActive({
+      textAlign: "center"
+    }) ? "primary" : "text",
+    size: "small",
+    icon: React.createElement(Icon, {
+      variant: "regular",
+      icon: "TextAlignCenter",
+      color: editor.isActive({
+        textAlign: "center"
+      }) ? "white" : "var(--token-YFIqRc19SnuM)"
+    }),
+    onClick: function onClick() {
+      return editor.chain().focus().setTextAlign("center").run();
+    }
+  }), React.createElement(Button, {
+    label: "",
+    type: editor.isActive({
+      textAlign: "right"
+    }) ? "primary" : "text",
+    size: "small",
+    icon: React.createElement(Icon, {
+      variant: "regular",
+      icon: "TextAlignRight",
+      color: editor.isActive({
+        textAlign: "right"
+      }) ? "white" : "var(--token-YFIqRc19SnuM)"
+    }),
+    onClick: function onClick() {
+      return editor.chain().focus().setTextAlign("right").run();
+    }
+  }), React.createElement(Button, {
+    label: "",
+    type: editor.isActive({
+      textAlign: "justify"
+    }) ? "primary" : "text",
+    size: "small",
+    icon: React.createElement(Icon, {
+      variant: "regular",
+      icon: "TextAlignJustify",
+      color: editor.isActive({
+        textAlign: "justify"
+      }) ? "white" : "var(--token-YFIqRc19SnuM)"
+    }),
+    onClick: function onClick() {
+      return editor.chain().focus().setTextAlign("justify").run();
+    }
+  })), React.createElement(Divider, {
+    type: "vertical"
+  }), React.createElement("div", {
+    style: sectionStyles
+  }, React.createElement(Button, {
+    label: "",
+    type: editor.isActive("bulletList") ? "primary" : "text",
+    size: "small",
+    icon: React.createElement(Icon, {
+      variant: "regular",
+      icon: "ListBullets",
+      color: editor.isActive("bulletList") ? "white" : "var(--token-YFIqRc19SnuM)"
+    }),
+    onClick: function onClick() {
+      return editor.chain().focus().toggleBulletList().run();
+    }
+  }), React.createElement(Button, {
+    label: "",
+    type: editor.isActive("orderedList") ? "primary" : "text",
+    size: "small",
+    icon: React.createElement(Icon, {
+      variant: "regular",
+      icon: "ListNumbers",
+      color: editor.isActive("orderedList") ? "white" : "var(--token-YFIqRc19SnuM)"
+    }),
+    onClick: function onClick() {
+      return editor.chain().focus().toggleOrderedList().run();
+    }
+  }), React.createElement(Button, {
+    label: "",
+    type: editor.isActive("blockquote") ? "primary" : "text",
+    size: "small",
+    icon: React.createElement(Icon, {
+      variant: "regular",
+      icon: "Quotes",
+      color: editor.isActive("blockquote") ? "white" : "var(--token-YFIqRc19SnuM)"
+    }),
+    onClick: function onClick() {
+      return editor.chain().focus().toggleBlockquote().run();
+    }
+  })), React.createElement(Divider, {
+    type: "vertical"
+  }), React.createElement(Button, {
+    label: "",
+    type: "text",
+    size: "small",
+    icon: React.createElement(Icon, {
+      variant: "regular",
+      icon: "Minus",
+      color: "var(--token-YFIqRc19SnuM)"
+    }),
+    onClick: function onClick() {
+      return editor.chain().focus().setHorizontalRule().run();
+    }
+  })), React.createElement(EditorContent, {
+    editor: editor
+  }));
+};
+var textEditorMeta = {
+  name: "TextEditor",
+  displayName: "Text Editor",
+  states: {
+    value: {
+      type: "writable",
+      variableType: "text",
+      valueProp: "value",
+      onChangeProp: "onChange"
+    }
+  },
+  props: {
+    value: {
+      type: "string"
+    },
+    placeholder: {
+      type: "string",
+      defaultValue: "Escribe algo..."
+    },
+    disabled: {
+      type: "boolean",
+      defaultValue: false
+    },
+    onChange: {
+      type: "eventHandler",
+      argTypes: []
+    }
+  },
+  importPath: "inprodi-design-system",
+  importName: "TextEditor"
+};
+function registerTextEditor(loader, customTextEditorMeta) {
+  var doRegisterComponent = function doRegisterComponent() {
+    return loader ? loader.registerComponent.apply(loader, arguments) : registerComponent.apply(void 0, arguments);
+  };
+  doRegisterComponent(TextEditor, customTextEditorMeta != null ? customTextEditorMeta : textEditorMeta);
+}
+
 function registerAll(loader) {
   registerTag(loader);
   registerStat(loader);
@@ -4176,6 +4463,7 @@ function registerAll(loader) {
   registerProgress(loader);
   registerSegmented(loader);
   registerFormField(loader);
+  registerTextEditor(loader);
   registerDatePicker(loader);
   registerNumberInput(loader);
   registerConfirmation(loader);

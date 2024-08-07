@@ -30,6 +30,7 @@ import { registerSlider } from "./registerSlider";
 import { registerStat } from "./registerStat";
 import { registerSwitch } from "./registerSwitch";
 import { registerTag } from "./registerTag";
+import { registerTextEditor } from "./registerTextEditor";
 
 export function registerAll(loader?: Registerable) {
   registerTag(loader);
@@ -53,6 +54,7 @@ export function registerAll(loader?: Registerable) {
   registerProgress(loader);
   registerSegmented(loader);
   registerFormField(loader);
+  registerTextEditor(loader);
   registerDatePicker(loader);
   registerNumberInput(loader);
   registerConfirmation(loader);

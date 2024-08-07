@@ -1,6 +1,5 @@
 import React from "react";
 import registerComponent, { CodeComponentMeta } from "@plasmicapp/host/registerComponent";
-
 import { Registerable } from "./registerable";
 import CountUp from "react-countup";
 import { Tag } from "./registerTag";
@@ -20,6 +19,7 @@ interface StatProps {
     comparison?: number;
     comparisonLabel?: string;
     loading?: boolean;
+    isComparisonCurrency?: boolean;
     precision?: number;
 }
 
@@ -36,6 +36,7 @@ export const Stat = ({
     precision,
     comparison,
     comparisonLabel,
+    isComparisonCurrency,
 } : StatProps ) => {
     const { token } = theme.useToken();
 
@@ -105,6 +106,13 @@ export const Stat = ({
         marginTop: "4px",
     };
 
+    const formatCurrency = (value: string) => {
+        return new Intl.NumberFormat("es-MX", {
+            style: "currency",
+            currency: "MXN",
+        }).format(Number(value));
+    };
+
     return (
         <div className={`stat-inprodi ${className}`} style={containerStyles}>
                 <div className="header" style={headerStyles}>
@@ -157,7 +165,7 @@ export const Stat = ({
                                         fontSize : "10px",
                                     }}
                                     bordered={false}
-                                    label={ comparison === 0 ? "0" : comparison.toString() }
+                                    label={ comparison === 0 ? "0" : isComparisonCurrency ? formatCurrency(comparison.toString()) : comparison.toString() }
                                     color={ comparison > 0 ? "green" : comparison < 0 ? "red" : "cyan" }
                                     icon={ comparison > 0
                                         ? <Icon icon="TrendUp" size={12} variant="regular" />
@@ -221,6 +229,12 @@ export const statMeta: CodeComponentMeta<StatProps> = {
         comparisonLabel : {
             type : "string",
             description : "The comparison label of the stat",
+            hidden : (props) => !props.comparison && props.comparison !== 0,
+        },
+        isComparisonCurrency : {
+            type : "boolean",
+            defaultValue : false,
+            description : "The comparison label of the stat is currency",
             hidden : (props) => !props.comparison && props.comparison !== 0,
         },
         loading : {

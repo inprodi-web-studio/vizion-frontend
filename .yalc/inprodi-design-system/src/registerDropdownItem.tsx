@@ -8,15 +8,15 @@ import { theme } from "antd";
 import { Icon } from "./registerIcon";
 
 interface DropdownItemProps {
-    leftSection : any;
-    rightSection : any;
+    leftSection?: any;
+    rightSection?: any;
     label : string;
     disabled? : boolean;
-    isSelected : boolean;
-    onClick : any;
-    onIsSelectedChange : any;
-    className : string;
-    selectedPosition : "left" | "right";
+    isSelected?: boolean;
+    onClick?: any;
+    onIsSelectedChange?: any;
+    className?: string;
+    selectedPosition?: "left" | "right";
 }
 
 export const DropdownItem = ({

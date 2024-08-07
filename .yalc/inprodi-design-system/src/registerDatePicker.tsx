@@ -50,7 +50,6 @@ export const DatePicker = ({
             value={ value ? dayjs( value ) : undefined }
             status={error ? "error" : undefined}
             onChange={(date) => {
-                console.log( {date} );
                 onChange( date?.format("YYYY-MM-DD") );
             }}
         />
