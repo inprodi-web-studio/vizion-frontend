@@ -42,6 +42,9 @@ export const progressMeta: CodeComponentMeta<ProgressProps> = {
             options : ["round", "butt", "square"],
             defaultValue : "round",
         },
+        success : {
+            type : "object",
+        },
         type : {
             type : "choice",
             options : ["circle", "line", "dashboard"],

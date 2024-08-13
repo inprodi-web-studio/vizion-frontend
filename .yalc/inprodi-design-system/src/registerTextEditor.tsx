@@ -69,6 +69,7 @@ export const TextEditor = ({
         padding: "6px 0 12px 0",
         opacity : disabled ? 0.5 : 1,
         pointerEvents : disabled ? "none" : "auto",
+        overflow : "auto",
     };
 
     const sectionStyles : React.CSSProperties = {

@@ -3295,6 +3295,9 @@ var progressMeta = {
       options: ["round", "butt", "square"],
       defaultValue: "round"
     },
+    success: {
+      type: "object"
+    },
     type: {
       type: "choice",
       options: ["circle", "line", "dashboard"],
@@ -4212,7 +4215,8 @@ var TextEditor = function TextEditor(_ref) {
     gap: "10px",
     padding: "6px 0 12px 0",
     opacity: disabled ? 0.5 : 1,
-    pointerEvents: disabled ? "none" : "auto"
+    pointerEvents: disabled ? "none" : "auto",
+    overflow: "auto"
   };
   var sectionStyles = {
     display: "flex",

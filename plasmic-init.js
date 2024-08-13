@@ -20,7 +20,10 @@ import toNow from "./helpers/toNow";
 import fromNow from "./helpers/fromNow";
 
 import { registerAll } from "inprodi-design-system";
+import { registerGauge } from "./components/registerGauge";
+
 import downloadPdf from "./helpers/downloadPdf";
+import formatShortNumber from "./helpers/formatShortNumber";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -33,6 +36,8 @@ export const PLASMIC = initPlasmicLoader({
 });
 
 registerAll( PLASMIC );
+
+registerGauge(PLASMIC);
 
 PLASMIC.registerFunction( getConstants, {
   name : "getConstants",
@@ -84,6 +89,22 @@ PLASMIC.registerFunction( formatCurrency, {
       name        : "amount",
       type        : "number",
       description : "The amount to format",
+    },
+  ],
+});
+
+PLASMIC.registerFunction( formatShortNumber, {
+  name : "formatShortNumber",
+  params : [
+    {
+      name        : "number",
+      type        : "number",
+      description : "The number to format",
+    },
+    {
+      name        : "isCurrency",
+      type        : "boolean",
+      description : "Whether the number is a currency or not",
     },
   ],
 });
