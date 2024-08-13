@@ -1,7 +1,7 @@
 import React, { useContext, createContext, useState, forwardRef, useEffect, useMemo, useCallback, useRef, useImperativeHandle } from 'react';
 import registerComponent from '@plasmicapp/host/registerComponent';
 import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels';
-import { Button as Button$1, theme, Pagination, Input as Input$1, Dropdown as Dropdown$1, Image, Card as Card$1, Modal as Modal$1, DatePicker as DatePicker$1, Divider as Divider$1, Drawer as Drawer$1, Layout as Layout$1, Menu, InputNumber, Progress as Progress$1, Rate as Rate$1, Segmented as Segmented$1, Slider as Slider$1, Tag as Tag$1, Switch as Switch$1 } from 'antd';
+import { Button as Button$1, theme, Pagination, Input as Input$1, Dropdown as Dropdown$1, Image, Card as Card$1, Modal as Modal$1, DatePicker as DatePicker$1, Divider as Divider$1, Drawer as Drawer$1, Layout as Layout$1, Menu, InputNumber, Progress as Progress$1, Rate as Rate$1, Badge, Segmented as Segmented$1, Slider as Slider$1, Tag as Tag$1, Switch as Switch$1 } from 'antd';
 import * as Icons from '@phosphor-icons/react/dist/ssr';
 import AntdSkeleton from 'react-loading-skeleton';
 import _debounce from 'lodash-es/debounce';
@@ -19,6 +19,7 @@ import { registerPlugin, FilePond } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import CountUp from 'react-countup';
+import { TypeAnimation } from 'react-type-animation';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
@@ -3421,11 +3422,47 @@ function registerRate(loader, customRateMeta) {
   doRegisterComponent(Rate, customRateMeta != null ? customRateMeta : rateMeta);
 }
 
-var _excluded$c = ["options", "onChange"];
+var _excluded$c = ["content"];
+var Ribbon = function Ribbon(_ref) {
+  var content = _ref.content,
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$c);
+  return React.createElement(Badge.Ribbon, Object.assign({}, props), content);
+};
+var ribbonMeta = {
+  name: "Ribbon",
+  displayName: "Ribbon",
+  props: {
+    text: {
+      type: "string"
+    },
+    color: {
+      type: "color"
+    },
+    placement: {
+      type: "choice",
+      options: ["start", "end"],
+      defaultValue: "end"
+    },
+    content: {
+      type: "slot",
+      hidePlaceholder: true
+    }
+  },
+  importPath: "inprodi-design-system",
+  importName: "Ribbon"
+};
+function registerRibbon(loader, customRibbonMeta) {
+  var doRegisterComponent = function doRegisterComponent() {
+    return loader ? loader.registerComponent.apply(loader, arguments) : registerComponent.apply(void 0, arguments);
+  };
+  doRegisterComponent(Ribbon, customRibbonMeta != null ? customRibbonMeta : ribbonMeta);
+}
+
+var _excluded$d = ["options", "onChange"];
 var Segmented = function Segmented(_ref) {
   var options = _ref.options,
     _onChange = _ref.onChange,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$c);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$d);
   var parsedOptions = [];
   for (var _iterator = _createForOfIteratorHelperLoose(options), _step; !(_step = _iterator()).done;) {
     var option = _step.value;
@@ -3804,11 +3841,11 @@ function registerSlider(loader, customSliderMeta) {
   doRegisterComponent(Slider, customSliderMeta != null ? customSliderMeta : sliderMeta);
 }
 
-var _excluded$d = ["label", "closable"];
+var _excluded$e = ["label", "closable"];
 var Tag = function Tag(_ref) {
   var label = _ref.label,
     closable = _ref.closable,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$d);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$e);
   return React.createElement(Tag$1, Object.assign({
     closeIcon: closable,
     style: {
@@ -4101,11 +4138,11 @@ function registerStat(loader, customRegisterMeta) {
   doRegisterComponent(Stat, customRegisterMeta != null ? customRegisterMeta : statMeta);
 }
 
-var _excluded$e = ["checkedIcon", "unCheckedIcon"];
+var _excluded$f = ["checkedIcon", "unCheckedIcon"];
 var Switch = function Switch(_ref) {
   var checkedIcon = _ref.checkedIcon,
     unCheckedIcon = _ref.unCheckedIcon,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$e);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$f);
   return React.createElement(Switch$1, Object.assign({
     onClick: function onClick(checked, event) {
       if (checked) {
@@ -4172,6 +4209,62 @@ function registerSwitch(loader, customSwitchMeta) {
     return loader ? loader.registerComponent.apply(loader, arguments) : registerComponent.apply(void 0, arguments);
   };
   doRegisterComponent(Switch, customSwitchMeta != null ? customSwitchMeta : switchMeta);
+}
+
+var TextAnimation = function TextAnimation(_ref) {
+  var speed = _ref.speed,
+    style = _ref.style,
+    cursor = _ref.cursor,
+    repeat = _ref.repeat,
+    wrapper = _ref.wrapper,
+    sequence = _ref.sequence;
+  return React.createElement(TypeAnimation, {
+    speed: speed,
+    style: style,
+    cursor: cursor,
+    repeat: repeat,
+    wrapper: wrapper,
+    sequence: sequence
+  });
+};
+var textAnimationMeta = {
+  name: "TextAnimation",
+  displayName: "Text Animation",
+  props: {
+    sequence: {
+      type: "array",
+      defaultValue: []
+    },
+    wrapper: {
+      type: "choice",
+      options: ["p", "h2", "div", "strong", "span"],
+      defaultValue: "span"
+    },
+    repeat: {
+      type: "number",
+      defaultValue: Infinity
+    },
+    cursor: {
+      type: "boolean",
+      defaultValue: true
+    },
+    speed: {
+      type: "number",
+      defaultValue: 40
+    },
+    style: {
+      type: "object",
+      defaultValue: {}
+    }
+  },
+  importPath: "inprodi-design-system",
+  importName: "TextAnimation"
+};
+function registerTextAnimation(loader, customTextAnimationMeta) {
+  var doRegisterComponent = function doRegisterComponent() {
+    return loader ? loader.registerComponent.apply(loader, arguments) : registerComponent.apply(void 0, arguments);
+  };
+  doRegisterComponent(TextAnimation, customTextAnimationMeta != null ? customTextAnimationMeta : textAnimationMeta);
 }
 
 var TextEditor = function TextEditor(_ref) {
@@ -4454,6 +4547,7 @@ function registerAll(loader) {
   registerRate(loader);
   registerInput(loader);
   registerModal(loader);
+  registerRibbon(loader);
   registerSelect(loader);
   registerDrawer(loader);
   registerAvatar(loader);
@@ -4476,6 +4570,7 @@ function registerAll(loader) {
   registerPasswordInput(loader);
   registerAdvancedTable(loader);
   registerImageUploader(loader);
+  registerTextAnimation(loader);
   registerAdvancedTableCell(loader);
   registerAdvancedTableColumn(loader);
 }

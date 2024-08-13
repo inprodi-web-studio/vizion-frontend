@@ -2790,10 +2790,10 @@ inherits@2:
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
 
-inprodi-design-system@1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/inprodi-design-system/-/inprodi-design-system-1.2.1.tgz#66317e02a60335200e2431dcbb16b7002afc075f"
-  integrity sha512-wMga2bqSvaUOfzdA1WDxZvyYl/g0GK0VkE0QMGaHxnuDSUrrHhWNtKChfoHA/B/Zal5r7q7LHehtcFYTTVLQbA==
+inprodi-design-system@1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/inprodi-design-system/-/inprodi-design-system-1.4.0.tgz#2dc6af9a806d4e0eae6271b98ccff384b565d285"
+  integrity sha512-4N5BSzSBPfUPjpbdab8YLYRjp3alfSUyRvHF8eYnP1VPfTXc1+YkzIm8xss+CMB2cfKbcje7+PkEiZWIbKOjYw==
   dependencies:
     "@hookform/resolvers" "^3.4.2"
     "@phosphor-icons/react" "^2.1.5"
@@ -2820,6 +2820,7 @@ inprodi-design-system@1.2.1:
     react-input-mask "^2.0.4"
     react-loading-skeleton "^3.4.0"
     react-resizable-panels "^2.0.19"
+    react-type-animation "^3.2.0"
     vaul "^0.9.1"
     zod "^3.23.8"
 
@@ -4213,6 +4214,11 @@ react-style-singleton@^2.2.1:
     get-nonce "^1.0.0"
     invariant "^2.2.4"
     tslib "^2.0.0"
+
+react-type-animation@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-type-animation/-/react-type-animation-3.2.0.tgz#6863d5d60e3beb237f2bd690cceb585402c47e6a"
+  integrity sha512-WXTe0i3rRNKjmggPvT5ntye1QBt0ATGbijeW6V3cQe2W0jaMABXXlPPEdtofnS9tM7wSRHchEvI9SUw+0kUohw==
 
 react@^18:
   version "18.3.1"

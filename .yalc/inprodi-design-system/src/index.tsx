@@ -23,6 +23,7 @@ import { registerNumberInput } from "./registerNumberInput";
 import { registerPasswordInput } from "./registerPasswordInput";
 import { registerProgress } from "./registerProgress";
 import { registerRate } from "./registerRate";
+import { registerRibbon } from "./registerRibbon";
 import { registerSegmented } from "./registerSegmented";
 import { registerSelect } from "./registerSelect";
 import { registerSkeleton } from "./registerSkeleton";
@@ -30,6 +31,7 @@ import { registerSlider } from "./registerSlider";
 import { registerStat } from "./registerStat";
 import { registerSwitch } from "./registerSwitch";
 import { registerTag } from "./registerTag";
+import { registerTextAnimation } from "./registerTextAnimation";
 import { registerTextEditor } from "./registerTextEditor";
 
 export function registerAll(loader?: Registerable) {
@@ -41,6 +43,7 @@ export function registerAll(loader?: Registerable) {
   registerRate(loader);
   registerInput(loader);
   registerModal(loader);
+  registerRibbon(loader);
   registerSelect(loader);
   registerDrawer(loader);
   registerAvatar(loader);
@@ -63,6 +66,7 @@ export function registerAll(loader?: Registerable) {
   registerPasswordInput(loader);
   registerAdvancedTable(loader);
   registerImageUploader(loader);
+  registerTextAnimation(loader);
   registerAdvancedTableCell(loader);
   registerAdvancedTableColumn(loader);
 };

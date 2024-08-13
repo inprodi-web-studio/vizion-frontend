@@ -1,5 +1,5 @@
 {
-  "version": "1.2.1",
+  "version": "1.4.0",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -72,8 +72,9 @@
     "react-input-mask": "^2.0.4",
     "react-loading-skeleton": "^3.4.0",
     "react-resizable-panels": "^2.0.19",
+    "react-type-animation": "^3.2.0",
     "vaul": "^0.9.1",
     "zod": "^3.23.8"
   },
-  "yalcSig": "e618323270ef256f0ae1f70207d97437"
+  "yalcSig": "2bd2d9473b3eaf33962c97cfd166d2e7"
 }
