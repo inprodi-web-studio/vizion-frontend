@@ -1,7 +1,7 @@
 import React, { useContext, createContext, useState, forwardRef, useEffect, useMemo, useCallback, useRef, useImperativeHandle } from 'react';
 import registerComponent from '@plasmicapp/host/registerComponent';
 import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels';
-import { Button as Button$1, theme, Pagination, Input as Input$1, Dropdown as Dropdown$1, Image, Card as Card$1, Modal as Modal$1, DatePicker as DatePicker$1, Divider as Divider$1, Drawer as Drawer$1, Layout as Layout$1, Menu, InputNumber, Progress as Progress$1, Rate as Rate$1, Badge, Segmented as Segmented$1, Slider as Slider$1, Tag as Tag$1, Switch as Switch$1 } from 'antd';
+import { Button as Button$1, theme, Pagination, Input as Input$1, Dropdown as Dropdown$1, Image, Card as Card$1, Modal as Modal$1, DatePicker as DatePicker$1, Divider as Divider$1, Drawer as Drawer$1, Layout as Layout$1, Menu, InputNumber, Progress as Progress$1, Rate as Rate$1, Badge, Segmented as Segmented$1, Slider as Slider$1, Tag as Tag$1, Switch as Switch$1, TimePicker as TimePicker$1 } from 'antd';
 import * as Icons from '@phosphor-icons/react/dist/ssr';
 import AntdSkeleton from 'react-loading-skeleton';
 import _debounce from 'lodash-es/debounce';
@@ -1622,7 +1622,7 @@ function registerConfirmation(loader, customConfirmationMeta) {
   doRegisterComponent(Confirmation, customConfirmationMeta != null ? customConfirmationMeta : confirmationMeta);
 }
 
-var _excluded$4 = ["error", "value", "minDate", "maxDate", "onChange"];
+var _excluded$4 = ["size", "error", "value", "minDate", "maxDate", "onChange"];
 dayjs.extend(customParseFormat);
 dayjs.extend(advancedFormat);
 dayjs.extend(weekday);
@@ -1631,13 +1631,17 @@ dayjs.extend(weekOfYear);
 dayjs.extend(weekYear);
 dayjs.locale("es-mx");
 var DatePicker = function DatePicker(_ref) {
-  var error = _ref.error,
+  var size = _ref.size,
+    error = _ref.error,
     value = _ref.value,
     minDate = _ref.minDate,
     maxDate = _ref.maxDate,
     _onChange = _ref.onChange,
     props = _objectWithoutPropertiesLoose(_ref, _excluded$4);
   return React.createElement(DatePicker$1, Object.assign({}, props, {
+    style: {
+      height: size === "small" ? "30px" : size === "middle" ? "38px" : "46px"
+    },
     showNow: false,
     format: "MMMM D, YYYY",
     minDate: minDate ? dayjs(minDate) : undefined,
@@ -1719,11 +1723,111 @@ function registerDatePicker(loader, customDatePickerMeta) {
   doRegisterComponent(DatePicker, customDatePickerMeta != null ? customDatePickerMeta : datePickerMeta);
 }
 
-var _excluded$5 = ["text", "margin"];
+var _excluded$5 = ["error", "value", "minDate", "maxDate", "onChange"];
+dayjs.extend(customParseFormat);
+dayjs.extend(advancedFormat);
+dayjs.extend(weekday);
+dayjs.extend(localeData);
+dayjs.extend(weekOfYear);
+dayjs.extend(weekYear);
+dayjs.locale("es-mx");
+var DateRangePicker = function DateRangePicker(_ref) {
+  var error = _ref.error,
+    value = _ref.value,
+    minDate = _ref.minDate,
+    maxDate = _ref.maxDate,
+    _onChange = _ref.onChange,
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$5);
+  return React.createElement(DatePicker$1.RangePicker, Object.assign({}, props, {
+    showNow: false,
+    format: "MMMM D, YYYY",
+    minDate: minDate ? dayjs(minDate) : undefined,
+    maxDate: maxDate ? dayjs(maxDate) : undefined,
+    value: value,
+    status: error ? "error" : undefined,
+    onChange: function onChange(dates) {
+      if (dates) {
+        _onChange([dates[0], dates[1]]);
+      }
+    }
+  }));
+};
+var dateRangePickerMeta = {
+  name: "DateRangePicker",
+  displayName: "Date Range Picker",
+  states: {
+    value: {
+      type: "writable",
+      variableType: "text",
+      valueProp: "value",
+      onChangeProp: "onChange"
+    }
+  },
+  props: {
+    value: {
+      type: "array",
+      defaultValue: []
+    },
+    disabled: {
+      type: "array",
+      defaultValue: []
+    },
+    minDate: {
+      type: "string"
+    },
+    allowClear: {
+      type: "boolean",
+      defaultValue: false
+    },
+    maxDate: {
+      type: "string"
+    },
+    picker: {
+      type: "choice",
+      options: ["date", "week", "month", "quarter", "year"],
+      defaultValue: "date"
+    },
+    placeholder: {
+      type: "string",
+      defaultValue: "Seleccionar..."
+    },
+    size: {
+      type: "choice",
+      options: ["small", "middle", "large"],
+      defaultValue: "middle"
+    },
+    error: {
+      type: "string"
+    },
+    showTime: {
+      type: "boolean",
+      defaultValue: false
+    },
+    variant: {
+      type: "choice",
+      options: ["outlined", "borderless", "filled"],
+      defaultValue: "outlined"
+    },
+    onChange: {
+      type: "eventHandler",
+      argTypes: []
+    }
+  },
+  importPath: "inprodi-design-system",
+  importName: "DateRangePicker"
+};
+function registerDateRangePicker(loader, customDateRangePickerMeta) {
+  var doRegisterComponent = function doRegisterComponent() {
+    return loader ? loader.registerComponent.apply(loader, arguments) : registerComponent.apply(void 0, arguments);
+  };
+  doRegisterComponent(DateRangePicker, customDateRangePickerMeta != null ? customDateRangePickerMeta : dateRangePickerMeta);
+}
+
+var _excluded$6 = ["text", "margin"];
 var Divider = function Divider(_ref) {
   var text = _ref.text,
     margin = _ref.margin,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$5);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$6);
   return React.createElement(Divider$1, Object.assign({
     style: {
       margin: margin
@@ -1776,13 +1880,13 @@ function registerDivider(loader, customDividerMeta) {
   doRegisterComponent(Divider, customDividerMeta != null ? customDividerMeta : dividerMeta);
 }
 
-var _excluded$6 = ["open", "content", "maskColor", "bodyPadding"];
+var _excluded$7 = ["open", "content", "maskColor", "bodyPadding"];
 var Drawer = function Drawer(_ref) {
   var open = _ref.open,
     content = _ref.content,
     maskColor = _ref.maskColor,
     bodyPadding = _ref.bodyPadding,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$6);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$7);
   var _theme$useToken = theme.useToken(),
     token = _theme$useToken.token;
   return React.createElement(Drawer$1, Object.assign({
@@ -2885,12 +2989,12 @@ function registerLayout(loader, customLayoutMeta) {
   doRegisterComponent(Layout, customLayoutMeta != null ? customLayoutMeta : layoutMeta);
 }
 
-var _excluded$7 = ["open", "content", "bodyPadding"];
+var _excluded$8 = ["open", "content", "bodyPadding"];
 var Modal = function Modal(_ref) {
   var open = _ref.open,
     content = _ref.content,
     bodyPadding = _ref.bodyPadding,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$7);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$8);
   var _theme$useToken = theme.useToken(),
     token = _theme$useToken.token;
   return React.createElement(Modal$1, Object.assign({
@@ -3009,7 +3113,7 @@ function registerModal(loader, customModalMeta) {
   doRegisterComponent(Modal, customModalMeta != null ? customModalMeta : modalMeta);
 }
 
-var _excluded$8 = ["size", "value", "error", "variant", "leftIcon", "onChange", "rightIcon", "name", "debounce", "onClearError", "disabled", "onBlur"];
+var _excluded$9 = ["size", "value", "error", "variant", "leftIcon", "onChange", "rightIcon", "name", "debounce", "onClearError", "disabled", "onBlur"];
 var NumberInput = /*#__PURE__*/forwardRef(function (_ref, ref) {
   var size = _ref.size,
     value = _ref.value,
@@ -3023,7 +3127,7 @@ var NumberInput = /*#__PURE__*/forwardRef(function (_ref, ref) {
     onClearError = _ref.onClearError,
     disabled = _ref.disabled,
     _onBlur = _ref.onBlur,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$8);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$9);
   var _useState = useState(value),
     inputValue = _useState[0],
     setInputValue = _useState[1];
@@ -3167,7 +3271,7 @@ function registerNumberInput(loader, customNumberInputMeta) {
   doRegisterComponent(NumberInput, customNumberInputMeta != null ? customNumberInputMeta : numberInputMeta);
 }
 
-var _excluded$9 = ["size", "value", "error", "leftIcon", "onChange", "rightIcon", "onClearError", "name"];
+var _excluded$a = ["size", "value", "error", "leftIcon", "onChange", "rightIcon", "onClearError", "name"];
 var PasswordInput = /*#__PURE__*/forwardRef(function (_ref, ref) {
   var size = _ref.size,
     error = _ref.error,
@@ -3175,7 +3279,7 @@ var PasswordInput = /*#__PURE__*/forwardRef(function (_ref, ref) {
     onChange = _ref.onChange,
     rightIcon = _ref.rightIcon,
     onClearError = _ref.onClearError,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$9);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$a);
   var handleOnChange = function handleOnChange(event) {
     onChange(event.target.value);
     onClearError && onClearError();
@@ -3268,10 +3372,10 @@ function registerPasswordInput(loader, customPasswordInputMeta) {
   doRegisterComponent(PasswordInput, customPasswordInputMeta != null ? customPasswordInputMeta : passwordInputMeta);
 }
 
-var _excluded$a = ["value"];
+var _excluded$b = ["value"];
 var Progress = function Progress(_ref) {
   var value = _ref.value,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$a);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$b);
   return React.createElement(Progress$1, Object.assign({
     percent: value
   }, props));
@@ -3344,13 +3448,13 @@ function registerProgress(loader, customProgressMeta) {
   doRegisterComponent(Progress, customProgressMeta != null ? customProgressMeta : progressMeta);
 }
 
-var _excluded$b = ["value", "onValueChange", "className", "icon"];
+var _excluded$c = ["value", "onValueChange", "className", "icon"];
 var Rate = function Rate(_ref) {
   var value = _ref.value,
     onValueChange = _ref.onValueChange,
     className = _ref.className,
     icon = _ref.icon,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$b);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$c);
   var handleChange = function handleChange(value) {
     onValueChange(value);
   };
@@ -3422,10 +3526,10 @@ function registerRate(loader, customRateMeta) {
   doRegisterComponent(Rate, customRateMeta != null ? customRateMeta : rateMeta);
 }
 
-var _excluded$c = ["content"];
+var _excluded$d = ["content"];
 var Ribbon = function Ribbon(_ref) {
   var content = _ref.content,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$c);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$d);
   return React.createElement(Badge.Ribbon, Object.assign({}, props), content);
 };
 var ribbonMeta = {
@@ -3458,11 +3562,11 @@ function registerRibbon(loader, customRibbonMeta) {
   doRegisterComponent(Ribbon, customRibbonMeta != null ? customRibbonMeta : ribbonMeta);
 }
 
-var _excluded$d = ["options", "onChange"];
+var _excluded$e = ["options", "onChange"];
 var Segmented = function Segmented(_ref) {
   var options = _ref.options,
     _onChange = _ref.onChange,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$d);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$e);
   var parsedOptions = [];
   for (var _iterator = _createForOfIteratorHelperLoose(options), _step; !(_step = _iterator()).done;) {
     var option = _step.value;
@@ -3841,11 +3945,11 @@ function registerSlider(loader, customSliderMeta) {
   doRegisterComponent(Slider, customSliderMeta != null ? customSliderMeta : sliderMeta);
 }
 
-var _excluded$e = ["label", "closable"];
+var _excluded$f = ["label", "closable"];
 var Tag = function Tag(_ref) {
   var label = _ref.label,
     closable = _ref.closable,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$e);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$f);
   return React.createElement(Tag$1, Object.assign({
     closeIcon: closable,
     style: {
@@ -4138,11 +4242,11 @@ function registerStat(loader, customRegisterMeta) {
   doRegisterComponent(Stat, customRegisterMeta != null ? customRegisterMeta : statMeta);
 }
 
-var _excluded$f = ["checkedIcon", "unCheckedIcon"];
+var _excluded$g = ["checkedIcon", "unCheckedIcon"];
 var Switch = function Switch(_ref) {
   var checkedIcon = _ref.checkedIcon,
     unCheckedIcon = _ref.unCheckedIcon,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$f);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$g);
   return React.createElement(Switch$1, Object.assign({
     onClick: function onClick(checked, event) {
       if (checked) {
@@ -4538,6 +4642,109 @@ function registerTextEditor(loader, customTextEditorMeta) {
   doRegisterComponent(TextEditor, customTextEditorMeta != null ? customTextEditorMeta : textEditorMeta);
 }
 
+var _excluded$h = ["size", "value", "error", "format", "onChange"];
+dayjs.extend(customParseFormat);
+dayjs.extend(advancedFormat);
+dayjs.extend(weekday);
+dayjs.extend(localeData);
+dayjs.extend(weekOfYear);
+dayjs.extend(weekYear);
+dayjs.locale("es-mx");
+var TimePicker = function TimePicker(_ref) {
+  var size = _ref.size,
+    value = _ref.value,
+    error = _ref.error,
+    format = _ref.format,
+    _onChange = _ref.onChange,
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$h);
+  return React.createElement(TimePicker$1, Object.assign({}, props, {
+    style: {
+      height: size === "small" ? "30px" : size === "middle" ? "38px" : "46px"
+    },
+    showNow: false,
+    format: format,
+    value: value ? dayjs(value, format) : undefined,
+    status: error ? "error" : undefined,
+    onChange: function onChange(time) {
+      _onChange(time == null ? void 0 : time.format(format));
+    }
+  }));
+};
+var timePickerMeta = {
+  name: "TimePicker",
+  displayName: "Time Picker",
+  states: {
+    value: {
+      type: "writable",
+      variableType: "text",
+      valueProp: "value",
+      onChangeProp: "onChange"
+    }
+  },
+  props: {
+    value: {
+      type: "string"
+    },
+    disabled: {
+      type: "boolean",
+      defaultValue: false
+    },
+    allowClear: {
+      type: "boolean",
+      defaultValue: false
+    },
+    placeholder: {
+      type: "string",
+      defaultValue: "Seleccionar..."
+    },
+    size: {
+      type: "choice",
+      options: ["small", "middle", "large"],
+      defaultValue: "middle"
+    },
+    hourStep: {
+      type: "number",
+      defaultValue: 1
+    },
+    minuteStep: {
+      type: "number",
+      defaultValue: 1
+    },
+    format: {
+      type: "string",
+      defaultValue: "HH:mm:ss"
+    },
+    use12Hours: {
+      type: "boolean",
+      defaultValue: false
+    },
+    secondStep: {
+      type: "number",
+      defaultValue: 1
+    },
+    error: {
+      type: "string"
+    },
+    variant: {
+      type: "choice",
+      options: ["outlined", "borderless", "filled"],
+      defaultValue: "outlined"
+    },
+    onChange: {
+      type: "eventHandler",
+      argTypes: []
+    }
+  },
+  importPath: "inprodi-design-system",
+  importName: "DatePicker"
+};
+function registerTimePicker(loader, customTimePickerMeta) {
+  var doRegisterComponent = function doRegisterComponent() {
+    return loader ? loader.registerComponent.apply(loader, arguments) : registerComponent.apply(void 0, arguments);
+  };
+  doRegisterComponent(TimePicker, customTimePickerMeta != null ? customTimePickerMeta : timePickerMeta);
+}
+
 function registerAll(loader) {
   registerTag(loader);
   registerStat(loader);
@@ -4561,6 +4768,7 @@ function registerAll(loader) {
   registerProgress(loader);
   registerSegmented(loader);
   registerFormField(loader);
+  registerTimePicker(loader);
   registerTextEditor(loader);
   registerDatePicker(loader);
   registerNumberInput(loader);
@@ -4571,6 +4779,7 @@ function registerAll(loader) {
   registerAdvancedTable(loader);
   registerImageUploader(loader);
   registerTextAnimation(loader);
+  registerDateRangePicker(loader);
   registerAdvancedTableCell(loader);
   registerAdvancedTableColumn(loader);
 }

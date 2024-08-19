@@ -8,6 +8,7 @@ import { registerButton } from "./registerButton";
 import { registerCard } from "./registerCard";
 import { registerConfirmation } from "./registerConfirmation";
 import { registerDatePicker } from "./registerDatePicker";
+import { registerDateRangePicker } from "./registerDateRangePicker";
 import { registerDivider } from "./registerDivider";
 import { registerDrawer } from "./registerDrawer";
 import { registerDropdown } from "./registerDropdown";
@@ -33,6 +34,7 @@ import { registerSwitch } from "./registerSwitch";
 import { registerTag } from "./registerTag";
 import { registerTextAnimation } from "./registerTextAnimation";
 import { registerTextEditor } from "./registerTextEditor";
+import { registerTimePicker } from "./registerTimePicker";
 
 export function registerAll(loader?: Registerable) {
   registerTag(loader);
@@ -57,6 +59,7 @@ export function registerAll(loader?: Registerable) {
   registerProgress(loader);
   registerSegmented(loader);
   registerFormField(loader);
+  registerTimePicker(loader);
   registerTextEditor(loader);
   registerDatePicker(loader);
   registerNumberInput(loader);
@@ -67,6 +70,7 @@ export function registerAll(loader?: Registerable) {
   registerAdvancedTable(loader);
   registerImageUploader(loader);
   registerTextAnimation(loader);
+  registerDateRangePicker(loader);
   registerAdvancedTableCell(loader);
   registerAdvancedTableColumn(loader);
 };

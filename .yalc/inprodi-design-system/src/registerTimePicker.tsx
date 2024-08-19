@@ -2,8 +2,8 @@ import React from "react";
 import registerComponent, {
     CodeComponentMeta,
 } from "@plasmicapp/host/registerComponent";
-import { DatePicker as AntdDatePicker } from "antd";
-import type { DatePickerProps as AntdDatePickerProps } from "antd/es/date-picker";
+import { TimePicker as AntdTimePicker } from "antd";
+import type { TimePickerProps as AntdTimePickerProps } from "antd/es/time-picker";
 import { Registerable } from "./registerable";
 
 import dayjs from "dayjs";
@@ -25,44 +25,42 @@ dayjs.extend(weekYear)
 
 dayjs.locale("es-mx");
 
-interface DatePickerProps extends AntdDatePickerProps {
+interface TimePickerProps extends AntdTimePickerProps {
     error?: string | null | undefined;
     value: any;
     onChange : any;
+    format: string;
 }
 
-export const DatePicker = ({
+export const TimePicker = ({
     size,
-    error,
     value,
-    minDate,
-    maxDate,
+    error,
+    format,
     onChange,
     ...props
-} : DatePickerProps ) => {
+} : TimePickerProps ) => {
 
     return (
-        <AntdDatePicker
+        <AntdTimePicker
             {...props}
             style={{
                 height: size === "small" ? "30px" : size === "middle" ? "38px" : "46px",
             }}
             showNow={false}
-            format="MMMM D, YYYY"
-            minDate={ minDate ? dayjs( minDate ) : undefined }
-            maxDate={ maxDate ? dayjs( maxDate ) : undefined }
-            value={ value ? dayjs( value ) : undefined }
+            format={ format }
+            value={ value ? dayjs(value, format) : undefined }
             status={error ? "error" : undefined}
-            onChange={(date) => {
-                onChange( date?.format("YYYY-MM-DD") );
+            onChange={(time) => {
+                onChange( time?.format(format) );
             }}
         />
     );
 };
 
-export const datePickerMeta: CodeComponentMeta<DatePickerProps> = {
-    name: "DatePicker",
-    displayName: "Date Picker",
+export const timePickerMeta: CodeComponentMeta<TimePickerProps> = {
+    name: "TimePicker",
+    displayName: "Time Picker",
     states : {
         value : {
             type : "writable",
@@ -79,20 +77,9 @@ export const datePickerMeta: CodeComponentMeta<DatePickerProps> = {
             type: "boolean",
             defaultValue: false,
         },
-        minDate: {
-            type: "string",
-        },
         allowClear: {
             type: "boolean",
             defaultValue: false,
-        },
-        maxDate: {
-            type: "string",
-        },
-        picker: {
-            type: "choice",
-            options: ["date", "week", "month", "quarter", "year"],
-            defaultValue: "date",
         },
         placeholder: {
             type: "string",
@@ -103,12 +90,28 @@ export const datePickerMeta: CodeComponentMeta<DatePickerProps> = {
             options: ["small", "middle", "large"],
             defaultValue: "middle",
         },
-        error: {
-            type: "string",
+        hourStep : {
+            type: "number",
+            defaultValue: 1,
         },
-        showTime: {
+        minuteStep : {
+            type: "number",
+            defaultValue: 1,
+        },
+        format : {
+            type: "string",
+            defaultValue: "HH:mm:ss",
+        },
+        use12Hours : {
             type: "boolean",
             defaultValue: false,
+        },
+        secondStep : {
+            type: "number",
+            defaultValue: 1,
+        },
+        error: {
+            type: "string",
         },
         variant: {
             type: "choice",
@@ -124,11 +127,11 @@ export const datePickerMeta: CodeComponentMeta<DatePickerProps> = {
     importName: "DatePicker",
 };
 
-export function registerDatePicker(
+export function registerTimePicker(
     loader?: Registerable,
-    customDatePickerMeta?: CodeComponentMeta<DatePickerProps>
+    customTimePickerMeta?: CodeComponentMeta<TimePickerProps>
 ) {
     const doRegisterComponent: typeof registerComponent = (...args) =>
         loader ? loader.registerComponent(...args) : registerComponent(...args);
-    doRegisterComponent(DatePicker, customDatePickerMeta ?? datePickerMeta);
+    doRegisterComponent(TimePicker, customTimePickerMeta ?? timePickerMeta);
 }

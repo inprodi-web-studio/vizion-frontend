@@ -1,11 +1,17 @@
 import React, { useEffect } from "react";
 import { ConfigProvider } from "antd";
 import { Toaster } from "sonner";
+import updateLocale from "dayjs/plugin/updateLocale";
 import locale from "antd/locale/es_ES";
 import dayjs from "dayjs";
 import "dayjs/locale/es-mx";
 
+dayjs.extend(updateLocale);
 dayjs.locale("es-mx");
+dayjs.updateLocale("es-mx", {
+  weekStart : 1,
+});
+
 
 import theme from "../theme/themeConfig";
 

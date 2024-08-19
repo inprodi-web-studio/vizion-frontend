@@ -3,7 +3,7 @@ import registerComponent, {
     CodeComponentMeta,
 } from "@plasmicapp/host/registerComponent";
 import { DatePicker as AntdDatePicker } from "antd";
-import type { DatePickerProps as AntdDatePickerProps } from "antd/es/date-picker";
+import type { RangePickerProps as AntdDatePickerProps } from "antd/es/date-picker";
 import { Registerable } from "./registerable";
 
 import dayjs from "dayjs";
@@ -25,44 +25,41 @@ dayjs.extend(weekYear)
 
 dayjs.locale("es-mx");
 
-interface DatePickerProps extends AntdDatePickerProps {
+interface DateRangePickerProps extends AntdDatePickerProps {
     error?: string | null | undefined;
-    value: any;
     onChange : any;
 }
 
-export const DatePicker = ({
-    size,
+export const DateRangePicker = ({
     error,
     value,
     minDate,
     maxDate,
     onChange,
     ...props
-} : DatePickerProps ) => {
+} : DateRangePickerProps ) => {
 
     return (
-        <AntdDatePicker
+        <AntdDatePicker.RangePicker
             {...props}
-            style={{
-                height: size === "small" ? "30px" : size === "middle" ? "38px" : "46px",
-            }}
             showNow={false}
             format="MMMM D, YYYY"
             minDate={ minDate ? dayjs( minDate ) : undefined }
             maxDate={ maxDate ? dayjs( maxDate ) : undefined }
-            value={ value ? dayjs( value ) : undefined }
+            value={ value }
             status={error ? "error" : undefined}
-            onChange={(date) => {
-                onChange( date?.format("YYYY-MM-DD") );
+            onChange={(dates) => {
+                if (dates) {
+                    onChange( [dates[0], dates[1]] );
+                }
             }}
         />
     );
 };
 
-export const datePickerMeta: CodeComponentMeta<DatePickerProps> = {
-    name: "DatePicker",
-    displayName: "Date Picker",
+export const dateRangePickerMeta: CodeComponentMeta<DateRangePickerProps> = {
+    name: "DateRangePicker",
+    displayName: "Date Range Picker",
     states : {
         value : {
             type : "writable",
@@ -73,11 +70,12 @@ export const datePickerMeta: CodeComponentMeta<DatePickerProps> = {
     },
     props: {
         value: {
-            type: "string",
+            type: "array",
+            defaultValue: [],
         },
         disabled: {
-            type: "boolean",
-            defaultValue: false,
+            type: "array",
+            defaultValue: [],
         },
         minDate: {
             type: "string",
@@ -121,14 +119,14 @@ export const datePickerMeta: CodeComponentMeta<DatePickerProps> = {
         },
     },
     importPath: "inprodi-design-system",
-    importName: "DatePicker",
+    importName: "DateRangePicker",
 };
 
-export function registerDatePicker(
+export function registerDateRangePicker(
     loader?: Registerable,
-    customDatePickerMeta?: CodeComponentMeta<DatePickerProps>
+    customDateRangePickerMeta?: CodeComponentMeta<DateRangePickerProps>
 ) {
     const doRegisterComponent: typeof registerComponent = (...args) =>
         loader ? loader.registerComponent(...args) : registerComponent(...args);
-    doRegisterComponent(DatePicker, customDatePickerMeta ?? datePickerMeta);
+    doRegisterComponent(DateRangePicker, customDateRangePickerMeta ?? dateRangePickerMeta);
 }
