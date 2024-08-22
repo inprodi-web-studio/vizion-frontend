@@ -312,3 +312,7 @@ li.ant-pagination-item.ant-pagination-item-active a {
     height: 0;
     pointer-events: none;
 }
+
+.confirmation-content .text-container p {
+    white-space: pre-wrap;
+}
