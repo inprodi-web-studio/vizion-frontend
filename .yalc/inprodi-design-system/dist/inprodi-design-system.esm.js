@@ -1484,7 +1484,7 @@ function registerCard(loader, customCardMeta) {
   doRegisterComponent(Card, customCardMeta != null ? customCardMeta : cardMeta);
 }
 
-var _excluded$3 = ["type", "title", "loading", "content", "description"];
+var _excluded$3 = ["type", "title", "loading", "content", "bodyLoading", "description"];
 var iconDictionary = {
   info: "Info",
   danger: "WarningOctagon",
@@ -1494,6 +1494,7 @@ var Confirmation = function Confirmation(_ref) {
   var type = _ref.type,
     title = _ref.title,
     loading = _ref.loading,
+    bodyLoading = _ref.bodyLoading,
     description = _ref.description,
     props = _objectWithoutPropertiesLoose(_ref, _excluded$3);
   var _theme$useToken = theme.useToken(),
@@ -1524,6 +1525,7 @@ var Confirmation = function Confirmation(_ref) {
     cancelText: "Cancelar",
     confirmLoading: loading,
     className: "confirmation-modal",
+    footer: bodyLoading ? null : undefined,
     okButtonProps: {
       danger: type === "danger"
     },
@@ -1535,7 +1537,7 @@ var Confirmation = function Confirmation(_ref) {
   }, props), React.createElement("div", {
     className: "confirmation-content",
     style: containerStyle
-  }, React.createElement("div", {
+  }, !bodyLoading ? React.createElement(React.Fragment, null, React.createElement("div", {
     className: "icon-container",
     style: iconStyles
   }, React.createElement(Icon, {
@@ -1561,7 +1563,26 @@ var Confirmation = function Confirmation(_ref) {
       fontWeight: 400,
       margin: 0
     }
-  }, description))));
+  }, description))) : React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "12px",
+      width: "100%"
+    }
+  }, React.createElement(Skeleton, {
+    width: "100%",
+    count: 1,
+    height: "30px"
+  }), React.createElement(Skeleton, {
+    width: "100%",
+    count: 1,
+    height: "30px"
+  }), React.createElement(Skeleton, {
+    width: "100%",
+    count: 1,
+    height: "30px"
+  }))));
 };
 var confirmationMeta = {
   name: "Confirmation",
@@ -1587,6 +1608,10 @@ var confirmationMeta = {
     okText: {
       type: "string",
       defaultValue: "Confirmar"
+    },
+    bodyLoading: {
+      type: "boolean",
+      defaultValue: false
     },
     loading: {
       type: "boolean",
@@ -3219,6 +3244,10 @@ var numberInputMeta = {
     placeholder: {
       type: "string",
       defaultValue: "Input Placeholder"
+    },
+    controls: {
+      type: "boolean",
+      defaultValue: true
     },
     size: {
       type: "choice",

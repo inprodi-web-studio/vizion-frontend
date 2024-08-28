@@ -7,12 +7,14 @@ import type { ModalProps } from "antd/es/modal";
 
 import { Registerable } from "./registerable";
 import { Icon } from "./registerIcon";
+import { Skeleton } from "./registerSkeleton";
 
 interface ConfirmationProps extends ModalProps {
     loading?: boolean;
     content : any;
     type : "info" | "danger" | "warning";
     description: string;
+    bodyLoading?: boolean;
 }
 
 const iconDictionary = {
@@ -26,6 +28,7 @@ export const Confirmation = ({
     title,
     loading,
     content,
+    bodyLoading,
     description,
     ...props
 } : ConfirmationProps ) => {
@@ -60,6 +63,7 @@ export const Confirmation = ({
         cancelText="Cancelar"
         confirmLoading={ loading }
         className="confirmation-modal"
+        footer={ bodyLoading ? null : undefined }
         okButtonProps={{
             danger : type === "danger",
         }}
@@ -71,15 +75,37 @@ export const Confirmation = ({
         {...props}
     >
         <div className="confirmation-content" style={ containerStyle }>
-            <div className="icon-container" style={ iconStyles }>
-                <Icon icon={ iconDictionary[type] } size={20} variant="duotone" />
-            </div>
-
-            <div className="text-container" style={{ width : "100%" }}>
-                <h3 style={{ fontSize : "16px", color : "black", fontWeight : 500, margin : 0 }}>{ title }</h3>
-
-                <p style={{ color : "#868E96", fontSize : "14px", fontWeight : 400, margin : 0 }}>{ description }</p>
-            </div>
+            { !bodyLoading ? (
+                <>
+                    <div className="icon-container" style={ iconStyles }>
+                        <Icon icon={ iconDictionary[type] } size={20} variant="duotone" />
+                    </div>
+        
+                    <div className="text-container" style={{ width : "100%" }}>
+                        <h3 style={{ fontSize : "16px", color : "black", fontWeight : 500, margin : 0 }}>{ title }</h3>
+        
+                        <p style={{ color : "#868E96", fontSize : "14px", fontWeight : 400, margin : 0 }}>{ description }</p>
+                    </div>
+                </>
+            ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px", width: "100%" }}>
+                    <Skeleton
+                        width="100%"
+                        count={ 1 }
+                        height="30px"
+                        />
+                    <Skeleton
+                        width="100%"
+                        count={ 1 }
+                        height="30px"
+                        />
+                    <Skeleton
+                        width="100%"
+                        count={ 1 }
+                        height="30px"
+                    />
+                </div>
+            )}
         </div>
     </Modal>;
 };
@@ -108,6 +134,10 @@ export const confirmationMeta: CodeComponentMeta<ConfirmationProps> = {
         okText : {
             type : "string",
             defaultValue : "Confirmar",
+        },
+        bodyLoading : {
+            type : "boolean",
+            defaultValue : false,
         },
         loading : {
             type : "boolean",

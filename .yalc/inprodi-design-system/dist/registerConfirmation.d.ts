@@ -7,8 +7,9 @@ interface ConfirmationProps extends ModalProps {
     content: any;
     type: "info" | "danger" | "warning";
     description: string;
+    bodyLoading?: boolean;
 }
-export declare const Confirmation: ({ type, title, loading, content, description, ...props }: ConfirmationProps) => React.JSX.Element;
+export declare const Confirmation: ({ type, title, loading, content, bodyLoading, description, ...props }: ConfirmationProps) => React.JSX.Element;
 export declare const confirmationMeta: CodeComponentMeta<ConfirmationProps>;
 export declare function registerConfirmation(loader?: Registerable, customConfirmationMeta?: CodeComponentMeta<ConfirmationProps>): void;
 export {};

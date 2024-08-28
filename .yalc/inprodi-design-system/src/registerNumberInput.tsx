@@ -123,6 +123,10 @@ export const numberInputMeta: CodeComponentMeta<NumberInputProps> = {
             type: "string",
             defaultValue: "Input Placeholder",
         },
+        controls : {
+            type: "boolean",
+            defaultValue: true,
+        },
         size: {
             type: "choice",
             options: ["small", "middle", "large"],
