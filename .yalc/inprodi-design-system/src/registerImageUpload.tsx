@@ -15,23 +15,28 @@ interface ImageUploaderProps {
     maxFiles?: number;
     onChange?: any;
     dropOnPage?: boolean;
+    className?: string;
+    label?: string;
 }
 
 registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType);
 
 export const ImageUploader = forwardRef(({
     value = [],
+    label,
     disabled,
     multiple,
     maxFiles,
+    className,
     dropOnPage,
 }: ImageUploaderProps, ref) => {
 
     const [files, setFiles] = useState(value);
+    const [ updated, setUpdated ] = useState(false);
     const pondRef = useRef<any>(null);
 
     useEffect(() => {
-        if (files.length === 0) {
+        if (files.length === 0 && !updated) {
             setFiles(value);
         }
     }, [value]);
@@ -50,53 +55,59 @@ export const ImageUploader = forwardRef(({
     }));
 
     return (
-        <FilePond
-            ref={ref => pondRef.current = ref}
-            files={files}
-            onaddfile={(error, file) => {
-                console.log(error);
-                const index = files.findIndex((i: any) => i === file.source);
+        <div className={className}>
+            <FilePond
+                ref={ref => pondRef.current = ref}
+                files={files}
+                onaddfile={(error, file) => {
+                    console.log(error);
+                    const index = files.findIndex((i: any) => i === file.source);
 
-                if (index === -1) {
-                    setFiles((prevFiles: any) => [...prevFiles, file.source]);
-                }
-            }}
-            onremovefile={(error, file) => {
-                console.log(error);
-                setFiles((prevFiles: any) => prevFiles.filter((prevFile: any) => prevFile !== file.source));
-            }}
-            credits={false}
-            maxFiles={maxFiles}
-            disabled={disabled}
-            allowReorder={true}
-            maxParallelUploads={3}
-            dropOnPage={dropOnPage}
-            allowMultiple={multiple}
-            className="image-uploader"
-            itemInsertLocation="after"
-            labelDecimalSeparator="."
-            labelThousandsSeparator=","
-            acceptedFileTypes={["image/*"]}
-            labelIdle="Arrastra y suelta imágenes o haz click para buscar"
-            labelInvalidField="Hay archivos inválidos"
-            labelFileWaitingForSize="Esperando tamaño..."
-            labelFileSizeNotAvailable="Tamaño no disponible"
-            labelFileLoading="Cargando..."
-            labelFileLoadError="Error al cargar el archivo"
-            labelFileProcessing="Subiendo..."
-            labelFileProcessingComplete="Completado"
-            labelFileProcessingAborted="Cancelado"
-            labelTapToCancel="click para cancelar"
-            labelTapToRetry="click para reintentar"
-            labelTapToUndo="click para deshacer"
-            labelButtonRemoveItem="Eliminar"
-            labelButtonAbortItemLoad="Cancelar"
-            labelButtonRetryItemLoad="Reintentar"
-            labelButtonAbortItemProcessing="Cancelar"
-            labelButtonUndoItemProcessing="Deshacer"
-            labelButtonRetryItemProcessing="Reintentar"
-            labelButtonProcessItem="Subir"
-        />
+                    if (index === -1) {
+                        setFiles((prevFiles: any) => [...prevFiles, file.source]);
+                    }
+                }}
+                onremovefile={(error, file) => {
+                    console.log(error);
+                    setFiles((prevFiles: any) => prevFiles.filter((prevFile: any) => {                        
+                        return prevFile !== file.source;
+                    }));
+
+                    setUpdated(true);
+                }}
+                credits={false}
+                maxFiles={maxFiles}
+                disabled={disabled}
+                allowReorder={true}
+                maxParallelUploads={3}
+                dropOnPage={dropOnPage}
+                allowMultiple={multiple}
+                className="image-uploader"
+                itemInsertLocation="after"
+                labelDecimalSeparator="."
+                labelThousandsSeparator=","
+                acceptedFileTypes={["image/*"]}
+                labelIdle={ label }
+                labelInvalidField="Hay archivos inválidos"
+                labelFileWaitingForSize="Esperando tamaño..."
+                labelFileSizeNotAvailable="Tamaño no disponible"
+                labelFileLoading="Cargando..."
+                labelFileLoadError="Error al cargar el archivo"
+                labelFileProcessing="Subiendo..."
+                labelFileProcessingComplete="Completado"
+                labelFileProcessingAborted="Cancelado"
+                labelTapToCancel="click para cancelar"
+                labelTapToRetry="click para reintentar"
+                labelTapToUndo="click para deshacer"
+                labelButtonRemoveItem="Eliminar"
+                labelButtonAbortItemLoad="Cancelar"
+                labelButtonRetryItemLoad="Reintentar"
+                labelButtonAbortItemProcessing="Cancelar"
+                labelButtonUndoItemProcessing="Deshacer"
+                labelButtonRetryItemProcessing="Reintentar"
+                labelButtonProcessItem="Subir"
+            />
+        </div>
     );
 });
 
@@ -107,6 +118,10 @@ export const imageUploaderMeta: CodeComponentMeta<ImageUploaderProps> = {
         value: {
             type: "array",
             defaultValue: [],
+        },
+        label : {
+            type: "string",
+            defaultValue: "Arrastra y suelta imágenes o haz click para buscar",
         },
         authToken: {
             type: "string",

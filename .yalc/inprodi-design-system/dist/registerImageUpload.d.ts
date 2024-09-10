@@ -8,6 +8,8 @@ interface ImageUploaderProps {
     maxFiles?: number;
     onChange?: any;
     dropOnPage?: boolean;
+    className?: string;
+    label?: string;
 }
 export declare const ImageUploader: React.ForwardRefExoticComponent<ImageUploaderProps & React.RefAttributes<unknown>>;
 export declare const imageUploaderMeta: CodeComponentMeta<ImageUploaderProps>;

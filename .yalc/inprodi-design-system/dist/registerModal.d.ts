@@ -6,8 +6,10 @@ interface ModalProps extends AntdModalProps {
     content: any;
     onOpenChange: any;
     bodyPadding: string;
+    showFooter?: boolean;
+    showCloseButton?: boolean;
 }
-export declare const Modal: ({ open, content, bodyPadding, ...props }: ModalProps) => React.JSX.Element;
+export declare const Modal: ({ open, content, bodyPadding, showFooter, showCloseButton, ...props }: ModalProps) => React.JSX.Element;
 export declare const modalMeta: CodeComponentMeta<ModalProps>;
 export declare function registerModal(loader?: Registerable, customModalMeta?: CodeComponentMeta<ModalProps>): void;
 export {};

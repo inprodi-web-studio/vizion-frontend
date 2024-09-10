@@ -267,7 +267,7 @@ li.ant-pagination-item.ant-pagination-item-active a {
 .image-uploader .filepond--drop-label label {
     cursor: pointer !important;
     font-size: 12px;
-    color: var(--plasmic-token-secondary-text);
+    color: #868E96;
 }
 
 .text-editor_container {

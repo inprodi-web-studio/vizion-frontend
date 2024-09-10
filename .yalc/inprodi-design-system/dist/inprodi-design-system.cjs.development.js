@@ -2637,16 +2637,21 @@ reactFilepond.registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValid
 var ImageUploader = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
   var _ref$value = _ref.value,
     value = _ref$value === void 0 ? [] : _ref$value,
+    label = _ref.label,
     disabled = _ref.disabled,
     multiple = _ref.multiple,
     maxFiles = _ref.maxFiles,
+    className = _ref.className,
     dropOnPage = _ref.dropOnPage;
   var _useState = React.useState(value),
     files = _useState[0],
     setFiles = _useState[1];
+  var _useState2 = React.useState(false),
+    updated = _useState2[0],
+    setUpdated = _useState2[1];
   var pondRef = React.useRef(null);
   React.useEffect(function () {
-    if (files.length === 0) {
+    if (files.length === 0 && !updated) {
       setFiles(value);
     }
   }, [value]);
@@ -2662,7 +2667,9 @@ var ImageUploader = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
       }
     };
   });
-  return React__default.createElement(reactFilepond.FilePond, {
+  return React__default.createElement("div", {
+    className: className
+  }, React__default.createElement(reactFilepond.FilePond, {
     ref: function ref(_ref2) {
       return pondRef.current = _ref2;
     },
@@ -2685,6 +2692,7 @@ var ImageUploader = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
           return prevFile !== file.source;
         });
       });
+      setUpdated(true);
     },
     credits: false,
     maxFiles: maxFiles,
@@ -2698,7 +2706,7 @@ var ImageUploader = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
     labelDecimalSeparator: ".",
     labelThousandsSeparator: ",",
     acceptedFileTypes: ["image/*"],
-    labelIdle: "Arrastra y suelta im\xE1genes o haz click para buscar",
+    labelIdle: label,
     labelInvalidField: "Hay archivos inv\xE1lidos",
     labelFileWaitingForSize: "Esperando tama\xF1o...",
     labelFileSizeNotAvailable: "Tama\xF1o no disponible",
@@ -2717,7 +2725,7 @@ var ImageUploader = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
     labelButtonUndoItemProcessing: "Deshacer",
     labelButtonRetryItemProcessing: "Reintentar",
     labelButtonProcessItem: "Subir"
-  });
+  }));
 });
 var imageUploaderMeta = {
   name: "ImageUploader",
@@ -2726,6 +2734,10 @@ var imageUploaderMeta = {
     value: {
       type: "array",
       defaultValue: []
+    },
+    label: {
+      type: "string",
+      defaultValue: "Arrastra y suelta imágenes o haz click para buscar"
     },
     authToken: {
       type: "string"
@@ -3021,11 +3033,13 @@ function registerLayout(loader, customLayoutMeta) {
   doRegisterComponent(Layout, customLayoutMeta != null ? customLayoutMeta : layoutMeta);
 }
 
-var _excluded$8 = ["open", "content", "bodyPadding"];
+var _excluded$8 = ["open", "content", "bodyPadding", "showFooter", "showCloseButton"];
 var Modal = function Modal(_ref) {
   var open = _ref.open,
     content = _ref.content,
     bodyPadding = _ref.bodyPadding,
+    showFooter = _ref.showFooter,
+    showCloseButton = _ref.showCloseButton,
     props = _objectWithoutPropertiesLoose(_ref, _excluded$8);
   var _theme$useToken = antd.theme.useToken(),
     token = _theme$useToken.token;
@@ -3033,11 +3047,13 @@ var Modal = function Modal(_ref) {
     centered: true,
     closable: true,
     destroyOnClose: true,
+    getContainer: false,
     open: open,
-    closeIcon: React__default.createElement(Icon, {
+    footer: showFooter ? undefined : null,
+    closeIcon: showCloseButton ? React__default.createElement(Icon, {
       icon: "X",
       variant: "regular"
-    }),
+    }) : false,
     styles: {
       header: {
         padding: "8px 16px 8px 10px !important",
@@ -3084,6 +3100,14 @@ var modalMeta = {
     cancelText: {
       type: "string",
       defaultValue: "Cancelar"
+    },
+    showFooter: {
+      type: "boolean",
+      defaultValue: true
+    },
+    showCloseButton: {
+      type: "boolean",
+      defaultValue: true
     },
     open: {
       type: "boolean",
