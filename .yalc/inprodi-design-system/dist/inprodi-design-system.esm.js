@@ -547,7 +547,8 @@ function registerButton(loader, customButtonMeta) {
 }
 
 var Icon = function Icon(_ref) {
-  var icon = _ref.icon,
+  var _ref$icon = _ref.icon,
+    icon = _ref$icon === void 0 ? "CircleDashed" : _ref$icon,
     size = _ref.size,
     color = _ref.color,
     variant = _ref.variant;
