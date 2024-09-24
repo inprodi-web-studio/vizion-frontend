@@ -2846,6 +2846,7 @@ var Layout = function Layout(_ref) {
       }
     });
   };
+  console.log(selected);
   return React.createElement(Layout$1, {
     hasSider: true,
     style: {
@@ -2892,7 +2893,7 @@ var Layout = function Layout(_ref) {
     mode: "inline",
     items: parseMenuItems(),
     onSelect: function onSelect(data) {
-      return _onSelect(console.log(data.key));
+      return _onSelect(data.key);
     },
     defaultSelectedKeys: [selected],
     style: {

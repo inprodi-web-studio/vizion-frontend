@@ -97,7 +97,9 @@ export const Layout = ({
                 };
             }
         });
-    };    
+    }; 
+
+    console.log( selected );
 
     return (
         <AntdLayout hasSider style={{ minHeight : "100vh" }}>
@@ -142,7 +144,7 @@ export const Layout = ({
                     theme="light"
                     mode="inline"
                     items={parseMenuItems()}
-                    onSelect={(data) => onSelect( console.log( data.key ) )}
+                    onSelect={(data) => onSelect( data.key )}
                     defaultSelectedKeys={[selected]}
                     style={{
                         borderInlineEnd : "none",
