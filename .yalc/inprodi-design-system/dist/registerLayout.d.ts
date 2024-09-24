@@ -17,7 +17,7 @@ interface LayoutProps extends AntdLayoutProps {
     showHeader: boolean;
     defaultSelectedKeys: string[];
 }
-export declare const Layout: ({ content, onSelect, menuItems, collapsed, onCollapse, showTrigger, showHeader, headerContent, menuTopSection, selected, backgroundColor, menuBottomSection, }: LayoutProps) => React.JSX.Element;
+export declare const Layout: ({ content, onSelect, selected, menuItems, collapsed, onCollapse, showTrigger, showHeader, headerContent, menuTopSection, backgroundColor, menuBottomSection, }: LayoutProps) => React.JSX.Element;
 export declare const layoutMeta: CodeComponentMeta<LayoutProps>;
 export declare function registerLayout(loader?: Registerable, customLayoutMeta?: CodeComponentMeta<LayoutProps>): void;
 export {};

@@ -2784,6 +2784,7 @@ function registerImageUploader(loader, customImageUploaderMeta) {
 var Layout = function Layout(_ref) {
   var content = _ref.content,
     _onSelect = _ref.onSelect,
+    selected = _ref.selected,
     menuItems = _ref.menuItems,
     collapsed = _ref.collapsed,
     _onCollapse = _ref.onCollapse,
@@ -2791,7 +2792,6 @@ var Layout = function Layout(_ref) {
     showHeader = _ref.showHeader,
     headerContent = _ref.headerContent,
     menuTopSection = _ref.menuTopSection,
-    selected = _ref.selected,
     backgroundColor = _ref.backgroundColor,
     menuBottomSection = _ref.menuBottomSection;
   var _theme$useToken = theme.useToken(),
@@ -2892,7 +2892,7 @@ var Layout = function Layout(_ref) {
     mode: "inline",
     items: parseMenuItems(),
     onSelect: function onSelect(data) {
-      return _onSelect(data.key);
+      return _onSelect(console.log(data.key));
     },
     defaultSelectedKeys: [selected],
     style: {
