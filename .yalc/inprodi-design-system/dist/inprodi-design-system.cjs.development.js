@@ -2798,9 +2798,9 @@ var Layout = function Layout(_ref) {
     showHeader = _ref.showHeader,
     headerContent = _ref.headerContent,
     menuTopSection = _ref.menuTopSection,
+    selected = _ref.selected,
     backgroundColor = _ref.backgroundColor,
-    menuBottomSection = _ref.menuBottomSection,
-    defaultSelectedKeys = _ref.defaultSelectedKeys;
+    menuBottomSection = _ref.menuBottomSection;
   var _theme$useToken = antd.theme.useToken(),
     _theme$useToken$token = _theme$useToken.token,
     colorBorder = _theme$useToken$token.colorBorder,
@@ -2901,7 +2901,7 @@ var Layout = function Layout(_ref) {
     onSelect: function onSelect(data) {
       return _onSelect(data.key);
     },
-    defaultSelectedKeys: defaultSelectedKeys,
+    defaultSelectedKeys: [selected],
     style: {
       borderInlineEnd: "none",
       background: "transparent"

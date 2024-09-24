@@ -40,9 +40,9 @@ export const Layout = ({
     showHeader,
     headerContent,
     menuTopSection,
+    selected,
     backgroundColor,
     menuBottomSection,
-    defaultSelectedKeys,
 } : LayoutProps ) => {
     const {
         token: {
@@ -143,7 +143,7 @@ export const Layout = ({
                     mode="inline"
                     items={parseMenuItems()}
                     onSelect={(data) => onSelect( data.key )}
-                    defaultSelectedKeys={defaultSelectedKeys}
+                    defaultSelectedKeys={[selected]}
                     style={{
                         borderInlineEnd : "none",
                         background: "transparent",
