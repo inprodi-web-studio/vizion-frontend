@@ -2791,7 +2791,6 @@ function registerImageUploader(loader, customImageUploaderMeta) {
 var Layout = function Layout(_ref) {
   var content = _ref.content,
     _onSelect = _ref.onSelect,
-    selected = _ref.selected,
     menuItems = _ref.menuItems,
     collapsed = _ref.collapsed,
     _onCollapse = _ref.onCollapse,
@@ -2800,7 +2799,8 @@ var Layout = function Layout(_ref) {
     headerContent = _ref.headerContent,
     menuTopSection = _ref.menuTopSection,
     backgroundColor = _ref.backgroundColor,
-    menuBottomSection = _ref.menuBottomSection;
+    menuBottomSection = _ref.menuBottomSection,
+    defaultSelectedKeys = _ref.defaultSelectedKeys;
   var _theme$useToken = antd.theme.useToken(),
     _theme$useToken$token = _theme$useToken.token,
     colorBorder = _theme$useToken$token.colorBorder,
@@ -2853,7 +2853,6 @@ var Layout = function Layout(_ref) {
       }
     });
   };
-  console.log(selected);
   return React__default.createElement(antd.Layout, {
     hasSider: true,
     style: {
@@ -2902,7 +2901,7 @@ var Layout = function Layout(_ref) {
     onSelect: function onSelect(data) {
       return _onSelect(data.key);
     },
-    defaultSelectedKeys: [selected],
+    defaultSelectedKeys: defaultSelectedKeys,
     style: {
       borderInlineEnd: "none",
       background: "transparent"

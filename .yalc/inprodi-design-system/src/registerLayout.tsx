@@ -33,7 +33,6 @@ interface LayoutProps extends AntdLayoutProps {
 export const Layout = ({
     content,
     onSelect,
-    selected,
     menuItems,
     collapsed,
     onCollapse,
@@ -43,6 +42,7 @@ export const Layout = ({
     menuTopSection,
     backgroundColor,
     menuBottomSection,
+    defaultSelectedKeys,
 } : LayoutProps ) => {
     const {
         token: {
@@ -99,8 +99,6 @@ export const Layout = ({
         });
     }; 
 
-    console.log( selected );
-
     return (
         <AntdLayout hasSider style={{ minHeight : "100vh" }}>
             <AntdLayout.Sider
@@ -145,7 +143,7 @@ export const Layout = ({
                     mode="inline"
                     items={parseMenuItems()}
                     onSelect={(data) => onSelect( data.key )}
-                    defaultSelectedKeys={[selected]}
+                    defaultSelectedKeys={defaultSelectedKeys}
                     style={{
                         borderInlineEnd : "none",
                         background: "transparent",
