@@ -20,6 +20,8 @@ import "react-loading-skeleton/dist/skeleton.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import "filepond/dist/filepond.min.css";
 
+import "@xyflow/react/dist/style.css";
+
 import { useRouter } from "next/router";
 
 const App = ({ Component, pageProps }) => {

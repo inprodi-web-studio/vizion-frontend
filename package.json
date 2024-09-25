@@ -19,6 +19,7 @@
     "@tiptap/starter-kit": "^2.5.8",
     "@types/lodash.debounce": "^4.0.9",
     "@types/react-input-mask": "^3.0.5",
+    "@xyflow/react": "^12.3.0",
     "antd": "^5.17.4",
     "axios": "^1.7.2",
     "dayjs": "^1.11.11",

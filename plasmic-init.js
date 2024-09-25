@@ -21,6 +21,7 @@ import fromNow from "./helpers/fromNow";
 
 import { registerAll } from "inprodi-design-system";
 import { registerGauge } from "./components/registerGauge";
+import { registerWarehouseDesigner } from "./components/registerWarehouseDesigner";
 
 import downloadPdf from "./helpers/downloadPdf";
 import formatShortNumber from "./helpers/formatShortNumber";
@@ -38,6 +39,7 @@ export const PLASMIC = initPlasmicLoader({
 registerAll( PLASMIC );
 
 registerGauge(PLASMIC);
+registerWarehouseDesigner(PLASMIC);
 
 PLASMIC.registerFunction( getConstants, {
   name : "getConstants",
