@@ -36,6 +36,7 @@ const WarehouseSidebar = () => {
     backgroundColor : "white",
     border : "solid 1px var(--token-Pxe4wDL2kJpb)",
     borderRadius : "6px",
+    cursor : "grab",
   };
 
   const containerStyles = {
@@ -43,7 +44,7 @@ const WarehouseSidebar = () => {
     height : "100px",
     borderRadius : "6px 6px 0 0",
     borderBottom : "solid 1px var(--token-Pxe4wDL2kJpb)",
-    padding : "30px 30px 0 30px",
+    padding : "0px 30px 0 30px",
     display : "flex",
     justifyContent : "center",
     alignItems : "center",
@@ -51,12 +52,13 @@ const WarehouseSidebar = () => {
 
   const locationStyles = {
     display : "flex",
+    marginTop : "30px",
     alignItems : "center",
     justifyContent : "space-center",
     backgroundColor : "var(--token-6Lhw5mK6wolF)",
-    border : "solid 3px var(--token-8lqFm4pa_96a)",
+    border : "solid 2px var(--token-8lqFm4pa_96a)",
     borderBottom : "none",
-    height : "100%",
+    height : "calc(100% - 30px)",
     width : "100%",
     borderRadius : "10px 10px 0 0",
   };
@@ -89,34 +91,47 @@ const WarehouseSidebar = () => {
     alignItems : "flex-start",
     justifyContent : "center",
     backgroundColor : "var(--token-6Lhw5mK6wolF)",
-    border : "solid 3px var(--token-8lqFm4pa_96a)",
+    border : "solid 2px var(--token-8lqFm4pa_96a)",
     height : "40px",
     width : "70px",
+    padding : "2px",
     borderRadius : "6px",
+  };
+
+  const dividerContainerStyles = {
+    backgroundColor : "#e9ecef",
+    width : "90%",
+    height : "65px",
+    borderRadius : "6px",
+    border : "solid 1px #d9d9d9",
+    backgroundImage : `repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 6px,
+        #d9d9d9 6px,
+        #d9d9d9 10px
+    )`,
   };
 
   const positionStyles = {
     width : "100%",
-    height : "50%",
+    height : "100%",
     backgroundColor : "rgba(0,0,0,0.15)",
-    borderRadius : "3px 3px 6px 6px",
+    borderRadius : "4px",
   };
 
   const tagStyles = {
     position : "absolute",
-    top : "0",
-    left : "0",
     zIndex : "10",
     backgroundColor : "white",
     padding : "2px 8px",
     color : "var(--token-YFIqRc19SnuM)",
     borderRadius : "4px",
     fontSize : "10px",
-    top : "-10px",
-    fontWeight : 500,
+    top : "50%",
     left : "50%",
-    transform : "translateX(-50%)",
-    boxShadow : "0 0 10px rgba(0,0,0,0.15)",
+    fontWeight : 500,
+    transform : "translate(-50%, -50%)",
   };
 
   return (
@@ -169,6 +184,24 @@ const WarehouseSidebar = () => {
           <div style={textContainerStyles}>
             <p style={titleStyles}>Estante</p>
             <p style={descriptionStyles}>Conjunto de espacios de almacenamiento por pisos y posiciones. Solo puede ser posicionado dentro de una ubicación.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style={listStyles}>
+        <div
+          draggable
+          style={itemStyles}
+          className="dndnode input"
+          onDragStart={(event) => onDragStart(event, "divider")}
+        >
+          <div style={containerStyles}>
+            <div style={dividerContainerStyles} />
+          </div>
+
+          <div style={textContainerStyles}>
+            <p style={titleStyles}>Divisor</p>
+            <p style={descriptionStyles}>Un elemento visual sencillo para dividir áreas (un muro por ejemplo).</p>
           </div>
         </div>
       </div>

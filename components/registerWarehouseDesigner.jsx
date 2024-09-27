@@ -5,22 +5,33 @@ import { Background, Controls, MiniMap, ReactFlow, ReactFlowProvider, useNodesSt
 import WarehouseSidebar from "./WarehouseSidebar";
 import { DnDProvider, useDnD } from "@/contexts/DndContext";
 import LocationNode from "./LocationNode";
+import RackNode from "./RackNode";
+import DividerNode from "./DividerNode";
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
 
 const WarehouseDesignerFlow = forwardRef(
-    ({ onNodeDelete, onLocationAdd, ...props }, ref) => {
+    ({ onNodeDelete, onLocationAdd, onRackAdd, onLocationUpdate, onRackUpdate, ...props }, ref) => {
       const [nodes, setNodes, onNodesChange] = useNodesState([]);
       const { screenToFlowPosition, deleteElements } = useReactFlow();
       const [type] = useDnD();
   
-      const nodeTypes = { location: LocationNode };
+    const nodeTypes = {
+        location: LocationNode,
+        rack : RackNode,
+        divider : DividerNode,
+    };
   
       const onDragOver = useCallback((event) => {
         event.preventDefault();
         event.dataTransfer.dropEffect = "move";
       }, []);
+
+      const handleNodeDelete = (items) => {
+        onNodeDelete(items);
+        return false;
+      };
   
       const onDrop = useCallback(
         (event) => {
@@ -38,23 +49,25 @@ const WarehouseDesignerFlow = forwardRef(
           let parentNode = null;
           let foundNode = false;
 
-          for (const node of nodes) {
-            if (node.type === "location") {
-              const nodeX = node.position.x;
-              const nodeY = node.position.y;
-              const nodeWidth = node.width || 200;
-              const nodeHeight = node.height || 200;
-      
-              if (
-                position.x >= nodeX &&
-                position.x <= nodeX + nodeWidth &&
-                position.y >= nodeY &&
-                position.y <= nodeY + nodeHeight
-              ) {
-                parentNode = node;
-                foundNode = true;
-                break;
-              }
+          if (type === "rack") {
+            for (const node of nodes) {
+                if (node.type === "location") {
+                  const nodeX = node.position.x;
+                  const nodeY = node.position.y;
+                  const nodeWidth = node.width || 200;
+                  const nodeHeight = node.height || 200;
+          
+                  if (
+                    position.x >= nodeX &&
+                    position.x <= nodeX + nodeWidth &&
+                    position.y >= nodeY &&
+                    position.y <= nodeY + nodeHeight
+                  ) {
+                    parentNode = node;
+                    foundNode = true;
+                    break;
+                  }
+                }
             }
           }
 
@@ -70,7 +83,12 @@ const WarehouseDesignerFlow = forwardRef(
               }
             : position,
             data : {
-                name : "Ubicación",
+                ...( type === "location" && ({
+                    onLocationUpdate,
+                })),
+                ...( type === "rack" && ({
+                    onRackUpdate,
+                })),
             },
             parentId : parentNode ? parentNode.id : null,
             extent : "parent",
@@ -82,16 +100,19 @@ const WarehouseDesignerFlow = forwardRef(
           if (type === "location") {
             onLocationAdd && onLocationAdd(newNode);
           }
+
+          if (type === "rack") {
+            onRackAdd && onRackAdd(newNode);
+          }
         },
-        [screenToFlowPosition, type, setNodes, onLocationAdd, nodes]
+        [screenToFlowPosition, type, setNodes, onLocationAdd, nodes, onRackAdd, onLocationUpdate, onRackUpdate]
       );
   
       useImperativeHandle(ref, () => ({
         deleteNode: (nodeId) => {
-            console.log("triggered");
-            deleteElements({
-                nodes : [{ id : nodeId }],
-            });
+            setNodes((nds) =>
+                nds.filter((node) => node.id !== nodeId && node.parentId !== nodeId)
+            );
         },
         updateNodeData: (nodeId, newData) => {
             setNodes((nds) =>
@@ -112,15 +133,22 @@ const WarehouseDesignerFlow = forwardRef(
         <div style={wrapperStyles}>
           <ReactFlow
             fitView
+            snapToGrid
+            minZoom={0.2}
             nodes={nodes}
             onDrop={onDrop}
+            deleteKeyCode={null}
             nodeTypes={nodeTypes}
+            selectionKeyCode={null}
             onDragOver={onDragOver}
             onNodesChange={onNodesChange}
-            onNodesDelete={(nodes) => onNodeDelete && onNodeDelete(nodes)}
+            onBeforeDelete={onNodeDelete && ((items) => handleNodeDelete(items))}
           >
             <Controls />
-            <MiniMap />
+            <MiniMap
+                pannable
+                nodeColor={node => node.type === "location" ? "#CED4D9" : node.type === "rack" ? "#E9ECEF" : "#868e96"}
+            />
             <Background variant="dots" gap={12} size={1} />
           </ReactFlow>
   
@@ -156,6 +184,33 @@ export const warehouseDesignerMeta = {
             ],
         },
         onLocationAdd : {
+            type : "eventHandler",
+            argTypes : [
+                {
+                    name : "node",
+                    type : "object",
+                }
+            ],
+        },
+        onLocationUpdate : {
+            type : "eventHandler",
+            argTypes : [
+                {
+                    name : "node",
+                    type : "object",
+                }
+            ],
+        },
+        onRackAdd : {
+            type : "eventHandler",
+            argTypes : [
+                {
+                    name : "node",
+                    type : "object",
+                }
+            ],
+        },
+        onRackUpdate : {
             type : "eventHandler",
             argTypes : [
                 {

@@ -1,8 +1,4 @@
-import { NodeResizer, NodeToolbar, Position, useReactFlow, useUpdateNodeInternals } from "@xyflow/react";
-import { useEffect, useRef, useState } from "react";
-import { drag } from "d3-drag";
-import { select } from "d3-selection";
-import { min } from "lodash";
+import { NodeResizer, NodeToolbar, useReactFlow } from "@xyflow/react";
 import { Button } from "antd";
 import { Gear, Trash } from "@phosphor-icons/react";
 
@@ -11,20 +7,32 @@ const LocationNode = ({
     selected,
     data,
 }) => {
-    const { deleteElements } = useReactFlow();
+    const { deleteElements, getNodes } = useReactFlow();
+
+    const nodes = getNodes();
+    const childNodes = nodes.filter(node => node.parentId === id);
+    const hasChildren = childNodes.length > 0;
 
     const handleDelete = () => {
         deleteElements({
-            nodes : [{ id }],
+            nodes : [{id}],
         });
     };
 
-    const locationStyles = {
+    const locationStyles = hasChildren ? {
+        backgroundColor : "#f8f9fa",
+        border : "solid 1px #d9d9d9",
+        borderRadius : "10px",
+        height : "100%",
+        width : "100%",
+        minHeight : "200px",
+        minWidth : "200px",
+    } : {
         display : "flex",
         alignItems : "center",
         justifyContent : "center",
-        backgroundColor : "var(--token-6Lhw5mK6wolF)",
-        border : "solid 3px var(--token-8lqFm4pa_96a)",
+        backgroundColor : "#e9ecef",
+        border : "solid 1px #d9d9d9",
         height : "100%",
         width : "100%",
         minHeight : "200px",
@@ -34,16 +42,25 @@ const LocationNode = ({
 
     const tagStyles = {
         backgroundColor : "white",
-        padding : "2px 8px",
+        padding : "4px 12px",
         color : "var(--token-YFIqRc19SnuM)",
         borderRadius : "4px",
-        fontSize : "10px",
-        top : "-10px",
-        fontWeight : 500,
-        left : "50%",
-        boxShadow : "0 0 10px rgba(0,0,0,0.06)",
+        fontSize : "16px",
+        fontWeight : 600,
         border : "1px solid var(--token-Pxe4wDL2kJpb)",
-      };
+    };
+
+    const floatingTagStyles = {
+        backgroundColor : "white",
+        padding : "4px 12px",
+        color : "var(--token-YFIqRc19SnuM)",
+        borderRadius : "4px",
+        fontSize : "16px",
+        fontWeight : 600,
+        border : "1px solid var(--token-Pxe4wDL2kJpb)",
+        position : "absolute",
+        top : "-40px",
+    };
 
     return (
         <>
@@ -58,6 +75,7 @@ const LocationNode = ({
                 }}>
                     <Button
                         type="default"
+                        onClick={() => data.onLocationUpdate && data.onLocationUpdate( nodes.filter(node => node.id === id)[0] )}
                     >
                         <Gear size={16} />
                         Configurar
@@ -80,7 +98,13 @@ const LocationNode = ({
                     minWidth : "200px",
                     minHeight : "200px",
                 }}
-                >
+            >
+                { hasChildren && (
+                    <div style={floatingTagStyles}>
+                        {data.name ?? "Ubicación"}
+                    </div>
+                )}
+                
                 <NodeResizer
                     minWidth={200}
                     minHeight={200}
@@ -88,9 +112,11 @@ const LocationNode = ({
                 />
 
                 <div style={locationStyles}>
-                    <div style={tagStyles}>
-                        {data.name ?? "Ubicación"}
-                    </div>
+                    { !hasChildren && (
+                        <div style={tagStyles}>
+                            {data.name ?? "Ubicación"}
+                        </div>
+                    )}
                 </div>
             </div>
         </>
