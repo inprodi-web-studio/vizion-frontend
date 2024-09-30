@@ -1,4 +1,4 @@
-import { useDnD } from "@/contexts/DndContext";
+import { useDnD } from "../contexts/DnDContext";
 import React from "react";
 
 const WarehouseSidebar = () => {

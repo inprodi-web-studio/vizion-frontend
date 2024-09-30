@@ -3,7 +3,7 @@ import registerComponent from "@plasmicapp/host/registerComponent";
 
 import { Background, Controls, MiniMap, ReactFlow, ReactFlowProvider, useNodesState, useReactFlow } from "@xyflow/react";
 import WarehouseSidebar from "./WarehouseSidebar";
-import { DnDProvider, useDnD } from "@/contexts/DndContext";
+import { DnDProvider, useDnD } from "../contexts/DndContext";
 import LocationNode from "./LocationNode";
 import RackNode from "./RackNode";
 import DividerNode from "./DividerNode";
