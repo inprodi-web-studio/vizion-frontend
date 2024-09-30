@@ -1242,19 +1242,19 @@
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
-"@xyflow/react@^12.3.0":
-  version "12.3.0"
-  resolved "https://registry.yarnpkg.com/@xyflow/react/-/react-12.3.0.tgz#611bf68e0580ff2eab0a5cdf4b997d923a8cae85"
-  integrity sha512-dujEbjOn+5gMGg/wsojxtI7v2CfWm7ieRyiOHiZTPyw6p/VIdCoS3nLfSBP3TT+swoHSAXZ78iomHSKoUl4tMg==
+"@xyflow/react@^12.3.1":
+  version "12.3.1"
+  resolved "https://registry.yarnpkg.com/@xyflow/react/-/react-12.3.1.tgz#99170763bb36b19a78a6a3cce2c0b065ed4a0594"
+  integrity sha512-PurYFxwzJa0U6RRX9k4VbNRU+vQd6mRKFR8Uk1dF81diCKZDj495y6AupqsjMHtkO66tGHV0LdenLpIHvnOEFw==
   dependencies:
-    "@xyflow/system" "0.0.42"
+    "@xyflow/system" "0.0.43"
     classcat "^5.0.3"
     zustand "^4.4.0"
 
-"@xyflow/system@0.0.42":
-  version "0.0.42"
-  resolved "https://registry.yarnpkg.com/@xyflow/system/-/system-0.0.42.tgz#359b274fe072a28191ecfbc61bb7a3601de80e1e"
-  integrity sha512-kWYj+Y0GOct0jKYTdyRMNOLPxGNbb2TYvPg2gTmJnZ31DOOMkL5uRBLX825DR2gOACDu+i5FHLxPJUPf/eGOJw==
+"@xyflow/system@0.0.43", "@xyflow/system@^0.0.43":
+  version "0.0.43"
+  resolved "https://registry.yarnpkg.com/@xyflow/system/-/system-0.0.43.tgz#5abe99b2542fa583c15a74efcdbb78b8ed825f49"
+  integrity sha512-1zHgad1cWr1mKm2xbFaarK0Jg8WRgaQ8ubSBIo/pRdq3fEgCuqgNkL9NSAP6Rvm8zi3+Lu4JPUMN+EEx5QgX9A==
   dependencies:
     "@types/d3-drag" "^3.0.7"
     "@types/d3-selection" "^3.0.10"
@@ -3140,8 +3140,10 @@ ini@~1.3.0:
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.8.tgz#a29da425b48806f34767a4efce397269af28432c"
   integrity sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==
 
-"inprodi-design-system@file:.yalc/inprodi-design-system":
-  version "1.8.6"
+inprodi-design-system@1.8.8:
+  version "1.8.8"
+  resolved "https://registry.yarnpkg.com/inprodi-design-system/-/inprodi-design-system-1.8.8.tgz#4448a6db2616e6406144bfbbcafd9f484b78d1cb"
+  integrity sha512-JbOnVPH/IEzDcJklI0pi1fdjrOLa3K8qav8/VNKCG3gl3+4tCP2xIwm15Sce/zC/6wkJNtTyzSX/3cNKLM4z4Q==
   dependencies:
     "@hookform/resolvers" "^3.4.2"
     "@nivo/core" "0.80.0"
