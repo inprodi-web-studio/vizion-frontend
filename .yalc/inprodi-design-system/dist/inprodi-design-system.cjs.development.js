@@ -4627,10 +4627,9 @@ var TextEditor = function TextEditor(_ref) {
     }
   });
   React.useEffect(function () {
-    if (value) {
-      var _editor$commands;
-      editor == null || (_editor$commands = editor.commands) == null || _editor$commands.setContent(value, false, {
-        preserveWhitespace: "full"
+    if (value && editor && value !== editor.getHTML()) {
+      editor.commands.setContent(value, false, {
+        preserveWhitespace: 'full'
       });
     }
   }, [value, editor]);
