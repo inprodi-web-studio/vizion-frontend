@@ -20,6 +20,7 @@
     "@types/lodash.debounce": "^4.0.9",
     "@types/react-input-mask": "^3.0.5",
     "@xyflow/react": "^12.3.1",
+    "@xyflow/system": "^0.0.43",
     "antd": "^5.17.4",
     "axios": "^1.7.2",
     "dayjs": "^1.11.11",
