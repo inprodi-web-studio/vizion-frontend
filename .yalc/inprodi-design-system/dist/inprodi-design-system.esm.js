@@ -3952,6 +3952,9 @@ var Select = /*#__PURE__*/forwardRef(function (_ref, ref) {
     width: "100%",
     fontSize: "14px",
     fontWeight: "400",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+    overflow: "hidden",
     color: internalValue != null && internalValue.label && !disabled ? token.colorText : token.colorTextDisabled
   };
   return React.createElement(Dropdown, {
@@ -4617,10 +4620,9 @@ var TextEditor = function TextEditor(_ref) {
     }
   });
   useEffect(function () {
-    if (value) {
-      var _editor$commands;
-      editor == null || (_editor$commands = editor.commands) == null || _editor$commands.setContent(value, false, {
-        preserveWhitespace: "full"
+    if (value && editor && value !== editor.getHTML()) {
+      editor.commands.setContent(value, false, {
+        preserveWhitespace: 'full'
       });
     }
   }, [value, editor]);
