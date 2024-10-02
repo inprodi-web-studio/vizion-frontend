@@ -19,7 +19,6 @@ export const getStaticPaths = async () => {
   return {
     paths: [
       ...pages.map((page) => {
-        console.log(page);
         return ({
           params: { catchall: page.path.substring(1).split('/') }
         });
