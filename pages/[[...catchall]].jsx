@@ -12,9 +12,11 @@ import { PLASMIC } from "@/plasmic-init";
 export default function PlasmicLoaderPage(props) {
   const { plasmicData, queryCache } = props;
   const router = useRouter();
+
   if (!plasmicData || plasmicData.entryCompMetas.length === 0) {
     return <Error statusCode={404} />;
   }
+
   const pageMeta = plasmicData.entryCompMetas[0];
 
   return (
@@ -32,31 +34,33 @@ export default function PlasmicLoaderPage(props) {
 }
 
 export const getStaticProps = async (context) => {
-  const { catchall } = context.params ?? {};
-  const plasmicPath = typeof catchall === 'string' ? catchall : Array.isArray(catchall) ? `/${catchall.join('/')}` : '/';
-  const plasmicData = await PLASMIC.maybeFetchComponentData(plasmicPath);
+  try {
+    const { catchall } = context.params ?? {};
+    const plasmicPath = typeof catchall === 'string' ? catchall : Array.isArray(catchall) ? `/${catchall.join('/')}` : '/';
+    const plasmicData = await PLASMIC.maybeFetchComponentData(plasmicPath);
 
-  if (!plasmicData) {
-    // non-Plasmic catch-all
-    return { props: {} };
+    if (!plasmicData || !plasmicData.entryCompMetas || plasmicData.entryCompMetas.length === 0) {
+      return { notFound: true };
+    }
+
+    const pageMeta = plasmicData.entryCompMetas[0];
+    const queryCache = await extractPlasmicQueryData(
+      <PlasmicRootProvider
+        loader={PLASMIC}
+        prefetchedData={plasmicData}
+        pageRoute={pageMeta.path}
+        pageParams={pageMeta.params}
+      >
+        <PlasmicComponent component={pageMeta.displayName} />
+      </PlasmicRootProvider>
+    );
+
+    return { props: { plasmicData, queryCache }, revalidate: 60 };
+  } catch (error) {
+    console.error('Error en getStaticProps:', error);
+    return { notFound: true };
   }
-
-  const pageMeta = plasmicData.entryCompMetas[0];
-  // Cache the necessary data fetched for the page
-  const queryCache = await extractPlasmicQueryData(
-    <PlasmicRootProvider
-      loader={PLASMIC}
-      prefetchedData={plasmicData}
-      pageRoute={pageMeta.path}
-      pageParams={pageMeta.params}
-    >
-      <PlasmicComponent component={pageMeta.displayName} />
-    </PlasmicRootProvider>
-  );
-
-  // Use revalidate if you want incremental static regeneration
-  return { props: { plasmicData, queryCache }, revalidate: 60 };
-}
+};
 
 export const getStaticPaths = async () => {
   const pageModules = await PLASMIC.fetchPages();
