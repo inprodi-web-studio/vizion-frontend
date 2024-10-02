@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.5",
-    "@plasmicapp/loader-nextjs": "^1.0.389",
+    "@plasmicapp/loader-nextjs": "^1.0.406",
     "@tiptap/extension-placeholder": "^2.5.9",
     "@tiptap/extension-text-align": "^2.5.9",
     "@tiptap/extension-text-style": "^2.8.0",
