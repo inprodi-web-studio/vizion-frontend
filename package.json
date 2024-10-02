@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start -H 0.0.0.0 -p 8080",
-    "lint": "next lint"
+    "lint": "next lint",
+    "export" : "npm run build && next export && mv out _static"
   },
   "engines": {
     "node": ">=14.x"
