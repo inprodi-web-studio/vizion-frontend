@@ -15,11 +15,14 @@ import { PLASMIC } from '../plasmic-init';
  */
 export const getStaticPaths = async () => {
   const pages = await PLASMIC.fetchPages();
+
   return {
-    paths: pages.map((page) => ({
-      params: { catchall: page.path.substring(1).split('/') }
-    })),
-    fallback: 'blocking'
+    paths: [
+      ...pages.map((page) => ({
+        params: { catchall: page.path.substring(1).split('/') }
+      })),
+    ],
+    fallback: true
   };
 };
 
@@ -75,6 +78,7 @@ export default function CatchallPage(props) {
     return <Error statusCode={404} />;
   }
   const pageMeta = plasmicData.entryCompMetas[0];
+
   return (
     // Pass in the data fetched in getStaticProps as prefetchedData
     <PlasmicRootProvider
