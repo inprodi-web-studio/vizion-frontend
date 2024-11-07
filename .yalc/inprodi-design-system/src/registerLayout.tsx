@@ -142,7 +142,8 @@ export const Layout = ({
                     theme="light"
                     mode="inline"
                     items={parseMenuItems()}
-                    onSelect={(data) => onSelect( data.key )}
+                    // onSelect={(data) => onSelect( data.key )}
+                    onClick={(data) => onSelect( data.key )}
                     defaultSelectedKeys={defaultSelectedKeys}
                     style={{
                         borderInlineEnd : "none",

@@ -1,5 +1,5 @@
 {
-  "version": "1.8.10",
+  "version": "1.8.19",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -55,6 +55,7 @@
     "@plasmicapp/loader-react": "^1.0.354",
     "@tiptap/extension-placeholder": "^2.5.9",
     "@tiptap/extension-text-align": "^2.5.9",
+    "@tiptap/extension-text-style": "^2.8.0",
     "@tiptap/extension-underline": "^2.5.9",
     "@tiptap/pm": "^2.5.8",
     "@tiptap/react": "^2.5.8",
@@ -78,5 +79,5 @@
     "vaul": "^0.9.1",
     "zod": "^3.23.8"
   },
-  "yalcSig": "6a9f74f0e35dddd990cc47f64bcfc3ca"
+  "yalcSig": "c37d0765e1f3aa34b16e8911c37b66b8"
 }

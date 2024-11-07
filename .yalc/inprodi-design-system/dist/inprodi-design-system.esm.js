@@ -1649,7 +1649,7 @@ function registerConfirmation(loader, customConfirmationMeta) {
   doRegisterComponent(Confirmation, customConfirmationMeta != null ? customConfirmationMeta : confirmationMeta);
 }
 
-var _excluded$4 = ["size", "error", "value", "minDate", "maxDate", "onChange"];
+var _excluded$4 = ["size", "error", "showTime", "value", "minDate", "maxDate", "disabledDates", "onChange"];
 dayjs.extend(customParseFormat);
 dayjs.extend(advancedFormat);
 dayjs.extend(weekday);
@@ -1660,24 +1660,34 @@ dayjs.locale("es-mx");
 var DatePicker = function DatePicker(_ref) {
   var size = _ref.size,
     error = _ref.error,
+    showTime = _ref.showTime,
     value = _ref.value,
     minDate = _ref.minDate,
     maxDate = _ref.maxDate,
+    disabledDates = _ref.disabledDates,
     _onChange = _ref.onChange,
     props = _objectWithoutPropertiesLoose(_ref, _excluded$4);
+  var disabledDate = function disabledDate(current) {
+    if (!disabledDates) return false;
+    return disabledDates.some(function (date) {
+      return dayjs(date).isSame(current, 'day');
+    });
+  };
   return React.createElement(DatePicker$1, Object.assign({}, props, {
     style: {
       height: size === "small" ? "30px" : size === "middle" ? "38px" : "46px"
     },
     showNow: false,
-    format: "MMMM D, YYYY",
+    showTime: showTime,
+    format: showTime ? "MMMM D, YYYY - HH:mm" : "MMMM D, YYYY",
     minDate: minDate ? dayjs(minDate) : undefined,
     maxDate: maxDate ? dayjs(maxDate) : undefined,
     value: value ? dayjs(value) : undefined,
     status: error ? "error" : undefined,
     onChange: function onChange(date) {
-      _onChange(date == null ? void 0 : date.format("YYYY-MM-DD"));
-    }
+      _onChange(date == null ? void 0 : date.format(showTime ? "YYYY-MM-DD HH:mm" : "YYYY-MM-DD"));
+    },
+    disabledDate: disabledDate
   }));
 };
 var datePickerMeta = {
@@ -1738,6 +1748,11 @@ var datePickerMeta = {
     onChange: {
       type: "eventHandler",
       argTypes: []
+    },
+    disabledDates: {
+      type: "array",
+      defaultValue: [],
+      description: "Array of dates to be disabled in the date picker"
     }
   },
   importPath: "inprodi-design-system",
@@ -2783,7 +2798,7 @@ function registerImageUploader(loader, customImageUploaderMeta) {
 
 var Layout = function Layout(_ref) {
   var content = _ref.content,
-    _onSelect = _ref.onSelect,
+    onSelect = _ref.onSelect,
     menuItems = _ref.menuItems,
     collapsed = _ref.collapsed,
     _onCollapse = _ref.onCollapse,
@@ -2891,8 +2906,9 @@ var Layout = function Layout(_ref) {
     theme: "light",
     mode: "inline",
     items: parseMenuItems(),
-    onSelect: function onSelect(data) {
-      return _onSelect(data.key);
+    // onSelect={(data) => onSelect( data.key )}
+    onClick: function onClick(data) {
+      return onSelect(data.key);
     },
     defaultSelectedKeys: defaultSelectedKeys,
     style: {
@@ -3028,12 +3044,13 @@ function registerLayout(loader, customLayoutMeta) {
   doRegisterComponent(Layout, customLayoutMeta != null ? customLayoutMeta : layoutMeta);
 }
 
-var _excluded$8 = ["open", "content", "bodyPadding", "showFooter", "showCloseButton"];
+var _excluded$8 = ["open", "content", "bodyPadding", "showFooter", "confirmDisabled", "showCloseButton"];
 var Modal = function Modal(_ref) {
   var open = _ref.open,
     content = _ref.content,
     bodyPadding = _ref.bodyPadding,
     showFooter = _ref.showFooter,
+    confirmDisabled = _ref.confirmDisabled,
     showCloseButton = _ref.showCloseButton,
     props = _objectWithoutPropertiesLoose(_ref, _excluded$8);
   var _theme$useToken = theme.useToken(),
@@ -3041,10 +3058,13 @@ var Modal = function Modal(_ref) {
   return React.createElement(Modal$1, Object.assign({
     centered: true,
     closable: true,
-    destroyOnClose: true,
     getContainer: false,
+    destroyOnClose: true,
     open: open,
     footer: showFooter ? undefined : null,
+    okButtonProps: {
+      disabled: confirmDisabled
+    },
     closeIcon: showCloseButton ? React.createElement(Icon, {
       icon: "X",
       variant: "regular"
@@ -3120,6 +3140,10 @@ var modalMeta = {
       type: "boolean",
       defaultValue: false
     },
+    confirmDisabled: {
+      type: "boolean",
+      defaultValue: false
+    },
     mask: {
       type: "boolean",
       defaultValue: true,
@@ -3164,7 +3188,7 @@ function registerModal(loader, customModalMeta) {
   doRegisterComponent(Modal, customModalMeta != null ? customModalMeta : modalMeta);
 }
 
-var _excluded$9 = ["size", "value", "error", "variant", "leftIcon", "onChange", "rightIcon", "name", "debounce", "onClearError", "disabled", "onBlur"];
+var _excluded$9 = ["size", "value", "error", "variant", "leftIcon", "onChange", "rightIcon", "iscurrency", "name", "debounce", "onClearError", "disabled", "onBlur"];
 var NumberInput = /*#__PURE__*/forwardRef(function (_ref, ref) {
   var size = _ref.size,
     value = _ref.value,
@@ -3173,6 +3197,7 @@ var NumberInput = /*#__PURE__*/forwardRef(function (_ref, ref) {
     leftIcon = _ref.leftIcon,
     onChange = _ref.onChange,
     rightIcon = _ref.rightIcon,
+    iscurrency = _ref.iscurrency,
     _ref$debounce = _ref.debounce,
     debounce = _ref$debounce === void 0 ? 0 : _ref$debounce,
     onClearError = _ref.onClearError,
@@ -3225,10 +3250,14 @@ var NumberInput = /*#__PURE__*/forwardRef(function (_ref, ref) {
     },
     status: inputError ? "error" : undefined,
     parser: function parser(value) {
-      return value ? value.replace(/\$\s?|(,*)/g, '') : '';
+      if (!value) return '';
+      var parsedValue = value.replace(/\$\s?|(,*)/g, '');
+      return iscurrency ? parsedValue : value;
     },
     formatter: function formatter(value) {
-      return value ? value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '';
+      if (!value) return '';
+      var formattedValue = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return iscurrency ? "$ " + formattedValue : formattedValue;
     },
     style: _extends({
       height: size === "small" ? "30px" : size === "middle" ? "38px" : "46px"
@@ -3270,6 +3299,10 @@ var numberInputMeta = {
     placeholder: {
       type: "string",
       defaultValue: "Input Placeholder"
+    },
+    iscurrency: {
+      type: "boolean",
+      defaultValue: false
     },
     controls: {
       type: "boolean",

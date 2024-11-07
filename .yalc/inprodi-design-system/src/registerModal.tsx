@@ -14,6 +14,7 @@ interface ModalProps extends AntdModalProps {
     bodyPadding : string,
     showFooter?: boolean,
     showCloseButton?: boolean,
+    confirmDisabled?: boolean,
 }
 
 export const Modal = ({
@@ -21,6 +22,7 @@ export const Modal = ({
     content,
     bodyPadding,
     showFooter,
+    confirmDisabled,
     showCloseButton,
     ...props
 } : ModalProps ) => {
@@ -30,10 +32,13 @@ export const Modal = ({
     return <AntdModal
         centered
         closable
-        destroyOnClose
         getContainer={false}
+        destroyOnClose={true}
         open={open}
         footer={ showFooter ? undefined : null }
+        okButtonProps={{
+            disabled : confirmDisabled,
+        }}
         closeIcon={ showCloseButton ? <Icon icon="X" variant="regular" /> : false }
         styles={{
             header : {
@@ -107,6 +112,10 @@ export const modalMeta: CodeComponentMeta<ModalProps> = {
             defaultValue : "16px",
         },
         confirmLoading : {
+            type : "boolean",
+            defaultValue : false,
+        },
+        confirmDisabled : {
             type : "boolean",
             defaultValue : false,
         },

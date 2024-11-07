@@ -14,6 +14,7 @@ interface NumberInputProps extends AntdNumberInputProps {
     debounce?: number;
     error?: string | null | undefined;
     onClearError?: any;
+    iscurrency? : boolean;
 }
 
 export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(({
@@ -24,6 +25,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(({
     leftIcon,
     onChange,
     rightIcon,
+    iscurrency,
     name = "",
     debounce = 0,
     onClearError,
@@ -76,8 +78,16 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(({
             onBlur={(e) => onBlur && onBlur(e)}
             onClick={ e => e.stopPropagation() }
             status={inputError ? "error" : undefined}
-            parser={value => value ? value.replace(/\$\s?|(,*)/g, '') : ''}
-            formatter={value => value ? value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}
+            parser={(value) => {
+                if (!value) return '';
+                let parsedValue = value.replace(/\$\s?|(,*)/g, '');
+                return iscurrency ? parsedValue : value;
+            }}
+            formatter={(value) => {
+                if (!value) return '';
+                let formattedValue = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                return iscurrency ? `$ ${formattedValue}` : formattedValue;
+            }}
             style={{
                 height: size === "small" ? "30px" : size === "middle" ? "38px" : "46px",
                 ...( variant === "borderless" && {
@@ -122,6 +132,10 @@ export const numberInputMeta: CodeComponentMeta<NumberInputProps> = {
         placeholder: {
             type: "string",
             defaultValue: "Input Placeholder",
+        },
+        iscurrency : {
+            type: "boolean",
+            defaultValue: false,
         },
         controls : {
             type: "boolean",

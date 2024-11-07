@@ -2,6 +2,7 @@ const getConstants = () => {
     return {
         API_URL : process.env.NODE_ENV === "development" ? "https://vizion-api-t8wzz.ondigitalocean.app/api" : "https://vizion-api-t8wzz.ondigitalocean.app/api",
         // API_URL : process.env.NODE_ENV === "development" ? "https://mayfly-intimate-polliwog.ngrok-free.app/api" : "https://vizion-api-t8wzz.ondigitalocean.app/api",
+        MAPBOX_TOKEN : "pk.eyJ1IjoiY29yZS12aXppb24iLCJhIjoiY20ycGQ4b2dwMHQ1cjJrb204a25iZHR3cyJ9.Z5XS7M19N8FcGHahQ9dgiw",
         REGIMES : [
             { "name": "General de Ley Personas Morales", "value": "601", "type": "enterprise" },
             { "name": "Personas Morales con Fines no Lucrativos", "value": "603", "type": "enterprise" },

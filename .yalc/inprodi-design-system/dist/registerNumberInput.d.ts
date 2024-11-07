@@ -10,6 +10,7 @@ interface NumberInputProps extends AntdNumberInputProps {
     debounce?: number;
     error?: string | null | undefined;
     onClearError?: any;
+    iscurrency?: boolean;
 }
 export declare const NumberInput: React.ForwardRefExoticComponent<NumberInputProps & React.RefAttributes<HTMLInputElement>>;
 export declare const numberInputMeta: CodeComponentMeta<NumberInputProps>;

@@ -29,17 +29,24 @@ interface DatePickerProps extends AntdDatePickerProps {
     error?: string | null | undefined;
     value: any;
     onChange : any;
+    disabledDates?: string[];
 }
 
 export const DatePicker = ({
     size,
     error,
+    showTime,
     value,
     minDate,
     maxDate,
+    disabledDates,
     onChange,
     ...props
 } : DatePickerProps ) => {
+    const disabledDate = (current: any) => {
+        if (!disabledDates) return false;
+        return disabledDates.some(date => dayjs(date).isSame(current, 'day'));
+    };
 
     return (
         <AntdDatePicker
@@ -48,14 +55,16 @@ export const DatePicker = ({
                 height: size === "small" ? "30px" : size === "middle" ? "38px" : "46px",
             }}
             showNow={false}
-            format="MMMM D, YYYY"
+            showTime={showTime}
+            format={ showTime ? "MMMM D, YYYY - HH:mm" : "MMMM D, YYYY" }
             minDate={ minDate ? dayjs( minDate ) : undefined }
             maxDate={ maxDate ? dayjs( maxDate ) : undefined }
             value={ value ? dayjs( value ) : undefined }
             status={error ? "error" : undefined}
             onChange={(date) => {
-                onChange( date?.format("YYYY-MM-DD") );
+                onChange( date?.format( showTime ? "YYYY-MM-DD HH:mm" : "YYYY-MM-DD") );
             }}
+            disabledDate={disabledDate}
         />
     );
 };
@@ -118,6 +127,11 @@ export const datePickerMeta: CodeComponentMeta<DatePickerProps> = {
         onChange : {
             type: "eventHandler",
             argTypes : [],
+        },
+        disabledDates: {
+            type: "array",
+            defaultValue: [],
+            description: "Array of dates to be disabled in the date picker",
         },
     },
     importPath: "inprodi-design-system",

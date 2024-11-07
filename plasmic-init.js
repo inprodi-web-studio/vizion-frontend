@@ -25,6 +25,7 @@ import { registerWarehouseDesigner } from "./components/registerWarehouseDesigne
 
 import downloadPdf from "./helpers/downloadPdf";
 import formatShortNumber from "./helpers/formatShortNumber";
+import createDayJsObject from "./helpers/createDayJsObject";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -207,6 +208,17 @@ PLASMIC.registerFunction( updateQueryParam, {
       name        : "value",
       type        : "string",
       description : "The value to add",
+    },
+  ],
+});
+
+PLASMIC.registerFunction( createDayJsObject, {
+  name : "createDayJsObject",
+  params : [
+    {
+      name        : "date",
+      type        : "string",
+      description : "The date to create the dayjs object",
     },
   ],
 });
