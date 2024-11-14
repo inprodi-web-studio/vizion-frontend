@@ -32,7 +32,7 @@
     "filepond": "^4.31.1",
     "filepond-plugin-file-validate-type": "^1.2.9",
     "filepond-plugin-image-preview": "^4.6.12",
-    "inprodi-design-system": "1.8.19",
+    "inprodi-design-system": "1.9.2",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
     "lodash.debounce": "^4.0.8",
@@ -52,6 +52,7 @@
     "react-resizable-panels": "^2.0.19",
     "react-type-animation": "^3.2.0",
     "sonner": "^1.4.41",
+    "uuid": "^11.0.3",
     "zod": "^3.23.8"
   },
   "devDependencies": {

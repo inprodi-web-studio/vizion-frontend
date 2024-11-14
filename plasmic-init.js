@@ -26,6 +26,7 @@ import { registerWarehouseDesigner } from "./components/registerWarehouseDesigne
 import downloadPdf from "./helpers/downloadPdf";
 import formatShortNumber from "./helpers/formatShortNumber";
 import createDayJsObject from "./helpers/createDayJsObject";
+import getErrorKey from "./helpers/getErrorKey";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -141,6 +142,17 @@ PLASMIC.registerFunction( validatePhone, {
       name        : "phone",
       type        : "string",
       description : "The phone to validate",
+    },
+  ],
+});
+
+PLASMIC.registerFunction( getErrorKey, {
+  name : "getErrorKey",
+  params : [
+    {
+      name        : "params",
+      type        : "object",
+      description : "Object with the query to include to the url",
     },
   ],
 });

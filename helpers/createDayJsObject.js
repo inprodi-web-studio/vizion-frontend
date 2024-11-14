@@ -5,7 +5,6 @@ import "dayjs/locale/es-mx";
 dayjs.extend( localizedFormat );
 
 const createDayJsObject = (date) => {
-
     if (date) {
         return dayjs(date).locale( "es-mx" );
     }

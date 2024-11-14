@@ -1,4 +1,4 @@
-import React, { forwardRef, useCallback, useImperativeHandle, useRef } from "react";
+import React, { forwardRef, useCallback, useImperativeHandle } from "react";
 import registerComponent from "@plasmicapp/host/registerComponent";
 
 import { Background, Controls, MiniMap, ReactFlow, ReactFlowProvider, useNodesState, useReactFlow } from "@xyflow/react";
@@ -7,21 +7,29 @@ import { DnDProvider, useDnD } from "../contexts/DnDContext";
 import LocationNode from "./LocationNode";
 import RackNode from "./RackNode";
 import DividerNode from "./DividerNode";
-
-let id = 0;
-const getId = () => `dndnode_${id++}`;
+import { v4 as uuidv4 } from 'uuid';
 
 const WarehouseDesignerFlow = forwardRef(
-    ({ onNodeDelete, onLocationAdd, onRackAdd, onLocationUpdate, onRackUpdate, ...props }, ref) => {
+    ({
+      visible,
+      className,
+      onNodeDelete,
+      onLocationAdd,
+      onRackAdd,
+      onLocationUpdate,
+      onRackUpdate,
+      onFlowChange,
+      ...props 
+    }, ref) => {
       const [nodes, setNodes, onNodesChange] = useNodesState([]);
       const { screenToFlowPosition, deleteElements } = useReactFlow();
       const [type] = useDnD();
   
-    const nodeTypes = {
-        location: LocationNode,
-        rack : RackNode,
-        divider : DividerNode,
-    };
+      const nodeTypes = {
+          location: LocationNode,
+          rack : RackNode,
+          divider : DividerNode,
+      };
   
       const onDragOver = useCallback((event) => {
         event.preventDefault();
@@ -32,6 +40,11 @@ const WarehouseDesignerFlow = forwardRef(
         onNodeDelete(items);
         return false;
       };
+
+      const onNodesChangeHandler = useCallback((changes) => {
+        onNodesChange(changes);
+        onFlowChange && onFlowChange(nodes);
+      }, [onNodesChange, onFlowChange, nodes]);
   
       const onDrop = useCallback(
         (event) => {
@@ -74,7 +87,7 @@ const WarehouseDesignerFlow = forwardRef(
           if ( !foundNode && type === "rack" ) return;
   
           const newNode = {
-            id: getId(),
+            id: uuidv4(),
             type,
             position : parentNode
             ? {
@@ -109,28 +122,63 @@ const WarehouseDesignerFlow = forwardRef(
       );
   
       useImperativeHandle(ref, () => ({
+        setNodes : (nodes) => {
+          let newNodes = [];
+
+          for ( const node of nodes ) {
+            if ( node.type === "location" ) {
+              node.data.onLocationUpdate = onLocationUpdate;
+            }
+            
+            if ( node.type === "rack" ) {
+              node.data.onRackUpdate = onRackUpdate;
+            }
+
+            newNodes.push( node );
+          }
+
+          setNodes( newNodes );
+        },
         deleteNode: (nodeId) => {
             setNodes((nds) =>
                 nds.filter((node) => node.id !== nodeId && node.parentId !== nodeId)
             );
+
+            onFlowChange && onFlowChange(nodes);
         },
         updateNodeData: (nodeId, newData) => {
             setNodes((nds) =>
               nds.map((node) =>
-                node.id === nodeId ? { ...node, data: { ...node.data, ...newData } } : node
+                node.id === nodeId ? { ...node, data: {
+                  ...node.data,
+                  ...newData,
+                  ...( type === "location" && ({
+                      onLocationUpdate,
+                  })),
+                  ...( type === "rack" && ({
+                      onRackUpdate,
+                  })),
+                } } : node
               )
             );
+
+            console.log( nodes );
+
+            onFlowChange && onFlowChange(nodes);
+        },
+        getNodes : () => {
+          return nodes;
         },
       }));
   
       const wrapperStyles = {
         width: "100%",
         height: "100%",
-        display: "flex",
+        display: visible ? "flex" : "none",
       };
   
       return (
-        <div style={wrapperStyles}>
+        <div className={className} style={wrapperStyles}>
           <ReactFlow
             fitView
             snapToGrid
@@ -141,7 +189,7 @@ const WarehouseDesignerFlow = forwardRef(
             nodeTypes={nodeTypes}
             selectionKeyCode={null}
             onDragOver={onDragOver}
-            onNodesChange={onNodesChange}
+            onNodesChange={onNodesChangeHandler}
             onBeforeDelete={onNodeDelete && ((items) => handleNodeDelete(items))}
           >
             <Controls />
@@ -158,22 +206,26 @@ const WarehouseDesignerFlow = forwardRef(
     }
   );
 
-  WarehouseDesignerFlow.displayName = "WarehouseDesignerFlow";
+WarehouseDesignerFlow.displayName = "WarehouseDesignerFlow";
 
-  export const WarehouseDesigner = forwardRef((props, ref) => (
+export const WarehouseDesigner = forwardRef((props, ref) => (
     <ReactFlowProvider>
       <DnDProvider>
         <WarehouseDesignerFlow {...props} ref={ref} />
       </DnDProvider>
     </ReactFlowProvider>
-  ));
+));
 
-  WarehouseDesigner.displayName = "WarehouseDesigner";
+WarehouseDesigner.displayName = "WarehouseDesigner";
 
 export const warehouseDesignerMeta = {
     name: "WarehouseDesigner",
     displayName: "Warehouse Designer",
     props : {
+      visible : {
+          type : "boolean",
+          defaultValue : true,
+      },
         onNodeDelete : {
             type : "eventHandler",
             argTypes : [
@@ -219,28 +271,48 @@ export const warehouseDesignerMeta = {
                 }
             ],
         },
+        onFlowChange: {
+            type: "eventHandler",
+            argTypes: [
+                {
+                    name: "flowData",
+                    type: "object",
+                }
+            ],
+        },
     },
     refActions : {
-        deleteNode : {
-            argTypes : [
-                {
-                    name : "id",
-                    type : "string",
-                },
-            ],
-        },
-        updateNodeData : {
-            argTypes : [
-                {
-                    name : "id",
-                    type : "string",
-                },
-                {
-                    name : "newData",
-                    type : "object",
-                },
-            ],
-        },
+      getNodes : {
+        argTypes : [],
+      },
+      setNodes : {
+        argTypes : [
+            {
+                name : "nodes",
+                type : "array",
+            }
+        ],
+      },
+      deleteNode : {
+          argTypes : [
+              {
+                  name : "id",
+                  type : "string",
+              },
+          ],
+      },
+      updateNodeData : {
+          argTypes : [
+              {
+                  name : "id",
+                  type : "string",
+              },
+              {
+                  name : "newData",
+                  type : "object",
+              },
+          ],
+      },
     },
     importPath: "inprodi-design-system",
     importName: "WarehouseDesigner",

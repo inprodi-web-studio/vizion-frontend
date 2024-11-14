@@ -3092,10 +3092,10 @@ ini@~1.3.0:
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.8.tgz#a29da425b48806f34767a4efce397269af28432c"
   integrity sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==
 
-inprodi-design-system@1.8.19:
-  version "1.8.19"
-  resolved "https://registry.yarnpkg.com/inprodi-design-system/-/inprodi-design-system-1.8.19.tgz#a68fe08367e37ee910dec30b4bfb95e7c74d075f"
-  integrity sha512-RT0D3Ow3FPf94V84pw6XukqHEB2bRt22CmdomRb/RwRxW7YLlMYKMB7TopmZmH6CaF0YpQ3tulVa79YrheCxpA==
+inprodi-design-system@1.9.2:
+  version "1.9.2"
+  resolved "https://registry.yarnpkg.com/inprodi-design-system/-/inprodi-design-system-1.9.2.tgz#e4a40672fd0a7c60d081094e6ea3931adc6dc70f"
+  integrity sha512-ivlJXOGmcda5s/aKvizoxMfMmf6OlORVmjzHdmqvQqj7ye20AAUhTR58D/5wFVeCz2+3sUFwbqWVFdyZ0UH+bw==
   dependencies:
     "@hookform/resolvers" "^3.4.2"
     "@nivo/core" "0.80.0"
@@ -5194,6 +5194,11 @@ use-sync-external-store@1.2.2, use-sync-external-store@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.2.tgz#c3b6390f3a30eba13200d2302dcdf1e7b57b2ef9"
   integrity sha512-PElTlVMwpblvbNqQ82d2n6RjStvdSoNe9FG28kNfz3WiXilJm4DdNkEzRhCZuIDwY8U08WVihhGR5iRqAwfDiw==
+
+uuid@^11.0.3:
+  version "11.0.3"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-11.0.3.tgz#248451cac9d1a4a4128033e765d137e2b2c49a3d"
+  integrity sha512-d0z310fCWv5dJwnX1Y/MncBAqGMKEzlBb1AOf7z9K8ALnd0utBX/msg/fA0+sbyN1ihbMsLhrBlnl1ak7Wa0rg==
 
 vary@~1.1.2:
   version "1.1.2"
