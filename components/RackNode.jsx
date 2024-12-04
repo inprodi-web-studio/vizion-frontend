@@ -1,6 +1,7 @@
 import { ArrowClockwise, Gear, SortAscending, SortDescending, Trash } from "@phosphor-icons/react";
 import { NodeToolbar, useReactFlow } from "@xyflow/react";
-import { Button } from "antd";
+import { Button, Dropdown } from "antd";
+import RackItem from "./RackItem";
 
 const RackNode = ({
     id,
@@ -8,9 +9,7 @@ const RackNode = ({
     data,
 }) => {
 
-    const { setNodes, deleteElements, getNodes } = useReactFlow();
-
-    const nodes = getNodes();
+    const { setNodes, deleteElements } = useReactFlow();
 
     const handleDelete = () => {
         deleteElements({
@@ -23,8 +22,15 @@ const RackNode = ({
         positions = 1,
         identifier,
         sort,
+        focused,
         orientation = "horizontal",
+        focusedIndex,
+        focusedStack,
+        focusedPartition,
+        positionsData
     } = data;
+
+    console.log( positionsData );
 
     const rackContainerStyles = {
         display : "flex",
@@ -38,15 +44,12 @@ const RackNode = ({
         borderRadius : "10px",
         height : orientation === "horizontal" ? "100px" : "200px",
         width : orientation === "horizontal" ? "200px" : "100px",
-        backgroundColor : "#e9ecef",
         position : "relative",
-        border : "solid 1px #dee2e6"
     };
 
     const positionIndicatorStyles = {
         width : "calc( 100% - 10px )",
         height : "calc( 100% - 10px )",
-        backgroundColor : "#ced4da",
         borderRadius : "10px",
         position : "absolute",
         bottom : 5,
@@ -67,6 +70,22 @@ const RackNode = ({
         bottom : "50%",
         transform : "translate(-50%, 50%)",
         whiteSpace : "nowrap"
+    };
+
+    const floatingRackStyles = {
+        position : "absolute",
+        width : "150px",
+        backgroundColor : "white",
+        bottom : 0,
+        right : -160,
+        zIndex : 10,
+        borderRadius : "6px",
+        border : "1px solid var(--token-Pxe4wDL2kJpb)",
+        boxShadow : "rgba(0, 0, 0, 0.04) 0px 1px 3px, rgba(0, 0, 0, 0.05) 0px 10px 15px -5px, rgba(0, 0, 0, 0.04) 0px 5px 5px -5px",
+        padding : "10px",
+        display : "flex",
+        flexDirection : "column-reverse",
+        alignItems : "center",
     };
 
     const handleToggleSort = () => {
@@ -98,14 +117,6 @@ const RackNode = ({
                     alignItems : "center",
                     gap : "10px",
                 }}>
-                    <Button
-                        type="default"
-                        onClick={ () => data.onRackUpdate && data.onRackUpdate( nodes.filter( i => i.id === id )[0] ) }
-                    >
-                        <Gear size={16} />
-                        Configurar
-                    </Button>
-
                     <Button
                         type="default"
                         onClick={handleToggleOrientation}
@@ -143,8 +154,34 @@ const RackNode = ({
                     index = sort === "asc" ? index + 1 : index - 1;
 
                     return (
-                        <div style={rackItemStyles} key={index}>
-                            <div style={positionIndicatorStyles} />
+                        <div
+                            key={index}
+                            style={{
+                                ...rackItemStyles,
+                                backgroundColor : (focused && focusedIndex + 1 === index) ? "var(--antd-colorPrimaryBg)" : "#e9ecef",
+                                border : (focused && focusedIndex + 1 === index) ? "solid 1px var(--antd-colorPrimary)" : "solid 1px #dee2e6",
+                            }
+                        }>
+                            { focused && focusedIndex + 1 === index && (
+                                <div style={floatingRackStyles}>
+                                    { Array.from({ length : Number(stacks) }).map( ( _, rackIndex ) => {
+                                        const { partitions } = positionsData.find( i => i.xPosition === index - 1 && i.yPosition === rackIndex );
+
+                                        return (
+                                            <RackItem
+                                                key={index}
+                                                partitions={ partitions }
+                                                isFocused={focusedStack === rackIndex}
+                                                focusedPartition={focusedPartition}
+                                            />
+                                        );
+                                    })}
+                                </div>
+                            )}
+                            <div style={{
+                                ...positionIndicatorStyles,
+                                backgroundColor : (focused && focusedIndex + 1 === index) ? "var(--antd-colorPrimary)" : "#ced4da",
+                            }} />
                             <div style={tagStyles}>
                                 { `${identifier ?? ""}-${ index }` }
                             </div>

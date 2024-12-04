@@ -1,6 +1,7 @@
 import { NodeResizer, NodeToolbar, useReactFlow } from "@xyflow/react";
 import { Button } from "antd";
 import { Gear, Trash } from "@phosphor-icons/react";
+import { useEffect } from "react";
 
 const LocationNode = ({
     id,
@@ -20,8 +21,8 @@ const LocationNode = ({
     };
 
     const locationStyles = hasChildren ? {
-        backgroundColor : "#f8f9fa",
-        border : "solid 1px #d9d9d9",
+        backgroundColor : data.focused ? "var(--antd-colorPrimaryBg)" : "#f8f9fa",
+        border : data.focused ? "solid 1px var(--antd-colorPrimary)" : "solid 1px #d9d9d9",
         borderRadius : "10px",
         height : "100%",
         width : "100%",
@@ -31,8 +32,8 @@ const LocationNode = ({
         display : "flex",
         alignItems : "center",
         justifyContent : "center",
-        backgroundColor : "#e9ecef",
-        border : "solid 1px #d9d9d9",
+        backgroundColor : data.focused ? "var(--antd-colorPrimaryBg)" : "#f8f9fa",
+        border : data.focused ? "solid 1px var(--antd-colorPrimary)" : "solid 1px #d9d9d9",
         height : "100%",
         width : "100%",
         minHeight : "200px",
@@ -41,23 +42,23 @@ const LocationNode = ({
     };
 
     const tagStyles = {
-        backgroundColor : "white",
+        backgroundColor : data.focused ? "var(--antd-colorPrimary)" : "white",
         padding : "4px 12px",
-        color : "var(--token-YFIqRc19SnuM)",
+        color : data.focused ? "white" : "var(--token-YFIqRc19SnuM)",
         borderRadius : "4px",
         fontSize : "16px",
         fontWeight : 600,
-        border : "1px solid var(--token-Pxe4wDL2kJpb)",
+        border : data.focused ? "var(--antd-colorPrimary)" : "1px solid var(--token-Pxe4wDL2kJpb)",
     };
 
     const floatingTagStyles = {
-        backgroundColor : "white",
+        backgroundColor : data.focused ? "var(--antd-colorPrimary)" : "white",
         padding : "4px 12px",
-        color : "var(--token-YFIqRc19SnuM)",
+        color : data.focused ? "white" : "var(--token-YFIqRc19SnuM)",
         borderRadius : "4px",
         fontSize : "16px",
         fontWeight : 600,
-        border : "1px solid var(--token-Pxe4wDL2kJpb)",
+        border : data.focused ? "var(--antd-colorPrimary)" : "1px solid var(--token-Pxe4wDL2kJpb)",
         position : "absolute",
         top : "-40px",
     };

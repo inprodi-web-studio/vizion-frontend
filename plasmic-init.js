@@ -27,6 +27,7 @@ import downloadPdf from "./helpers/downloadPdf";
 import formatShortNumber from "./helpers/formatShortNumber";
 import createDayJsObject from "./helpers/createDayJsObject";
 import getErrorKey from "./helpers/getErrorKey";
+import { registerWarehouseViewer } from "./components/WarehouseViewer";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -41,6 +42,7 @@ export const PLASMIC = initPlasmicLoader({
 registerAll( PLASMIC );
 
 registerGauge(PLASMIC);
+registerWarehouseViewer(PLASMIC);
 registerWarehouseDesigner(PLASMIC);
 
 PLASMIC.registerFunction( getConstants, {

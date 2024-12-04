@@ -17,12 +17,10 @@ const WarehouseDesignerFlow = forwardRef(
       onLocationAdd,
       onRackAdd,
       onLocationUpdate,
-      onRackUpdate,
       onFlowChange,
-      ...props 
     }, ref) => {
       const [nodes, setNodes, onNodesChange] = useNodesState([]);
-      const { screenToFlowPosition, deleteElements } = useReactFlow();
+      const { screenToFlowPosition } = useReactFlow();
       const [type] = useDnD();
   
       const nodeTypes = {
@@ -99,9 +97,6 @@ const WarehouseDesignerFlow = forwardRef(
                 ...( type === "location" && ({
                     onLocationUpdate,
                 })),
-                ...( type === "rack" && ({
-                    onRackUpdate,
-                })),
             },
             parentId : parentNode ? parentNode.id : null,
             extent : "parent",
@@ -118,7 +113,7 @@ const WarehouseDesignerFlow = forwardRef(
             onRackAdd && onRackAdd(newNode);
           }
         },
-        [screenToFlowPosition, type, setNodes, onLocationAdd, nodes, onRackAdd, onLocationUpdate, onRackUpdate]
+        [screenToFlowPosition, type, setNodes, onLocationAdd, nodes, onRackAdd, onLocationUpdate]
       );
   
       useImperativeHandle(ref, () => ({
@@ -128,10 +123,6 @@ const WarehouseDesignerFlow = forwardRef(
           for ( const node of nodes ) {
             if ( node.type === "location" ) {
               node.data.onLocationUpdate = onLocationUpdate;
-            }
-            
-            if ( node.type === "rack" ) {
-              node.data.onRackUpdate = onRackUpdate;
             }
 
             newNodes.push( node );
@@ -155,14 +146,9 @@ const WarehouseDesignerFlow = forwardRef(
                   ...( type === "location" && ({
                       onLocationUpdate,
                   })),
-                  ...( type === "rack" && ({
-                      onRackUpdate,
-                  })),
                 } } : node
               )
             );
-
-            console.log( nodes );
 
             onFlowChange && onFlowChange(nodes);
         },
@@ -204,7 +190,7 @@ const WarehouseDesignerFlow = forwardRef(
         </div>
       );
     }
-  );
+);
 
 WarehouseDesignerFlow.displayName = "WarehouseDesignerFlow";
 
@@ -254,15 +240,6 @@ export const warehouseDesignerMeta = {
             ],
         },
         onRackAdd : {
-            type : "eventHandler",
-            argTypes : [
-                {
-                    name : "node",
-                    type : "object",
-                }
-            ],
-        },
-        onRackUpdate : {
             type : "eventHandler",
             argTypes : [
                 {
