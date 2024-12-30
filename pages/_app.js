@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ConfigProvider } from "antd";
 import { Toaster } from "sonner";
 import updateLocale from "dayjs/plugin/updateLocale";
@@ -26,13 +26,20 @@ import { useRouter } from "next/router";
 
 const App = ({ Component, pageProps }) => {
   const router = useRouter();
+  const [primaryColor, setPrimaryColor] = useState("#1677ff");
 
-  useEffect(() => storePathValues, [router]);
+  useEffect(() => {
+    const storedColor = localStorage.getItem("primaryColor");
+
+    if (storedColor) {
+      setPrimaryColor(storedColor);
+    }
+
+    storePathValues();
+  }, [router]);
 
   function storePathValues() {
     const storage = globalThis?.sessionStorage;
-
-    // if (!storage) return;
 
     const prevPath = storage.getItem("currentPath");
 
@@ -41,7 +48,13 @@ const App = ({ Component, pageProps }) => {
   }
 
   return (
-    <ConfigProvider theme={theme} locale={locale}>
+    <ConfigProvider theme={{
+      ...theme,
+      token : {
+        ...theme.token,
+        colorPrimary : primaryColor,
+      },
+    }} locale={locale}>
       <Toaster
         richColors
         position="bottom-right"
