@@ -26,6 +26,11 @@ export const showNotification = (message, config) => {
                 id: config.id,
             });
 
+        case "genericError":
+            return toast( "Ha ocurrido un error inesperado", {
+                description : "Intenta nuevamente más tarde. Si este error persiste, por favor contacta a soporte."
+            });
+
         default:
             return toast(message, {
                 description: config?.description,

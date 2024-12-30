@@ -78,7 +78,7 @@ const RackNode = ({
         backgroundColor : "white",
         bottom : 0,
         right : -160,
-        zIndex : 10,
+        zIndex : 100,
         borderRadius : "6px",
         border : "1px solid var(--token-Pxe4wDL2kJpb)",
         boxShadow : "rgba(0, 0, 0, 0.04) 0px 1px 3px, rgba(0, 0, 0, 0.05) 0px 10px 15px -5px, rgba(0, 0, 0, 0.04) 0px 5px 5px -5px",

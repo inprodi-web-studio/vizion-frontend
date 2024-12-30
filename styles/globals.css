@@ -345,3 +345,7 @@ li.ant-pagination-item.ant-pagination-item-active a {
 .confirmation-content .text-container p {
     white-space: pre-wrap;
 }
+
+.ant-picker-range-arrow {
+    display: none !important;
+}

@@ -28,6 +28,8 @@ import formatShortNumber from "./helpers/formatShortNumber";
 import createDayJsObject from "./helpers/createDayJsObject";
 import getErrorKey from "./helpers/getErrorKey";
 import { registerWarehouseViewer } from "./components/WarehouseViewer";
+import logout from "./helpers/logout";
+import { LayoutGlobalContext } from "./components/LayoutGlobalContext";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -48,6 +50,12 @@ registerWarehouseDesigner(PLASMIC);
 PLASMIC.registerFunction( getConstants, {
   name : "getConstants",
   params : [],
+});
+
+PLASMIC.registerFunction( logout, {
+  name : "logout",
+  params : [
+  ],
 });
 
 PLASMIC.registerFunction( showNotification, {
@@ -305,6 +313,20 @@ PLASMIC.registerGlobalContext( AppGlobalContext, {
     setApp : {
       parameters : [
         { name : "selection", type : "string" },
+      ],
+    },
+  },
+});
+
+PLASMIC.registerGlobalContext( LayoutGlobalContext, {
+  name : "LayoutGlobalContext",
+  props : {},
+  providesData : true,
+  globalActions : {
+    setLayout : {
+      parameters : [
+        { name : "key", type : "string" },
+        { name : "value", type : "object" },
       ],
     },
   },
