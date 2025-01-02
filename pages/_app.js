@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ConfigProvider } from "antd";
+import { ConfigProvider, theme as AntdTheme } from "antd";
 import { Toaster } from "sonner";
 import updateLocale from "dayjs/plugin/updateLocale";
 import locale from "antd/locale/es_ES";
@@ -27,12 +27,20 @@ import { useRouter } from "next/router";
 const App = ({ Component, pageProps }) => {
   const router = useRouter();
   const [primaryColor, setPrimaryColor] = useState("#1677ff");
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
     const storedColor = localStorage.getItem("primaryColor");
+    const scheme = localStorage.getItem("scheme");
 
     if (storedColor) {
       setPrimaryColor(storedColor);
+    } else {
+      setPrimaryColor("#1677ff");
+    }
+
+    if (scheme) {
+      setIsDarkMode(scheme === "dark");
     }
 
     storePathValues();
@@ -47,11 +55,14 @@ const App = ({ Component, pageProps }) => {
     storage.setItem("prevPath", prevPath);
   }
 
+  const themeConfig = theme(isDarkMode);
+
   return (
     <ConfigProvider theme={{
-      ...theme,
+      ...themeConfig,
+      algorithm: isDarkMode ? AntdTheme.darkAlgorithm : AntdTheme.defaultAlgorithm,
       token : {
-        ...theme.token,
+        ...themeConfig.token,
         colorPrimary : primaryColor,
       },
     }} locale={locale}>

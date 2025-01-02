@@ -30,6 +30,7 @@ import getErrorKey from "./helpers/getErrorKey";
 import { registerWarehouseViewer } from "./components/WarehouseViewer";
 import logout from "./helpers/logout";
 import { LayoutGlobalContext } from "./components/LayoutGlobalContext";
+import { SchemeGlobalContext } from "./components/SchemeGlobalContext";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -311,6 +312,19 @@ PLASMIC.registerGlobalContext( AppGlobalContext, {
   providesData : true,
   globalActions : {
     setApp : {
+      parameters : [
+        { name : "selection", type : "string" },
+      ],
+    },
+  },
+});
+
+PLASMIC.registerGlobalContext( SchemeGlobalContext, {
+  name : "SchemeGlobalContext",
+  props : {},
+  providesData : true,
+  globalActions : {
+    setScheme : {
       parameters : [
         { name : "selection", type : "string" },
       ],

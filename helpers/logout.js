@@ -1,6 +1,8 @@
 import Router from "next/router";
 
 const logout = () => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("currentApp");

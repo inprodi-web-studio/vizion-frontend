@@ -9,6 +9,7 @@ import {
 import Error from 'next/error';
 import { useRouter } from 'next/router';
 import { PLASMIC } from '../plasmic-init';
+import Error404 from './404';
 
 /**
  * Use fetchPages() to fetch list of pages that have been created in Plasmic
@@ -76,15 +77,29 @@ export const getStaticProps = async (context) => {
 export default function CatchallPage(props) {
   const { plasmicData, queryCache } = props;
   const router = useRouter();
+  const [scheme, setScheme] = React.useState("light");
+
+  React.useEffect(() => {
+    const storedScheme = localStorage.getItem("scheme");
+
+    if (storedScheme) {
+      setScheme(storedScheme);
+    }
+  }, []);
+
   if (!plasmicData || plasmicData.entryCompMetas.length === 0) {
-    return <Error statusCode={404} />;
+    return <Error404 />;
   }
   const pageMeta = plasmicData.entryCompMetas[0];
 
   return (
-    // Pass in the data fetched in getStaticProps as prefetchedData
     <PlasmicRootProvider
       loader={PLASMIC}
+      globalVariants={[
+        {
+          name : "Scheme", value : scheme,
+        }
+      ]}
       prefetchedData={plasmicData}
       prefetchedQueryData={queryCache}
       pageRoute={pageMeta.path}
