@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { ConfigProvider, theme as AntdTheme } from "antd";
 import { Toaster } from "sonner";
+
 import updateLocale from "dayjs/plugin/updateLocale";
 import locale from "antd/locale/es_ES";
 import dayjs from "dayjs";
 import "dayjs/locale/es-mx";
-
 dayjs.extend(updateLocale);
 dayjs.locale("es-mx");
 dayjs.updateLocale("es-mx", {
-  weekStart : 1,
+  weekStart: 1,
 });
-
 
 import theme from "../theme/themeConfig";
 
@@ -19,63 +18,117 @@ import "../styles/globals.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import "filepond/dist/filepond.min.css";
-
 import "@xyflow/react/dist/style.css";
 
-import { useRouter } from "next/router";
 
-const App = ({ Component, pageProps }) => {
+import { useRouter } from "next/router";
+import { SchemeGlobalContext, useSchemeContext} from "@/components/SchemeGlobalContext";
+
+import { useSelector } from "@plasmicapp/host";
+import { PlasmicComponent, PlasmicRootProvider } from "@plasmicapp/loader-nextjs";
+import appShellPropsDictionary from "@/helpers/appShellPropsDictionary";
+import { PLASMIC } from "@/plasmic-init";
+import { match } from "path-to-regexp";
+
+function App({ Component, pageProps }) {
+  return (
+    <SchemeGlobalContext>
+      <InnerApp Component={Component} pageProps={pageProps} />
+    </SchemeGlobalContext>
+  );
+}
+
+function InnerApp({ Component, pageProps }) {
   const router = useRouter();
+
   const [primaryColor, setPrimaryColor] = useState("#1677ff");
-  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const scheme = useSelector("scheme");
+  const isDarkMode = scheme === "dark";
 
   useEffect(() => {
     const storedColor = localStorage.getItem("primaryColor");
-    const scheme = localStorage.getItem("scheme");
-
     if (storedColor) {
       setPrimaryColor(storedColor);
-    } else {
-      setPrimaryColor("#1677ff");
     }
-
-    if (scheme) {
-      setIsDarkMode(scheme === "dark");
-    }
-
     storePathValues();
   }, [router]);
 
   function storePathValues() {
-    const storage = globalThis?.sessionStorage;
-
-    const prevPath = storage.getItem("currentPath");
-
-    storage.setItem("currentPath", globalThis.location.href);
-    storage.setItem("prevPath", prevPath);
+    if (typeof sessionStorage !== "undefined") {
+      const storage = sessionStorage;
+      const prevPath = storage.getItem("currentPath");
+      storage.setItem("currentPath", globalThis.location.href);
+      storage.setItem("prevPath", prevPath);
+    }
   }
+
+  const ROUTES_WITH_APP_SHELL = useMemo(() => [
+    "/crm/contacts/customers",
+    "/crm/contacts/leads",
+    "/crm/dashboard",
+  ], []);
+
+  const baseUrl = router.asPath.split('?')[0];
+
+  const shouldShowAppShell = ROUTES_WITH_APP_SHELL.some((routePattern) => {
+    const matcher = match(routePattern, { decode: decodeURIComponent });
+    const matched = matcher(baseUrl);
+    return matched !== false;
+  });
 
   const themeConfig = theme(isDarkMode);
 
+  const AppShellProps = useMemo(() => {
+    return ROUTES_WITH_APP_SHELL.reduce((acc, routePattern) => {
+      const matcher = match(routePattern, { decode: decodeURIComponent });
+      const matched = matcher(router.asPath);
+      if (matched) {
+        const baseRoute = routePattern.split('/:')[0]; // Extrae la ruta base sin parámetros
+        return { ...acc, ...(appShellPropsDictionary[baseRoute] || {}) };
+      }
+      return acc;
+    }, {});
+  }, [router.asPath, ROUTES_WITH_APP_SHELL]);
+
   return (
-    <ConfigProvider theme={{
-      ...themeConfig,
-      algorithm: isDarkMode ? AntdTheme.darkAlgorithm : AntdTheme.defaultAlgorithm,
-      token : {
-        ...themeConfig.token,
-        colorPrimary : primaryColor,
-      },
-    }} locale={locale}>
-      <Toaster
-        richColors
-        position="bottom-right"
-        toastOptions={{
-          duration: 4000,
-        }}
-      />
-      <Component {...pageProps} />
+    <ConfigProvider
+      theme={{
+        ...themeConfig,
+        algorithm: scheme === "dark" ? AntdTheme.darkAlgorithm : AntdTheme.defaultAlgorithm,
+        token: {
+          ...themeConfig.token,
+          colorPrimary: primaryColor,
+        },
+      }}
+    >
+      <PlasmicRootProvider
+        loader={PLASMIC}
+        globalVariants={[{ name: "Scheme", value: scheme }]}
+      >
+        <Toaster
+          richColors
+          theme={ scheme }
+          position="bottom-right"
+          toastOptions={{ duration: 4000 }}
+        />
+
+        {shouldShowAppShell ? (
+          <PlasmicComponent
+            component="AppShell"
+            componentProps={{
+              ...AppShellProps,
+              pagePath : baseUrl,
+              pageContent: <Component {...pageProps} />,
+            }}
+          />
+        ) : (
+          <Component {...pageProps} />
+        )}
+
+      </PlasmicRootProvider>
     </ConfigProvider>
   );
-};
+}
 
 export default App;

@@ -1,4 +1,4 @@
-import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
+import { initPlasmicLoader, useSelector } from "@plasmicapp/loader-nextjs";
 import { AuthGlobalContext } from "./components/AuthGlobalContext";
 import { FieldsGlobalContext } from "./components/FieldsGlobalContext";
 import { AppGlobalContext } from "./components/AppGlobalContext";
@@ -351,6 +351,13 @@ PLASMIC.registerGlobalContext( FieldsGlobalContext, {
   props : {},
   providesData : true,
   globalActions : {
+    toggleField : {
+      parameters : [
+        { name : "app", type : "string" },
+        { name : "module", type : "string" },
+        { name : "field", type : "string" },
+      ],
+    },
     setFields : {
       parameters : [
         { name : "app", type : "string" },

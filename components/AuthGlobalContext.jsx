@@ -10,7 +10,7 @@ export const AuthGlobalContext = ({ children }) => {
   useEffect(() => {
     if (process.env.NODE_ENV === "development") {
       setToken(
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNzM1ODM0MjQzfQ.5vYF_Wip3GX3lMBuApwpXrHtBMDXIRCpdV7AILCZBFA"
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsImlhdCI6MTczNjM2NDY4Nn0.omawytY3VZ6cYX42eoZPc5wWgbeqox20MzYX1rO_LhI"
       );
       
       setUser({

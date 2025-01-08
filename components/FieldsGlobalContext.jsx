@@ -5,22 +5,39 @@ export const FieldsGlobalContext = ({ children }) => {
     const [fields, setFields] = useState();
 
     useEffect(() => {
-        const storedFields = localStorage.getItem("fields");
+        const storedFields = localStorage.getItem("tableFields");
 
         if (storedFields) {
             setFields(JSON.parse(storedFields));
         } else {
-            localStorage.setItem("fields", JSON.stringify({
+            localStorage.setItem("tableFields", JSON.stringify({
                 crm : {
-                    leads : ["email", "phones", "responsible", "rating", "group", "source", "potential", "value", "tags"],
-                    customers : ["email", "phones", "responsible", "rating", "group", "source", "balance", "value", "lastSale", "tags"],
-                    products : ["type", "price", "category", "unity", "status", "tags"],
+                    leads : [],
+                    customers : [],
+                    products : [],
                 },
             }));
         }
     }, []);
 
     const actions = useMemo(() => ({
+        toggleField : ( app, module, field ) => {
+            setFields( prevFields => {
+                const updatedFields = {
+                    ...prevFields,
+                    [app]: {
+                        ...prevFields[app],
+                        [module]: prevFields[app][module].includes(field)
+                            ? prevFields[app][module].filter(f => f !== field)
+                            : [...prevFields[app][module], field],
+                    },
+                };
+
+                localStorage.setItem("tableFields", JSON.stringify(updatedFields));
+
+                return updatedFields;
+            });
+        },
         setFields : (app, module, newFields) => {
             setFields( prevFields => {
                 const updatedFields = {
@@ -31,7 +48,7 @@ export const FieldsGlobalContext = ({ children }) => {
                     },
                 };
 
-                localStorage.setItem("fields", JSON.stringify(updatedFields));
+                localStorage.setItem("tableFields", JSON.stringify(updatedFields));
 
                 return updatedFields;
             });

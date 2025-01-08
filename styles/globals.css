@@ -138,7 +138,7 @@ span.ant-input-borderless {
 
 span.ant-input-borderless:hover,
 span.ant-input-borderless:focus-within {
-    background: rgba(0, 0, 0, 0.075);
+    background: var(--plasmic-token-background-primary);
 }
 
 .secondary_actions button {
@@ -156,6 +156,10 @@ span.ant-input-borderless:focus-within {
 .inprodi-skeleton {
     flex: 1;
     line-height: 1;
+}
+
+.ant-drawer-mask {
+    backdrop-filter : blur(2px);
 }
 
 .ant-drawer-content {
@@ -187,7 +191,7 @@ body:has(.opened-drawer) {
 }
 
 .ant-rate-star-zero .ant-rate-star-second {
-    color: rgba(0, 0, 0, 0.20) !important;
+    color: var(--plasmic-token-text-tertiary) !important;
 }
 
 span.ant-segmented-item-icon {
@@ -222,8 +226,13 @@ span.ant-divider-inner-text {
     box-shadow: rgba(0, 0, 0, 0.04) 0px 1px 3px 0px, rgba(0, 0, 0, 0.02) 0px 1px 2px 0px;
 }
 
+.ant-card-bordered {
+    border: solid 1px var(--plasmic-token-border-primary);
+}
+
 .ant-drawer-header {
     padding: 8px 16px 8px 10px !important;
+    border-bottom:  solid 1px var(--plasmic-token-border-primary) !important;
 }
 
 .ant-drawer-title,
@@ -243,7 +252,7 @@ span.ant-divider-inner-text {
 
 .ant-modal-header {
     padding: 8px 16px !important;
-    border-bottom: solid 1px var(--antd-colorBorder) !important;
+    border-bottom: solid 1px var(--plasmic-token-border-primary) !important;
     margin: 0 !important;
 }
 
@@ -254,7 +263,7 @@ button.ant-modal-close {
 .ant-modal-footer {
     margin: 0 !important;
     padding: 10px 16px !important;
-    border-top: solid 1px var(--antd-colorBorder) !important;
+    border-top: solid 1px var(--plasmic-token-border-primary) !important;
 }
 
 .ant-pagination-prev,
@@ -273,12 +282,17 @@ li.ant-pagination-item a {
 }
 
 li.ant-pagination-item.ant-pagination-item-active a {
-    color: black !important;
+    color: var(--plasmic-token-primary-text) !important;
 }
 
 .ant-input-number-input-wrap,
 .ant-input-number-input {
     height: 100%;
+}
+
+.ant-checkbox:not(.ant-checkbox-checked) .ant-checkbox-inner {
+    background-color: var(--plasmic-token-background-secondary) !important;
+    border-color: var(--plasmic-token-border-primary) !important;
 }
 
 .filepond--root.image-uploader {
@@ -348,4 +362,9 @@ li.ant-pagination-item.ant-pagination-item-active a {
 
 .ant-picker-range-arrow {
     display: none !important;
+}
+
+span.ant-switch-inner span {
+    display: flex !important;
+    align-items: center;
 }

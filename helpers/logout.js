@@ -1,14 +1,26 @@
 import Router from "next/router";
+import Cookies from "js-cookie";
 
 const logout = () => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+    Cookies.remove("token");
+    Cookies.remove("user");
 
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
     localStorage.removeItem("currentApp");
-    localStorage.removeItem("fields");
+    localStorage.removeItem("tableFields");
+    localStorage.removeItem("app");
 
-    if ( storedUser?.company?.urlParam ) {
+    const storedUser = Cookies.get("user");
+
+    if (!storedUser) {
+        Router.push("/auth/login");
+        return;
+    }
+
+    const parsedUser = JSON.parse(storedUser);
+
+    const urlParam = parsedUser?.company?.urlParam;
+
+    if ( urlParam ) {
         Router.push(`/${urlParam}/auth/login`);
     } else {
         Router.push("/auth/login");

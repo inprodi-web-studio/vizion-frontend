@@ -1,115 +1,79 @@
-import * as React from 'react';
+import React, { useEffect, useState } from "react";
 import {
   PlasmicComponent,
-  ComponentRenderData,
   PlasmicRootProvider,
-  extractPlasmicQueryData
-} from '@plasmicapp/loader-nextjs';
+} from "@plasmicapp/loader-nextjs";
+import { useRouter } from "next/router";
+import { PLASMIC } from "../plasmic-init";
 
-import Error from 'next/error';
-import { useRouter } from 'next/router';
-import { PLASMIC } from '../plasmic-init';
-import Error404 from './404';
-
-/**
- * Use fetchPages() to fetch list of pages that have been created in Plasmic
- */
-export const getStaticPaths = async () => {
-  const pages = await PLASMIC.fetchPages();
-
-  return {
-    paths: [
-      ...pages.map((page) => {
-        return ({
-          params: { catchall: page.path.substring(1).split('/') }
-        });
-      }),
-    ],
-    fallback: 'blocking',
-  };
-};
-
-/**
- * For each page, pre-fetch the data we need to render it
- */
-export const getStaticProps = async (context) => {
-  const { catchall } = context.params ?? {};
-
-  // Convert the catchall param into a path string
-  const plasmicPath =
-    typeof catchall === 'string' ? catchall : Array.isArray(catchall) ? `/${catchall.join('/')}` : '/';
-  const plasmicData = await PLASMIC.maybeFetchComponentData(plasmicPath);
-  if (!plasmicData) {
-    // This is some non-Plasmic catch-all page
-    return {
-      props: {}
-    };
-  }
-
-  // This is a path that Plasmic knows about.
-  const pageMeta = plasmicData.entryCompMetas[0];
-
-  // Cache the necessary data fetched for the page.
-  const queryCache = await extractPlasmicQueryData(
-    <PlasmicRootProvider
-      loader={PLASMIC}
-      prefetchedData={plasmicData}
-      pageRoute={pageMeta.path}
-      pageParams={pageMeta.params}
-    >
-      <PlasmicComponent component={pageMeta.displayName} />
-    </PlasmicRootProvider>
-  );
-
-  // Pass the data in as props.
-  return {
-    props: { plasmicData, queryCache },
-
-    // Using incremental static regeneration, will invalidate this page
-    // after 300s (no deploy webhooks needed)
-    revalidate: 300
-  };
-};
-
-/**
- * Actually render the page!
- */
-export default function CatchallPage(props) {
-  const { plasmicData, queryCache } = props;
+export default function CatchallPage() {
   const router = useRouter();
-  const [scheme, setScheme] = React.useState("light");
+  const { catchall } = router.query;
 
-  React.useEffect(() => {
-    const storedScheme = localStorage.getItem("scheme");
+  const [plasmicData, setPlasmicData] = useState(null);
+  const [queryCache, setQueryCache] = useState(null);
 
-    if (storedScheme) {
-      setScheme(storedScheme);
-    }
-  }, []);
+  useEffect(() => {
+    if (!router.isReady) return;
 
-  if (!plasmicData || plasmicData.entryCompMetas.length === 0) {
-    return <Error404 />;
+    const fetchPlasmicData = async () => {
+      const plasmicPath =
+        typeof catchall === "string"
+          ? catchall
+          : Array.isArray(catchall)
+          ? `/${catchall.join("/")}`
+          : "/";
+
+      const plasmicData = await PLASMIC.maybeFetchComponentData(
+        plasmicPath,
+        "AppShell"
+      );
+
+      if (!plasmicData || plasmicData.entryCompMetas.length === 0) {
+        router.push("/auth/login");
+        return;
+      }
+
+      const pageMeta = plasmicData.entryCompMetas[0];
+
+      const queryCache = await import("@plasmicapp/loader-nextjs").then(
+        ({ extractPlasmicQueryData }) =>
+          extractPlasmicQueryData(
+            <PlasmicRootProvider
+              loader={PLASMIC}
+              prefetchedData={plasmicData}
+              pageRoute={pageMeta.path}
+              pageParams={pageMeta.params}
+            >
+              <PlasmicComponent component={pageMeta.displayName} />
+            </PlasmicRootProvider>
+          )
+      );
+
+      setPlasmicData(plasmicData);
+      setQueryCache(queryCache);
+    };
+
+    fetchPlasmicData();
+  }, [catchall, router]);
+
+  if (!plasmicData || !queryCache) {
+    return <div>Loading...</div>;
   }
+
   const pageMeta = plasmicData.entryCompMetas[0];
 
   return (
     <PlasmicRootProvider
       loader={PLASMIC}
-      globalVariants={[
-        {
-          name : "Scheme", value : scheme,
-        }
-      ]}
       prefetchedData={plasmicData}
       prefetchedQueryData={queryCache}
       pageRoute={pageMeta.path}
       pageParams={pageMeta.params}
-      pageQuery={router.query}
     >
-      {
-        // pageMeta.displayName contains the name of the component you fetched.
-      }
-      <PlasmicComponent component={pageMeta.displayName} />
+      <PlasmicComponent
+        component={pageMeta.displayName}
+      />
     </PlasmicRootProvider>
   );
 }

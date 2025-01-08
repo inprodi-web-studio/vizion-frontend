@@ -3,7 +3,7 @@ const getConstants = () => {
         API_URL : process.env.NODE_ENV === "development" ? "https://vizion-api-t8wzz.ondigitalocean.app/api" : "https://vizion-api-t8wzz.ondigitalocean.app/api",
         MAPBOX_TOKEN : "pk.eyJ1IjoiY29yZS12aXppb24iLCJhIjoiY20ycGQ4b2dwMHQ1cjJrb204a25iZHR3cyJ9.Z5XS7M19N8FcGHahQ9dgiw",
         REGIMES : [
-            { "name": "General de Ley Personas Morales", "value": "601FILTER_NUMBERS_CRITERIA", "type": "enterprise" },
+            { "name": "General de Ley Personas Morales", "value": "601", "type": "enterprise" },
             { "name": "Personas Morales con Fines no Lucrativos", "value": "603", "type": "enterprise" },
             { "name": "Sueldos y Salarios e Ingresos Asimilados a Salarios", "value": "605", "type": "particular" },
             { "name": "Arrendamiento", "value": "606", "type": "particular" },

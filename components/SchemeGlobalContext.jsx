@@ -2,30 +2,36 @@ import React, { useEffect, useMemo, useState } from "react";
 import { DataProvider, GlobalActionsProvider } from "@plasmicapp/host";
 
 export const SchemeGlobalContext = ({ children }) => {
-    const [scheme, setScheme] = useState("light");
+  const [scheme, setScheme] = useState("light");
 
-    useEffect(() => {
-        const storedScheme = localStorage.getItem("scheme");
+  useEffect(() => {
+    const storedScheme = localStorage.getItem("scheme");
+    if (storedScheme) {
+      setScheme(storedScheme);
+    } 
+    // else {
+    //   const systemPreference = window.matchMedia("(prefers-color-scheme: dark)");
+    //   setScheme(systemPreference.matches ? "dark" : "light");
+    // }
+  }, []);
 
-        if (storedScheme) {
-            setScheme(storedScheme);
-        } else {
-            setScheme("light");
-        }
-    }, []);
+  const handleSetScheme = (newScheme) => {
+    setScheme(newScheme);
+    localStorage.setItem("scheme", newScheme);
+  };
 
-    const actions = useMemo(() => ({
-        setScheme : (selection) => {
-            setScheme(selection);
-            localStorage.setItem("scheme", selection);
-        },
-    }), []);
+  const actions = useMemo(
+    () => ({
+      setScheme: handleSetScheme,
+    }),
+    []
+  );
 
-    return (
-        <GlobalActionsProvider contextName="SchemeGlobalContext" actions={actions}>
-            <DataProvider name="scheme" data={scheme}>
-                {children}
-            </DataProvider>
-        </GlobalActionsProvider>
-    );
-}
+  return (
+      <GlobalActionsProvider contextName="SchemeGlobalContext" actions={actions}>
+        <DataProvider name="scheme" data={scheme} key={scheme}>
+          {children}
+        </DataProvider>
+      </GlobalActionsProvider>
+  );
+};
