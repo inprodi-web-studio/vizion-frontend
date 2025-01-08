@@ -67,6 +67,7 @@ function InnerApp({ Component, pageProps }) {
     "/crm/contacts/customers",
     "/crm/contacts/leads",
     "/crm/dashboard",
+    "/crm/estimates"
   ], []);
 
   const baseUrl = router.asPath.split('?')[0];
@@ -84,7 +85,7 @@ function InnerApp({ Component, pageProps }) {
       const matcher = match(routePattern, { decode: decodeURIComponent });
       const matched = matcher(router.asPath);
       if (matched) {
-        const baseRoute = routePattern.split('/:')[0]; // Extrae la ruta base sin parámetros
+        const baseRoute = routePattern.split('/:')[0];
         return { ...acc, ...(appShellPropsDictionary[baseRoute] || {}) };
       }
       return acc;
