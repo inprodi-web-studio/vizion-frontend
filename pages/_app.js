@@ -65,9 +65,11 @@ function InnerApp({ Component, pageProps }) {
 
   const ROUTES_WITH_APP_SHELL = useMemo(() => [
     "/crm/contacts/customers",
+    "/crm/catalogue/products",
     "/crm/contacts/leads",
     "/crm/dashboard",
-    "/crm/estimates"
+    "/crm/estimates",
+    "/crm/sales"
   ], []);
 
   const baseUrl = router.asPath.split('?')[0];
