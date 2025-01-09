@@ -19,7 +19,7 @@ const getConstants = () => {
             { "name": "Opcional para Grupos de Sociedades", "value": "623", "type": "enterprise" },
             { "name": "Coordinados", "value": "624", "type": "enterprise" },
             { "name": "Régimen de las Actividades Empresariales con ingresos a través de Plataformas Tecnológicas", "value": "625", "type": "particular" },
-            { "name": "Régimen Simplificado de Confianza", "value": "626", "type": "particular" }
+            { "name": "Régimen Simplificado de Confianza", "value": "626", "type": "both" }
         ],
         FILTER_NUMBERS_CRITERIA : [
             {
