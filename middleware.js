@@ -10,7 +10,7 @@ export function middleware(request) {
   if (!token) {
     if (
       request.nextUrl.pathname.startsWith("/crm") || 
-      request.nextUrl.pathname.startsWith("/v2/crm")
+      request.nextUrl.pathname.startsWith("/stocks")
     ) {
       return NextResponse.redirect(new URL("/auth/login", request.url));
     }
@@ -30,5 +30,7 @@ export const config = {
     "/auth/login",
     "/crm/:path*",
     "/v2/crm/:path*",
+    "/stocks/:path*",
+    "/v2/stocks/:path*",
   ],
 };

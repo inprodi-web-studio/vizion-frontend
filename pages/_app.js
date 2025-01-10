@@ -64,12 +64,28 @@ function InnerApp({ Component, pageProps }) {
   }
 
   const ROUTES_WITH_APP_SHELL = useMemo(() => [
-    "/crm/contacts/customers",
-    "/crm/catalogue/products",
-    "/crm/contacts/leads",
     "/crm/dashboard",
+    "/crm/contacts/leads",
+    "/crm/contacts/leads/:path",
+    "/crm/contacts/customers",
+    "/crm/contacts/customers/:path",
+    "/crm/catalogue/products",
+    "/crm/catalogue/products/new",
+    "/crm/catalogue/products/:path",
+    "/crm/catalogue/products/edit/:path",
     "/crm/estimates",
-    "/crm/sales"
+    "/crm/estimates/new",
+    "/crm/estimates/:path/:path",
+    "/crm/estimates/edit/:path",
+    "/crm/sales",
+    "/crm/sales/new",
+    "/crm/sales/:path",
+    "/stocks/dashboard",
+    "/stocks/warehouses",
+    "/stocks/warehouses/:path/layout",
+    "/stocks/inventories",
+    "/stocks/movements",
+    "/stocks/dispatches"
   ], []);
 
   const baseUrl = router.asPath.split('?')[0];
