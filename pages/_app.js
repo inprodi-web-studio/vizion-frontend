@@ -85,7 +85,7 @@ function InnerApp({ Component, pageProps }) {
     "/stocks/warehouses/:path/layout",
     "/stocks/inventories",
     "/stocks/movements",
-    "/stocks/dispatches"
+    "/stocks/dispatches",
   ], []);
 
   const baseUrl = router.asPath.split('?')[0];
@@ -124,6 +124,11 @@ function InnerApp({ Component, pageProps }) {
       <PlasmicRootProvider
         loader={PLASMIC}
         globalVariants={[{ name: "Scheme", value: scheme }]}
+        globalContextsProps={{
+          antdConfigProviderProps : {
+            colorPrimary : primaryColor,
+          },
+        }}
       >
         <Toaster
           richColors
