@@ -112,6 +112,7 @@ function InnerApp({ Component, pageProps }) {
 
   return (
     <ConfigProvider
+      locale={locale}
       theme={{
         ...themeConfig,
         algorithm: scheme === "dark" ? AntdTheme.darkAlgorithm : AntdTheme.defaultAlgorithm,

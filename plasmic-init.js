@@ -31,6 +31,7 @@ import { registerWarehouseViewer } from "./components/WarehouseViewer";
 import logout from "./helpers/logout";
 import { LayoutGlobalContext } from "./components/LayoutGlobalContext";
 import { SchemeGlobalContext } from "./components/SchemeGlobalContext";
+import handleUuidFilter from "./helpers/handleUuidFilter";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -131,6 +132,20 @@ PLASMIC.registerFunction( validateEmail, {
       name        : "email",
       type        : "string",
       description : "The email to validate",
+    },
+  ],
+});
+
+PLASMIC.registerFunction( handleUuidFilter, {
+  name : "handleUuidFilter",
+  params : [
+    {
+      name        : "filterKey",
+      type        : "string",
+    },
+    {
+      name        : "filterValue",
+      type        : "string",
     },
   ],
 });
