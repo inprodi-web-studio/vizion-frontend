@@ -15,6 +15,8 @@ export const FieldsGlobalContext = ({ children }) => {
                     leads : [],
                     customers : [],
                     products : [],
+                    estimates : [],
+                    sales : []
                 },
             }));
         }
