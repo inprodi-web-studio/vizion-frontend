@@ -6,6 +6,7 @@ const logout = () => {
     Cookies.remove("user");
 
     localStorage.removeItem("currentApp");
+    localStorage.removeItem("primaryColor");
     localStorage.removeItem("tableFields");
     localStorage.removeItem("app");
 

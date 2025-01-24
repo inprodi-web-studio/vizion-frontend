@@ -21,59 +21,58 @@ const getConstants = () => {
             { "name": "Régimen de las Actividades Empresariales con ingresos a través de Plataformas Tecnológicas", "value": "625", "type": "particular" },
             { "name": "Régimen Simplificado de Confianza", "value": "626", "type": "both" }
         ],
-        FILTER_NUMBERS_CRITERIA : [
-            {
-              label : "Es Igual A",
-              value : "$eq",
-              icon : "Equals"
-            },
-            {
-              label : "No Es Igual A",
-              value : "$ne",
-              icon : "NotEquals"
-            },
-            {
-              label : "Es Menor A",
-              value : "$lt",
-              icon : "LessThan"
-            },
-            {
-              label : "Menor o Igual A",
-              value : "$lte",
-              icon : "LessThanOrEqual"
-            },
-            {
-              label : "Es Mayor A",
-              value : "$gt",
-              icon : "GreaterThan"
-            },
-            {
-              label : "Mayor o Igual A",
-              value : "$gte",
-              icon : "GreaterThanOrEqual"
-            },
+        PAYMENT_FORMS : [
+          { "name": "Efectivo", "value": "01" },
+          { "name": "Cheque nominativo", "value": "02" },
+          { "name": "Transferencia electrónica de fondos", "value": "03" },
+          { "name": "Tarjeta de crédito", "value": "04" },
+          { "name": "Monedero electrónico", "value": "05" },
+          { "name": "Dinero electrónico", "value": "06" },
+          { "name": "Vales de despensa", "value": "08" },
+          { "name": "Dación en pago", "value": "12" },
+          { "name": "Pago por subrogación", "value": "13" },
+          { "name": "Pago por consignación", "value": "14" },
+          { "name": "Condonación", "value": "15" },
+          { "name": "Compensación", "value": "17" },
+          { "name": "Novación", "value": "23" },
+          { "name": "Confusión", "value": "24" },
+          { "name": "Remisión de deuda", "value": "25" },
+          { "name": "Prescripción o caducidad", "value": "26" },
+          { "name": "A satisfacción del acreedor", "value": "27" },
+          { "name": "Tarjeta de débito", "value": "28" },
+          { "name": "Tarjeta de servicios", "value": "29" },
+          { "name": "Aplicación de anticipos", "value": "30" },
+          { "name": "Por definir", "value": "99" }
         ],
-        FILTERS_ENTITY_CRITERIA : [
-            {
-              label : "Es Igual A",
-              value : "$in",
-              icon : "Equals"
-            },
-            {
-              label : "No Es Igual A",
-              value : "$notIn",
-              icon : "NotEquals"
-            },
-            {
-              label : "Está Definido",
-              value : "$notNull",
-              icon : "CheckCircle"
-            },
-            {
-              label : "No Está Definido",
-              value : "$null",
-              icon : "CircleDashed"
-            },
+        PAYMENT_METHODS : [
+          { "name" : "Pago en nna sola exhibición", "value" : "PUE" },
+          { "name" : "Pago en parcialidades o diferido", "value" : "PPD" }
+        ],
+        CFDI_USE : [
+          { "name": "Adquisición de mercancías", "value": "G01" },
+          { "name": "Devoluciones, descuentos o bonificaciones", "value": "G02" },
+          { "name": "Gastos en general", "value": "G03" },
+          { "name": "Construcciones", "value": "I01" },
+          { "name": "Mobiliario y equipo de oficina por inversiones", "value": "I02" },
+          { "name": "Equipo de transporte", "value": "I03" },
+          { "name": "Equipo de cómputo y accesorios", "value": "I04" },
+          { "name": "Dados, troqueles, moldes, matrices y herramental", "value": "I05" },
+          { "name": "Comunicaciones telefónicas", "value": "I06" },
+          { "name": "Comunicaciones satelitales", "value": "I07" },
+          { "name": "Otra maquinaria y equipo", "value": "I08" },
+          { "name": "Honorarios médicos, dentales y gastos hospitalarios", "value": "D01" },
+          { "name": "Gastos médicos por incapacidad o discapacidad", "value": "D02" },
+          { "name": "Gastos funerales", "value": "D03" },
+          { "name": "Donativos", "value": "D04" },
+          { "name": "Intereses reales efectivamente pagados por créditos hipotecarios (casa habitación)", "value": "D05" },
+          { "name": "Aportaciones voluntarias al SAR", "value": "D06" },
+          { "name": "Primas por seguros de gastos médicos", "value": "D07" },
+          { "name": "Gastos de transportación escolar obligatorio", "value": "D08" },
+          { "name": "Depósitos en cuentas para el ahorro, primas que tengan como base planes de pensiones", "value": "D09" },
+          { "name": "Pagos por servicios educativos (colegiaturas)", "value": "D10" },
+          { "name": "Sin efectos fiscales", "value": "S01" },
+          { "name": "Pagos", "value": "CP01" },
+          { "name": "Nómina", "value": "CN01" }
         ],
     };
 };
