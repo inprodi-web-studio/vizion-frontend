@@ -32,6 +32,8 @@ import logout from "./helpers/logout";
 import { LayoutGlobalContext } from "./components/LayoutGlobalContext";
 import { SchemeGlobalContext } from "./components/SchemeGlobalContext";
 import handleUuidFilter from "./helpers/handleUuidFilter";
+import { registerCreditHistoryLineChart } from "./components/customers/CreditHistoryLineChart";
+import { registerCreditHistoryChart } from "./components/customers/CreditHistoryChart";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -48,6 +50,8 @@ registerAll( PLASMIC );
 registerGauge(PLASMIC);
 registerWarehouseViewer(PLASMIC);
 registerWarehouseDesigner(PLASMIC);
+registerCreditHistoryLineChart(PLASMIC);
+registerCreditHistoryChart(PLASMIC);
 
 PLASMIC.registerFunction( getConstants, {
   name : "getConstants",

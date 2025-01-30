@@ -45,7 +45,7 @@ const getConstants = () => {
           { "name": "Por definir", "value": "99" }
         ],
         PAYMENT_METHODS : [
-          { "name" : "Pago en nna sola exhibición", "value" : "PUE" },
+          { "name" : "Pago en una sola exhibición", "value" : "PUE" },
           { "name" : "Pago en parcialidades o diferido", "value" : "PPD" }
         ],
         CFDI_USE : [
