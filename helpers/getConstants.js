@@ -74,6 +74,19 @@ const getConstants = () => {
           { "name": "Pagos", "value": "CP01" },
           { "name": "Nómina", "value": "CN01" }
         ],
+        PAYMENT_TERMS : [
+          { "name" : "Sin Definir", "value" : "undefined" },
+          { "name" : "Pago Anticipado", "value" : "anticipated" },
+          { "name" : "Pago contra Entrega", "value" : "on-deliver" },
+          { "name" : "Anticipo y Liquidación", "value" : "on-advance"},
+          { "name" : "Crédito", "value" : "credit"},
+        ],
+        IVA_TAXES : [
+          { "name": "Exento de IVA", "value": "-1" },
+          { "name": "IVA - 0%", "value": "0" },
+          { "name": "IVA - 8%", "value": "8" },
+          { "name": "IVA - 16%", "value": "16" },
+        ],
     };
 };
 
