@@ -5,6 +5,7 @@ import {
 } from "@plasmicapp/loader-nextjs";
 import { useRouter } from "next/router";
 import { PLASMIC } from "../plasmic-init";
+import LoadingScreen from "@/components/LoadingScreen";
 
 export default function CatchallPage() {
   const router = useRouter();
@@ -58,7 +59,7 @@ export default function CatchallPage() {
   }, [catchall, router]);
 
   if (!plasmicData || !queryCache) {
-    return <div>Loading...</div>;
+    return;
   }
 
   const pageMeta = plasmicData.entryCompMetas[0];

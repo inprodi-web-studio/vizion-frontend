@@ -3333,10 +3333,10 @@ ini@~1.3.0:
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.8.tgz#a29da425b48806f34767a4efce397269af28432c"
   integrity sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==
 
-inprodi-design-system@2.0.31:
-  version "2.0.31"
-  resolved "https://registry.yarnpkg.com/inprodi-design-system/-/inprodi-design-system-2.0.31.tgz#8470fe70778618cedacb0a7f58cb30d3795b22ef"
-  integrity sha512-b4DsElhhU1A2TuiVOP6orHstekVuo48Gfuhev4Yd5V9hcxWtuHxvXIeKcxyVgh3tqdwBed0Fz2mUg1Q2sPDa8g==
+inprodi-design-system@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/inprodi-design-system/-/inprodi-design-system-2.1.0.tgz#ccd5231682530df55bd024ccef368529aa84f865"
+  integrity sha512-sdsXzYpYwvy36JeZEs3qhJGl7hqgVx/4DfFwnWB/p+81NJJjXEK8tDS8k+bZ6/NDGThvMMH612F1ahsY+bX5NA==
   dependencies:
     "@hookform/resolvers" "^3.4.2"
     "@nivo/core" "0.80.0"
