@@ -1,5 +1,12 @@
-const downloadPdf = async (response, name) => {
-    const url = window.URL.createObjectURL(response);
+const downloadPdf = async (response, name, isURL) => {
+    let url;
+
+    if (!isURL) {
+        url = window.URL.createObjectURL(response);
+    } else {
+        url = response;
+    }
+    
     const a = document.createElement("a");
 
     a.style.display = "none";

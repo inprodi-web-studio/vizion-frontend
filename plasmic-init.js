@@ -34,6 +34,8 @@ import { SchemeGlobalContext } from "./components/SchemeGlobalContext";
 import handleUuidFilter from "./helpers/handleUuidFilter";
 import { registerCreditHistoryLineChart } from "./components/customers/CreditHistoryLineChart";
 import { registerCreditHistoryChart } from "./components/customers/CreditHistoryChart";
+import base64ToBlob from "./helpers/base64ToBlob";
+import { registerEstimatesHistoryChart } from "./components/leads/EstimatesHistoryChart";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -50,12 +52,27 @@ registerAll( PLASMIC );
 registerGauge(PLASMIC);
 registerWarehouseViewer(PLASMIC);
 registerWarehouseDesigner(PLASMIC);
-registerCreditHistoryLineChart(PLASMIC);
 registerCreditHistoryChart(PLASMIC);
+registerEstimatesHistoryChart(PLASMIC);
+registerCreditHistoryLineChart(PLASMIC);
 
 PLASMIC.registerFunction( getConstants, {
   name : "getConstants",
   params : [],
+});
+
+PLASMIC.registerFunction( base64ToBlob, {
+  name : "base64ToBlob",
+  params : [
+    {
+      name : "base64",
+      type : "string",
+    },
+    {
+      name : "mimeType",
+      type : "string",
+    },
+  ],
 });
 
 PLASMIC.registerFunction( logout, {
