@@ -85,8 +85,10 @@ function InnerApp({ Component, pageProps }) {
     "/stocks/warehouses",
     "/stocks/warehouses/:path/layout",
     "/stocks/inventories",
+    "/stocks/releases",
     "/stocks/movements",
     "/stocks/dispatches",
+    "/stocks/dispatches/:path",
   ], []);
 
   const baseUrl = router.asPath.split('?')[0];

@@ -87,6 +87,11 @@ const getConstants = () => {
           { "name": "IVA - 8%", "value": "8" },
           { "name": "IVA - 16%", "value": "16" },
         ],
+        NO_STOCK_POLICIES : [
+          { "name" : "No permitir cotizaciones ni ventas", value : "none" },
+          { "name" : "Permitir cotizaciones, no permitir ventas", value : "estimates" },
+          { "name" : "Permitir cotizaciones y ventas", value : "both" }
+        ],
     };
 };
 

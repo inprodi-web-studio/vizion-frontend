@@ -30,8 +30,6 @@ const RackNode = ({
         positionsData
     } = data;
 
-    console.log( positionsData );
-
     const rackContainerStyles = {
         display : "flex",
         flexDirection : orientation === "horizontal" ? "row" : "column",
