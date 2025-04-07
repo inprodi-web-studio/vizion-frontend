@@ -22,9 +22,11 @@ const RackNode = ({
         positions = 1,
         identifier,
         sort,
+        multiple,
         focused,
         orientation = "horizontal",
         focusedIndex,
+        focusedIndexes,
         focusedStack,
         focusedPartition,
         positionsData
@@ -74,12 +76,12 @@ const RackNode = ({
         position: "absolute",
         width: "150px",
         backgroundColor: "white",
-        bottom: 0,
-        right: -195,
+        bottom: 6,
+        right: -188,
         zIndex: 100,
         borderRadius: "6px",
         border: "1px solid var(--token-Pxe4wDL2kJpb)",
-        boxShadow: "rgba(0, 0, 0, 0.04) 0px 1px 3px, rgba(0, 0, 0, 0.05) 0px 10px 15px -5px, rgba(0, 0, 0, 0.04) 0px 5px 5px -5px",
+        boxShadow: "rgba(0, 0, 0, 0.05) 0px 1px 3px, rgba(0, 0, 0, 0.05) 0px 36px 28px -7px, rgba(0, 0, 0, 0.04) 0px 17px 17px -7px",
         padding: "10px",
         display: "flex",
         flexDirection: "column-reverse",
@@ -147,13 +149,14 @@ const RackNode = ({
                     </Button>
                 </div>
             </NodeToolbar>
+
             <div style={rackContainerStyles}>
                 {Array.from({ length: Number(positions) }).map(() => {
                     index = sort === "asc" ? index + 1 : index - 1;
 
                     return (
                         <div key={index} style={{ position : "relative" }}>
-                            { focused && focusedIndex + 1 === index && (
+                            { focused && focusedIndex + 1 === index && !multiple && (
                                 <div style={floatingRackStyles}>
                                     { Array.from({ length : Number(stacks) }).map( ( _, rackIndex ) => {
                                         const { partitions } = positionsData.find( i => i.xPosition === index - 1 && i.yPosition === rackIndex );
@@ -173,13 +176,13 @@ const RackNode = ({
                             <div
                                 style={{
                                     ...rackItemStyles,
-                                    backgroundColor: (focused && focusedIndex + 1 === index) ? "var(--antd-colorPrimaryBg)" : "#e9ecef",
-                                    border: (focused && focusedIndex + 1 === index) ? "solid 1px var(--antd-colorPrimary)" : "solid 1px #dee2e6",
+                                    backgroundColor: (focused && (focusedIndex + 1 === index || focusedIndexes?.includes(index - 1))) ? "var(--antd-colorPrimaryBg)" : "#e9ecef",
+                                    border: (focused && (focusedIndex + 1 === index || focusedIndexes?.includes(index - 1))) ? "solid 1px var(--antd-colorPrimary)" : "solid 1px #dee2e6",
                                 }
                                 }>
                                 <div style={{
                                     ...positionIndicatorStyles,
-                                    backgroundColor: (focused && focusedIndex + 1 === index) ? "var(--antd-colorPrimary)" : "#ced4da",
+                                    backgroundColor: (focused && (focusedIndex + 1 === index || focusedIndexes?.includes(index - 1))) ? "var(--antd-colorPrimary)" : "#ced4da",
                                 }} />
                                 <div style={tagStyles}>
                                     {`${identifier ?? ""}-${index}`}

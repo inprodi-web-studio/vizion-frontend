@@ -1,3 +1,4 @@
+import { Image } from "antd";
 import { useDnD } from "../contexts/DnDContext";
 import React from "react";
 
@@ -62,6 +63,31 @@ const WarehouseSidebar = () => {
     width : "100%",
     borderRadius : "10px 10px 0 0",
   };
+
+  const platformStyles = {
+    paddingLeft : 60,
+    display : "flex",
+    flexDirection : "row",
+    alignItems : "center",
+    justifyContent : "center",
+  }
+
+  const platformDoorStyles = {
+    height : "90px",
+    width : "10px",
+    backgroundColor : "var(--token-8lqFm4pa_96a)",
+    zIndex : 10,
+    borderRadius : "2px",
+  }
+
+  const platformLocationStyles = {
+    backgroundColor : "var(--token-6Lhw5mK6wolF)",
+    border : "solid 2px var(--token-8lqFm4pa_96a)",
+    borderLeft : "none",
+    height : "80px",
+    width : "60px",
+    borderRadius : "0px 6px 6px 0",
+  }
 
   const textContainerStyles = {
     padding : "10px 16px",
@@ -184,6 +210,29 @@ const WarehouseSidebar = () => {
           <div style={textContainerStyles}>
             <p style={titleStyles}>Estante</p>
             <p style={descriptionStyles}>Conjunto de espacios de almacenamiento por pisos y posiciones. Solo puede ser posicionado dentro de una ubicación.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style={listStyles}>
+        <div
+          draggable
+          style={itemStyles}
+          className="dndnode input"
+          onDragStart={(event) => onDragStart(event, "platform")}
+        >
+          <div style={containerStyles}>
+            <div style={platformStyles}>
+              <Image preview={false} alt="truck" style={{ rotate : "-90deg", position : "relative", "right" : 20, "pointerEvents" : "none" }} height={150} src="https://img.plasmic.app/img-optimizer/v1/img?src=https%3A%2F%2Fimg.plasmic.app%2Fimg-optimizer%2Fv1%2Fimg%2Fc54e5fd6e15a595f825e90f75f8b9d3e.png&q=75&f=webp" />
+
+              <div style={platformDoorStyles}></div>
+              <div style={platformLocationStyles}></div>
+            </div>
+          </div>
+
+          <div style={textContainerStyles}>
+            <p style={titleStyles}>Andén</p>
+            <p style={descriptionStyles}>Zona de carga/descarga de productos.</p>
           </div>
         </div>
       </div>

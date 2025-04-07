@@ -73,6 +73,8 @@ function InnerApp({ Component, pageProps }) {
     "/crm/catalogue/products/new",
     "/crm/catalogue/products/:path",
     "/crm/catalogue/products/edit/:path",
+    "/crm/promotions",
+    "/crm/promotions/new",
     "/crm/estimates",
     "/crm/estimates/new",
     "/crm/estimates/:path/:path",

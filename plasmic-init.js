@@ -36,6 +36,7 @@ import { registerCreditHistoryLineChart } from "./components/customers/CreditHis
 import { registerCreditHistoryChart } from "./components/customers/CreditHistoryChart";
 import base64ToBlob from "./helpers/base64ToBlob";
 import { registerEstimatesHistoryChart } from "./components/leads/EstimatesHistoryChart";
+import { registerInteractionsCalendar } from "./components/leads/InteractionsCalendar";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -53,6 +54,7 @@ registerGauge(PLASMIC);
 registerWarehouseViewer(PLASMIC);
 registerWarehouseDesigner(PLASMIC);
 registerCreditHistoryChart(PLASMIC);
+registerInteractionsCalendar(PLASMIC);
 registerEstimatesHistoryChart(PLASMIC);
 registerCreditHistoryLineChart(PLASMIC);
 
