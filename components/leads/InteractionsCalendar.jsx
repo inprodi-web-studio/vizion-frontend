@@ -33,7 +33,7 @@ const InteractionsCalendar = forwardRef(({ className, data }, ref) => {
         visualMap: {
             show: false,
             min: 0,
-            max: maxValue,
+            max: maxValue === 0 ? 1 : maxValue,
         },
         textStyle: {
             fontFamily: "Geist Sans",

@@ -37,6 +37,7 @@ import { registerCreditHistoryChart } from "./components/customers/CreditHistory
 import base64ToBlob from "./helpers/base64ToBlob";
 import { registerEstimatesHistoryChart } from "./components/leads/EstimatesHistoryChart";
 import { registerInteractionsCalendar } from "./components/leads/InteractionsCalendar";
+import { registerProductCategoriesPieChart } from "./components/leads/ProductCategoriesPieChart";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -57,6 +58,7 @@ registerCreditHistoryChart(PLASMIC);
 registerInteractionsCalendar(PLASMIC);
 registerEstimatesHistoryChart(PLASMIC);
 registerCreditHistoryLineChart(PLASMIC);
+registerProductCategoriesPieChart(PLASMIC);
 
 PLASMIC.registerFunction( getConstants, {
   name : "getConstants",

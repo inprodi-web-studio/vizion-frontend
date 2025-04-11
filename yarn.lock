@@ -3336,10 +3336,10 @@ ini@~1.3.0:
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.8.tgz#a29da425b48806f34767a4efce397269af28432c"
   integrity sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==
 
-inprodi-design-system@2.1.7:
-  version "2.1.7"
-  resolved "https://registry.yarnpkg.com/inprodi-design-system/-/inprodi-design-system-2.1.7.tgz#e2b9005559ec7323c499d66ba65e50f5a106b24c"
-  integrity sha512-KZKU3cDx73UQwQBJMupdDsT2Nj2cN7vJysiCPpyR+mDg89FXCFOE6uR4CBUQ6zAYpYUNd4XDWXRzAcXbISkWIQ==
+inprodi-design-system@2.2.19:
+  version "2.2.19"
+  resolved "https://registry.yarnpkg.com/inprodi-design-system/-/inprodi-design-system-2.2.19.tgz#a87a024b45c0965a90f567cdc8987b3992946a36"
+  integrity sha512-R7SApyCt1/z/uy6rDlXyIlrTXMeum273tK90goKDCyeesJfvGZaLtSlA4AtFCZkpCA5cXsxCV+Cxl8EY+2qPpA==
   dependencies:
     "@hookform/resolvers" "^3.4.2"
     "@nivo/core" "0.80.0"
@@ -3361,6 +3361,7 @@ inprodi-design-system@2.1.7:
     filepond-plugin-file-validate-type "^1.2.9"
     filepond-plugin-image-preview "^4.6.12"
     lodash.debounce "^4.0.8"
+    re-resizable "^6.11.2"
     react-countup "^6.5.3"
     react-easy-crop "^5.0.7"
     react-filepond "^7.1.2"
@@ -4721,6 +4722,11 @@ rc@^1.0.1, rc@^1.1.6:
     ini "~1.3.0"
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
+
+re-resizable@^6.11.2:
+  version "6.11.2"
+  resolved "https://registry.yarnpkg.com/re-resizable/-/re-resizable-6.11.2.tgz#2e8f7119ca3881d5b5aea0ffa014a80e5c1252b3"
+  integrity sha512-2xI2P3OHs5qw7K0Ud1aLILK6MQxW50TcO+DetD9eIV58j84TqYeHoZcL9H4GXFXXIh7afhH8mv5iUCXII7OW7A==
 
 react-countup@^6.5.3:
   version "6.5.3"
