@@ -39,7 +39,7 @@
 }
 
 body div {
-    scrollbar-color: var(--plasmic-token-background-primary) transparent;
+    scrollbar-color: var(--plasmic-token-border-primary) transparent;
 }
 
 p {

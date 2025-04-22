@@ -59,7 +59,7 @@ const ProductCategoriesPieChart = forwardRef(({ className, data }, ref) => {
     };
 
     return (
-        <ReactECharts option={option} style={{ height: "100%", width: "100%" }} />
+        <ReactECharts className={className} option={option} style={{ height: "100%", width: "100%" }} />
     );
 });
 
