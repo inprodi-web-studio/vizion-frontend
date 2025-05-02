@@ -3475,10 +3475,10 @@ ini@~1.3.0:
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.8.tgz#a29da425b48806f34767a4efce397269af28432c"
   integrity sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==
 
-inprodi-design-system@2.2.22:
-  version "2.2.22"
-  resolved "https://registry.yarnpkg.com/inprodi-design-system/-/inprodi-design-system-2.2.22.tgz#c9e6eda77b93941fec17770ace49c9049ff6ce1a"
-  integrity sha512-Bx8OjQ724nS7/mEdwewy3AxcVELXWcZRa7XxIdUXFOIKBw3vmyTGrx9oic+8WbtSUu5KCTJMWVgC9K39bAJN7Q==
+inprodi-design-system@2.2.31:
+  version "2.2.31"
+  resolved "https://registry.yarnpkg.com/inprodi-design-system/-/inprodi-design-system-2.2.31.tgz#dd3acd2d18c79a016ad542bc979a0546009e0278"
+  integrity sha512-ymrUr/N3oXm47eh2GXGMIWPYxWF21sjZsBrREZLGtQC0jdv1zD3ZbElVONWJfqGum8IdwWGwc0DEyItHSbtCQw==
   dependencies:
     "@hookform/resolvers" "^3.4.2"
     "@nivo/core" "0.80.0"
@@ -4297,7 +4297,7 @@ prelude-ls@^1.2.1:
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.2.1.tgz#debc6489d7a6e6b0e7611888cec880337d316396"
   integrity sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==
 
-prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@^15.5.10, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -4957,6 +4957,13 @@ react-resizable-panels@^2.0.19:
   version "2.1.7"
   resolved "https://registry.yarnpkg.com/react-resizable-panels/-/react-resizable-panels-2.1.7.tgz#afd29d8a3d708786a9f95183a38803c89f13c2e7"
   integrity sha512-JtT6gI+nURzhMYQYsx8DKkx6bSoOGFp7A3CwMrOb8y5jFHFyqwo9m68UhmXRw57fRVJksFn1TSlm3ywEQ9vMgA==
+
+react-sparklines@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/react-sparklines/-/react-sparklines-1.7.0.tgz#9b1d97e8c8610095eeb2ad658d2e1fcf91f91a60"
+  integrity sha512-bJFt9K4c5Z0k44G8KtxIhbG+iyxrKjBZhdW6afP+R7EnIq+iKjbWbEFISrf3WKNFsda+C46XAfnX0StS5fbDcg==
+  dependencies:
+    prop-types "^15.5.10"
 
 react-style-singleton@^2.2.2, react-style-singleton@^2.2.3:
   version "2.2.3"

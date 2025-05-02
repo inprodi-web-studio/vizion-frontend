@@ -38,6 +38,7 @@ import base64ToBlob from "./helpers/base64ToBlob";
 import { registerEstimatesHistoryChart } from "./components/leads/EstimatesHistoryChart";
 import { registerInteractionsCalendar } from "./components/leads/InteractionsCalendar";
 import { registerProductCategoriesPieChart } from "./components/leads/ProductCategoriesPieChart";
+import { registerPromotionUseSparkline } from "./components/promotions/PromotionUseSparkline";
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
@@ -57,6 +58,7 @@ registerWarehouseDesigner(PLASMIC);
 registerCreditHistoryChart(PLASMIC);
 registerInteractionsCalendar(PLASMIC);
 registerEstimatesHistoryChart(PLASMIC);
+registerPromotionUseSparkline(PLASMIC);
 registerCreditHistoryLineChart(PLASMIC);
 registerProductCategoriesPieChart(PLASMIC);
 
